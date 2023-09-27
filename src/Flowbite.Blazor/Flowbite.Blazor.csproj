@@ -17,12 +17,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.7" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'!='DEBUG'">
-    <Exec Command="npx tailwindcss -i ./wwwroot/entrypoint.css -o ./wwwroot/css/app.css --watch" />
-  </Target>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'!='RELEASE'">
-    <Exec Command="npx tailwindcss -i ./wwwroot/entrypoint.css -o ./wwwroot/css/app.css --minify" />
-  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="npx postcss ./obj/Debug/net6.0/scopedcss/projectbundle/Flowbite.Blazor.bundle.scp.css -r" />
+    <Exec Command="npx tailwindcss -i ./wwwroot/css/entrypoint.css -o ./wwwroot/css/app.css --minify" />
+  </Target>  
 
 </Project>
