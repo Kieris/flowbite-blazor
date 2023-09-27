@@ -1,0 +1,21 @@
+<!--All UI components inherit from this -->
+@code {
+    [Parameter]
+    public string ClassActive { get; set; } = string.Empty;
+    
+    [Parameter]
+    public string ClassInactive { get; set; } = string.Empty;
+    
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+    
+    protected string DefaultClass = string.Empty;
+    protected string ActiveClass = string.Empty;
+    protected string InactiveClass = string.Empty;
+    protected bool Active = false;
+
+    protected override void OnInitialized()
+    {
+    }
+
+}

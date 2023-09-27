@@ -1,0 +1,27 @@
+@inherits Frame
+<div class="@DefaultClass text-gray-500 dark:text-gray-400 hover:bg-gray-100 hover:dark:bg-gray-800 @Class @(Active ? ClassActive : ClassInactive)">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Multiple { get; set; }
+    
+    [Parameter]
+    public bool Flush { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ActiveClass = "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800";
+        InactiveClass = "text-gray-500 dark:text-gray-400 hover:bg-gray-100 hover:dark:bg-gray-800";
+        DefaultClass = "text-gray-500 dark:text-gray-400";
+    }
+
+
+}
