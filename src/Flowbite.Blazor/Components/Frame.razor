@@ -1,25 +1,57 @@
-<!--All UI components inherit from this -->
+<!--Most if not all UI components inherit from this -->
 @code {
+    /// <summary>
+    /// Classes for the component's top element to only be used when it is active
+    /// </summary>
     [Parameter]
     public string ClassActive { get; set; } = string.Empty;
     
+    /// <summary>
+    /// Classes for the component's top element to only be used when it is not active
+    /// </summary>
     [Parameter]
     public string ClassInactive { get; set; } = string.Empty;
     
+    /// <summary>
+    /// Styles for the component's top element
+    /// </summary>
+    [Parameter]
+    public string Style { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Used to add other classes to the component or override existing classes of the component's top element
+    /// </summary>
     [Parameter]
     public string Class { get; set; } = string.Empty;
     
-    protected string DefaultClass = string.Empty;
-    protected string ActiveClass = string.Empty;
-    protected string InactiveClass = string.Empty;
-    protected bool Active = false;
+    /// <summary>
+    /// Attributes added to the component that don't match any of its parameters. Attributes with name style or class
+    /// will be appended to Style and Class attributes if they are a string
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes { get; set; } = new ();
+    
+    /// <summary>
+    /// Classes for the component's top element to only be used when it is not active
+    /// </summary>
+    protected bool Active;
 
     protected override void OnInitialized()
     {
+        if (Attributes.ContainsKey("style") && Attributes["style"] is string)
+        {
+            Style = string.IsNullOrWhiteSpace(Style)! ? Attributes["style"].ToString()! : $"{Style} {Attributes["style"]}"!;
+        }
+        
+        if (Attributes.ContainsKey("class") && Attributes["class"] is string)
+        {
+            Class = string.IsNullOrWhiteSpace(Class)! ? Attributes["Class"].ToString()! : $"{Class} {Attributes["class"]}"!;
+        }
     }
 
-    public void ToggleActive()
-    {
-        Active = !Active;
-    }
+    /// <summary>
+    /// Used to set the active flag of the component
+    /// </summary>
+    public void SetActive(bool active) => Active = active;
+
 }

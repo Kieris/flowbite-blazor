@@ -1,41 +1,36 @@
 .accordion-item {
-    @apply flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 dark:text-gray-400 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700;
+    @apply flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700;
 }
 
-.accordion-collapse-body {
-    @apply p-5 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400;
+.accordion-flush-diff {
+    @apply border focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 p-5;
 }
 
-.accordion-item-btn-flush-pd {
-    @apply py-5;
+.accordion-body {
+    @apply border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 transition-transform ease-in duration-1000;
 }
 
-.accordion-item-btn-flush-def {
-    @apply p-5;
+.accordion-btn-flush {
+    @apply border-b;
 }
 
-.accordion-item-flush-open {
-    @apply text-gray-900 dark:text-white dark:bg-gray-900;
+.accordion-body-default {
+    @apply p-5 border;
 }
 
-.accordion-item-flush-def {
-    @apply text-gray-500 dark:text-gray-400;
+.accordion-body-flush {
+    @apply py-5 border-b;
 }
-
-.accordion-item-border {
-    @apply border-l border-r;
-}
-
-.accordion-item-border-open {
-    @apply border-l border-r;
-}
-
-.accordion-item-border-shared {
-    @apply border-gray-200 dark:border-gray-700;
-}
-
 
 .accordion-btn-active {
     @apply bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white;
+}
+
+.accordion-btn-active-flush {
+    @apply text-gray-900 dark:text-white;
+}
+
+.accordion-border-top {
+    @apply border-t rounded-t-xl;
 }
 

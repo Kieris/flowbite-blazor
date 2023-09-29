@@ -5,112 +5,159 @@
 <div class="@Class">
   <h2 class="group">
     <button @onclick="@HandleToggle" type="button"
-            class="accordion-item accordion-item-border @(First ? "border-t rounded-t-xl" : "")
-            @(_open ? $"accordion-btn-active {ActiveClass}" : $"{InactiveClass}")
-            @(_open && CheckFlush() ? _textFlushOpen : "") @(!_open && CheckFlush() ? _textFlushDefault : "")"
-            aria-expanded="@(_open)">
-      @if(Header is not null) 
+            class="accordion-item @(CheckFlush() ? "accordion-btn-flush" : "accordion-flush-diff") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "") @Class"
+            aria-expanded="@Open.ToString()">
+      @if (Header is not null)
       {
         @Header
       }
-      @if (_open)
+
+      @if (Open)
       {
-        <div name="arrowup">
-          <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-          </svg>
-        </div>
+        @if (ArrowUp is not null)
+        {
+          @ArrowUp
+        }
+        else
+        {
+          <div>
+            <div name="arrowup">
+              <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+              </svg>
+            </div>
+          </div>
+        }
       }
       else
       {
-        <div name="arrowdown">
-          <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-          </svg>
-        </div>
+        @if (ArrowDown is not null)
+        {
+          @ArrowDown
+        }
+        else
+        {
+          <div>
+            <div name="arrowdown">
+              <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+              </svg>
+            </div>
+          </div>
+        }
       }
     </button>
   </h2>
-  @if (_open)
-  {
-    <div>
-      <div class="@_contentClass accordion-collapse-body">
-        @Body
-      </div>
-    </div>
-  }
-  else 
-  {
-    <div class="hidden">
-      <div class="@_contentClass @(_open ? "border-b" : "border-b-0") accordion-collapse-body">
-        @Body
-      </div>
-    </div>
-  }
+  <div class="@(CheckFlush() ? "accordion-body-flush" : "accordion-body-default") accordion-body @(Open ? "translate-y-0" : "hidden translate-y-full")">
+    @Body
+  </div>
 </div>
 
 @code {
+    /// <summary>
+    /// The Accordion parent
+    /// </summary>
     [CascadingParameter]
     private Accordion? Parent { get; set; }
-
+  
+    /// <summary>
+    /// Defines the content in the header of the component
+    /// </summary>
     [Parameter]
     public RenderFragment? Header { get; set; }
+  
+    /// <summary>
+    /// optional: Arrows replacing the ArrowUp icon with another icon  
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ArrowUp { get; set; }
+  
+    /// <summary>
+    /// optional: Arrows replacing the ArrowDown icon with another icon  
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ArrowDown { get; set; }
 
+    /// <summary>
+    /// Defines the content in the body of the component
+    /// </summary>
     [Parameter]
     public RenderFragment? Body { get; set; }
 
     /// <summary>
-    /// This needs to be better...
+    /// Flag to signal that this AccordionItem is the first in the Accordion. Not setting this to true will cause
+    /// the first AccordionItem to not have a rounded top
     /// </summary>
     [Parameter]
     public bool First { get; set; }
+    
+    /// <summary>
+    /// Defines whether the body of the component is visible
+    /// </summary>
+    [Parameter]
+    public bool Open { get; set; }
 
-    private bool _open = false;
-    private string _paddingFlush = "accordion-item-btn-flush-pd";
-    private string _paddingDefault = "accordion-item-btn-flush-def";
-    private string _textFlushOpen = "accordion-item-flush-open";
-    private string _textFlushDefault = "accordion-item-flush-def";
-    private string _borderClass = "accordion-item-border";
-    private string _borderOpenClass = "accordion-item-border-open";
-    private string _borderSharedClass = "accordion-item-border-shared";
-
-    private string _contentClass = string.Empty;
-
+    /// <summary>
+    /// Initializes the component and adds itself to the parent for tracking
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _contentClass = SetClass();
-        StateHasChanged();
+        Parent?.AddItem(this);
+        if (Attributes.ContainsKey("open"))
+        {
+            Open = true;
+        }
     }
 
-    private string SetClass()
+    /// <summary>
+    /// Sets classes based on whether the component is "Active"
+    /// </summary>
+    private string GetActive()
     {
-        StringBuilder sb = new ();
-
+      if (Open)
+      {
         if (CheckFlush())
         {
-            sb.Append(_paddingFlush);
+          return $"accordion-btn-active-flush {ClassActive}";
         }
         else
         {
-            sb.Append(_paddingDefault);
-            sb.Append(" ");
-            sb.Append(_borderOpenClass);
-            sb.Append(" ");
-            //sb.Append(_borderBottomClass);
-            sb.Append(" ");
-            sb.Append(_borderSharedClass);
+          return $"accordion-btn-active {ClassActive}";
         }
-
-        return sb.ToString();
+      }
+      return ClassInactive;
     }
-
+  
+    /// <summary>
+    /// Toggles the Open property for the body of the component and closes other items in the accordion
+    /// if the Multiple attribute of the Accordion is "false"
+    /// </summary>
     private void HandleToggle()
     {
-        _open = !_open;
-        StateHasChanged();
+      Open = !Open;
+      if (Parent is not null && !Parent.Multiple)
+      {
+          if (Open)
+          {
+              Parent.CloseAllOthers(this);
+          }
+      }
     }
+  
+    /// <summary>
+    /// Opens the body of the component
+    /// </summary>
+    public void OpenMe() => Open = true;
 
+    /// <summary>
+    /// Closes the body of the component
+    /// </summary>
+    public void CloseMe() => Open = false;
+
+    /// <summary>
+    /// Returns whether component has been defined as Flush
+    /// </summary>
     private bool CheckFlush() => Parent is not null && Parent.Flush;
 
 }

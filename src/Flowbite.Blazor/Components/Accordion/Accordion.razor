@@ -1,23 +1,75 @@
 @inherits Frame
-<div class="accordion @Class @(Active ? ActiveClass : InactiveClass)">
+<div class="accordion @Class @(Active ? ClassActive : ClassInactive)">
     <CascadingValue Value="this">
         @ChildContent
     </CascadingValue>
 </div>
 
 @code {
+    /// <summary>
+    /// The AccordionItems
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Defines whether more than one AccordionItem can be open at a time
+    /// </summary>
     [Parameter]
     public bool Multiple { get; set; }
     
+    /// <summary>
+    /// Flags whether the style for this Accordion should be Flush
+    /// </summary>
     [Parameter]
     public bool Flush { get; set; }
 
-    protected override void OnInitialized()
+    /// <summary>
+    /// The AccordionItems inside this Accordion
+    /// </summary>
+    private List<AccordionItem> _items = new();
+
+    /// <summary>
+    /// Allows AccordionItems to add themselves in this component for future reference
+    /// </summary>
+    public void AddItem(AccordionItem item) => _items.Add(item);
+
+    /// <summary>
+    /// Close all the AccordionItems
+    /// </summary>
+    public void CloseAll()
     {
-        base.OnInitialized();
+        foreach (var acc in _items)
+        {
+            acc.CloseMe();
+        }
     }
 
+    /// <summary>
+    /// Close all the AccordionItems except for the one clicked
+    /// </summary>
+    public void CloseAllOthers(AccordionItem item)
+    {
+        Console.WriteLine(item);
+        foreach (var acc in _items)
+        {
+            Console.WriteLine(acc);
+            if (acc != item)
+            {
+                acc.CloseMe();
+            }
+            StateHasChanged();
+        }
+    }
+    
+    /// <summary>
+    /// Open all the AccordionItems
+    /// </summary>
+    public void OpenAll()
+    {
+        foreach (var acc in _items)
+        {
+            acc.OpenMe();
+        }
+    }
 }
