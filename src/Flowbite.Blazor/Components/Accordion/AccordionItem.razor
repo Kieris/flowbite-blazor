@@ -96,6 +96,12 @@
     /// </summary>
     [Parameter]
     public bool Open { get; set; }
+  
+    /// <summary>
+    /// Defines whether the body of the component is always open
+    /// </summary>
+    [Parameter]
+    public bool OpenAlways { get; set; }
 
     /// <summary>
     /// Initializes the component and adds itself to the parent for tracking
@@ -104,7 +110,7 @@
     {
         base.OnInitialized();
         Parent?.AddItem(this);
-        if (Attributes.ContainsKey("open"))
+        if (Attributes.ContainsKey("open") || OpenAlways)
         {
             Open = true;
         }
@@ -135,14 +141,17 @@
     /// </summary>
     private void HandleToggle()
     {
-      Open = !Open;
-      if (Parent is not null && !Parent.Multiple)
-      {
-          if (Open)
+        if (!OpenAlways)
+        {
+          Open = !Open;
+          if (Parent is not null && !Parent.Multiple)
           {
+            if (Open)
+            {
               Parent.CloseAllOthers(this);
+            }
           }
-      }
+        }
     }
   
     /// <summary>
@@ -153,7 +162,13 @@
     /// <summary>
     /// Closes the body of the component
     /// </summary>
-    public void CloseMe() => Open = false;
+    public void CloseMe()
+    {
+        if (!OpenAlways)
+        {
+          Open = false;
+        }   
+    }
 
     /// <summary>
     /// Returns whether component has been defined as Flush

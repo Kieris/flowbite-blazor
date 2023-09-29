@@ -50,10 +50,8 @@
     /// </summary>
     public void CloseAllOthers(AccordionItem item)
     {
-        Console.WriteLine(item);
         foreach (var acc in _items)
         {
-            Console.WriteLine(acc);
             if (acc != item)
             {
                 acc.CloseMe();
