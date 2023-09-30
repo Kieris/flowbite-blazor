@@ -1,0 +1,169 @@
+﻿.btn-base {
+    @apply text-white font-medium focus:ring-4 focus:outline-none text-center my-auto;
+}
+
+.btn-ol-base {
+    @apply relative inline-flex items-center justify-center p-0.5 overflow-hidden font-medium text-gray-900 hover:text-white dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none;
+}
+
+.btn-purple-to-blue {
+    @apply bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-blue-300 dark:focus:ring-blue-800;
+}
+
+.btn-ol-purple-to-blue {
+    @apply group-hover:from-purple-600 group-hover:to-blue-500;
+}
+
+.btn-cyan-to-blue {
+    @apply bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-cyan-300 dark:focus:ring-cyan-800;
+}
+
+.btn-ol-cyan-to-blue {
+    @apply group-hover:from-cyan-500 group-hover:to-blue-500 focus:ring-cyan-200;
+}
+
+.btn-green-to-blue {
+    @apply bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-green-200 dark:focus:ring-green-800;
+}
+
+.btn-ol-green-to-blue {
+    @apply group-hover:from-green-400 group-hover:to-blue-600;
+}
+
+.btn-purple-to-pink {
+    @apply bg-gradient-to-br from-purple-500 to-pink-500 hover:bg-gradient-to-bl focus:ring-purple-200 dark:focus:ring-purple-800;
+}
+
+.btn-ol-purple-to-pink {
+    @apply group-hover:from-purple-500 group-hover:to-pink-500;
+}
+
+.btn-pink-to-orange {
+    @apply bg-gradient-to-br from-pink-500 to-orange-500 hover:bg-gradient-to-bl focus:ring-pink-200 dark:focus:ring-pink-800;
+}
+
+.btn-ol-pink-to-orange {
+    @apply group-hover:from-pink-500 group-hover:to-orange-400;
+}
+
+.btn-teal-to-lime {
+    @apply text-gray-900 bg-gradient-to-br from-teal-300 to-lime-300 hover:bg-gradient-to-bl focus:ring-teal-200 dark:focus:ring-teal-800;
+}
+.btn-ol-teal-to-lime {
+    @apply group-hover:from-teal-300 group-hover:to-lime-300 focus:ring-lime-200 dark:focus:ring-lime-800;
+}
+
+.btn-red-to-yellow {
+    @apply bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-red-100 dark:focus:ring-red-400;
+}
+.btn-ol-red-to-yellow {
+    @apply group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200;
+}
+
+.btn-ol-span {
+    @apply relative transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0;
+}
+
+.btn-normal {
+    @apply rounded-lg;
+}
+
+.btn-pill {
+    @apply rounded-full;
+}
+
+.btn-xs {
+    @apply px-3 py-2 text-xs;
+}
+
+.btn-sm {
+    @apply px-3 py-2 text-sm;
+}
+
+.btn-base-size {
+    @apply px-5 py-2.5 text-sm;
+}
+
+.btn-lg {
+    @apply px-5 py-3 text-base;
+}
+
+.btn-xl {
+    @apply px-6 py-3.5 text-base;
+}
+
+.btn-icon {
+    @apply text-sm p-2.5;
+}
+/* Colors */
+.btn-default {
+    @apply bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-blue-300 dark:focus:ring-blue-800;
+}
+
+.btn-green {
+    @apply bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-green-300 dark:focus:ring-green-800;
+}
+
+.btn-cyan {
+    @apply bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-cyan-300 dark:focus:ring-cyan-800;
+}
+
+.btn-teal {
+    @apply bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-teal-300 dark:focus:ring-teal-800;
+}
+
+.btn-lime {
+    @apply text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-lime-300 dark:focus:ring-lime-800;
+}
+
+.btn-red {
+    @apply bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-red-300 dark:focus:ring-red-800;
+}
+
+.btn-pink {
+    @apply bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-pink-300 dark:focus:ring-pink-800;
+}
+
+.btn-purple {
+    @apply bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800;
+}
+
+/*Shadow */
+.btn-blue-shadow {
+    @apply shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80;
+}
+
+.btn-green-shadow {
+    @apply shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80;
+}
+.btn-cyan-shadow {
+    @apply shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80;
+}
+
+.btn-teal-shadow {
+    @apply shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80;
+}
+
+.btn-lime-shadow {
+    @apply shadow-lg shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80;
+}
+
+.btn-red-shadow {
+    @apply shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80;
+}
+
+.btn-pink-shadow {
+    @apply shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80;
+}
+
+.btn-purple-shadow {
+    @apply shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80;
+}
+
+.btn-ol-default {
+    @apply text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800;
+}
+/* Colors end */
+
+
+

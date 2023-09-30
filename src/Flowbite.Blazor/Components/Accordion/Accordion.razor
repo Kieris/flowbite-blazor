@@ -1,5 +1,5 @@
 @inherits Frame
-<div class="accordion @Class @(Active ? ClassActive : ClassInactive)">
+<div class="accordion @Class @(Active ? ClassActive : ClassInactive)" style="@Style">
     <CascadingValue Value="this">
         @ChildContent
     </CascadingValue>

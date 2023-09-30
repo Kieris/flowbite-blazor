@@ -1,0 +1,96 @@
+﻿@using Flowbite.Blazor.SharedEnums
+@inherits ButtonBase
+
+<button type="@Type" disabled="@Disabled" 
+        class="@(Disabled ? "cursor-not-allowed" : "") @(Outline ? "btn-ol-base group" : $"btn-base {BtnSize}") 
+        @TypeClass @ColorClass @Class" style="@Style" @onclick="OnClick">
+    @if (Outline)
+    {
+        <span class="btn-ol-span @BtnSize @(StyleType == ButtonTypes.Pill ? "btn-pill": "")">
+            @ChildContent
+        </span>    
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    [Parameter]
+    public GradientColors Color { get; set; } = GradientColors.Blue;
+    
+    [Parameter]
+    public bool Shadow { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ColorClass = GetColorClass();
+    }
+
+    private string GetColorClass()
+    {
+        if (!Outline)
+        {
+            switch (Color)
+            {
+                case GradientColors.Blue:
+                    return Shadow ? "btn-default btn-blue-shadow": "btn-default";
+                case GradientColors.Green:
+                    return Shadow ? "btn-green btn-green-shadow": "btn-green";
+                case GradientColors.Cyan:
+                    return Shadow ? "btn-cyan btn-cyan-shadow": "btn-cyan";
+                case GradientColors.Teal:
+                    return Shadow ? "btn-teal btn-teal-shadow": "btn-teal";
+                case GradientColors.Lime:
+                    return Shadow ? "btn-lime btn-lime-shadow": "btn-lime";
+                case GradientColors.Red:
+                    return Shadow ? "btn-red btn-red-shadow": "btn-red";
+                case GradientColors.Pink:
+                    return Shadow ? "btn-pink btn-pink-shadow": "btn-pink";
+                case GradientColors.Purple:
+                    return Shadow ? "btn-purple btn-purple-shadow": "btn-purple";
+                case GradientColors.PurpleToBlue:
+                    return "btn-purple-to-blue";
+                case GradientColors.CyanToBlue:
+                    return "btn-cyan-to-blue";
+                case GradientColors.GreenToBlue:
+                    return "btn-green-to-blue";
+                case GradientColors.PurpleToPink:
+                    return "btn-purple-to-pink";
+                case GradientColors.PinkToOrange:
+                    return "btn-pink-to-orange";
+                case GradientColors.TealToLime:
+                    return "btn-teal-to-lime";
+                case GradientColors.RedToYellow:
+                    return "btn-red-to-yellow";
+                default:
+                    return string.Empty;
+            }
+        }
+        else
+        {
+            switch (Color)
+            {
+                case GradientColors.PurpleToBlue:
+                    return "btn-purple-to-blue btn-ol-purple-to-blue";
+                case GradientColors.CyanToBlue:
+                    return "btn-cyan-to-blue btn-ol-cyan-to-blue";
+                case GradientColors.GreenToBlue:
+                    return "btn-green-to-blue btn-ol-green-to-blue";
+                case GradientColors.PurpleToPink:
+                    return "btn-purple-to-pink btn-ol-purple-to-pink";
+                case GradientColors.PinkToOrange:
+                    return "btn-pink-to-orange btn-ol-pink-to-orange";
+                case GradientColors.TealToLime:
+                    return "btn-teal-to-lime btn-ol-teal-to-lime";
+                case GradientColors.RedToYellow:
+                    return "btn-red-to-yellow btn-ol-red-to-yellow";
+                default:
+                    return Shadow ? "btn-ol-default btn-blue-shadow": "btn-ol-default";
+            }
+        }
+    }
+
+}

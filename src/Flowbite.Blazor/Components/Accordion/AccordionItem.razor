@@ -2,10 +2,10 @@
 @using Microsoft.Extensions.Primitives
 @inherits Frame
 
-<div class="@Class">
+<div class="@Class" style="@Style">
   <h2 class="group">
     <button @onclick="@HandleToggle" type="button"
-            class="accordion-item @(CheckFlush() ? "accordion-btn-flush" : "accordion-flush-diff") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "") @Class"
+            class="accordion-item @(CheckFlush() ? "accordion-btn-flush" : "accordion-flush-diff") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "")"
             aria-expanded="@Open.ToString()">
       @if (Header is not null)
       {

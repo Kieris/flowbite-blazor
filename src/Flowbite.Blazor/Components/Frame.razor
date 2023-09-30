@@ -32,6 +32,12 @@
     public Dictionary<string, object> Attributes { get; set; } = new ();
     
     /// <summary>
+    /// Event callback for click events
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    
+    /// <summary>
     /// Classes for the component's top element to only be used when it is not active
     /// </summary>
     protected bool Active;

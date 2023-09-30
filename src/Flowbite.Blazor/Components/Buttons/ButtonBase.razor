@@ -1,0 +1,86 @@
+﻿@inherits Frame
+@using SharedEnums
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    [Parameter]
+    public string Type { get; set; } = "button";
+
+    [Parameter]
+    public ButtonTypes StyleType { get; set; } = ButtonTypes.Normal;
+
+    [Parameter]
+    public Sizes Size { get; set; } = Sizes.Base;
+    
+    [Parameter]
+    public bool Outline { get; set; }
+
+    protected string ColorClass = string.Empty;
+    protected string TypeClass = string.Empty;
+    protected string BtnSize = string.Empty;
+    protected bool Disabled;
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        TypeClass = GetTypeClass();
+        BtnSize = GetSize();
+        
+        if (Attributes.ContainsKey("disabled") && Attributes["disabled"].ToString() != "false")
+        {
+            Disabled = true;
+        }
+        
+        if (Attributes.TryGetValue("type", out var attribute))
+        {
+            Type = attribute.ToString()!;
+        }
+        
+        if (Attributes.ContainsKey("pill"))
+        {
+            StyleType = ButtonTypes.Pill;
+            StateHasChanged();
+        }
+    }
+
+    private string GetTypeClass()
+    {
+        switch (StyleType)
+        {
+            case ButtonTypes.Normal:
+                return "btn-normal";
+            case ButtonTypes.Pill:
+                 return "btn-pill";
+            default: return "btn-normal";;
+        }
+    }
+
+    private string GetSize()
+    {
+        switch (Size)
+        {
+            case Sizes.ExtraSmall:
+                return "btn-xs";
+            case Sizes.Small:
+                return "btn-sm";
+            case Sizes.Base:
+                return "btn-base-size";
+            case Sizes.Large:
+                return "btn-lg";
+            case Sizes.ExtraLarge:
+                return "btn-xl";
+            case Sizes.Icon:
+                return "btn-icon";
+            default:
+                return "btn-base-size";
+        }
+    }
+
+    private void BtnClicked()
+    {
+        OnClick.InvokeAsync();
+    }
+
+}

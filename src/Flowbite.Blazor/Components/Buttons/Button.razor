@@ -1,0 +1,73 @@
+﻿@using Flowbite.Blazor.SharedEnums
+@inherits ButtonBase
+
+<button type="@Type" disabled="@Disabled" 
+        class="@(Disabled ? "cursor-not-allowed" : "") btn-base @BtnSize @TypeClass @ColorClass @Class" 
+        style="@Style" @onclick="OnClick">
+    @ChildContent
+</button>
+
+
+@code {
+    [Parameter]
+    public Colors Color { get; set; } = Colors.Default;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ColorClass = GetColorClass();
+    }
+
+    private string GetColorClass()
+    {
+        if (!Outline)
+        {
+            switch (Color)
+            {
+                case Colors.Default:
+                    return "btn-default";
+                case Colors.Alternative:
+                    return "btn-alternative";
+                case Colors.Dark:
+                    return "btn-dark";
+                case Colors.Light:
+                    return "btn-light";
+                case Colors.Green:
+                    return "btn-green";
+                case Colors.Red:
+                    return "btn-red";
+                case Colors.Yellow:
+                    return "btn-yellow";
+                case Colors.Purple:
+                    return "btn-purple";
+                default:
+                    return string.Empty;
+            }
+        }
+        else
+        {
+            switch (Color)
+            {
+                case Colors.Default:
+                    return "btn-ol-default";
+                case Colors.Alternative:
+                    return "btn-ol-alternative";
+                case Colors.Dark:
+                    return "btn-ol-dark";
+                case Colors.Light:
+                    return "btn-ol-light";
+                case Colors.Green:
+                    return "btn-ol-green";
+                case Colors.Red:
+                    return "btn-ol-red";
+                case Colors.Yellow:
+                    return "btn-ol-yellow";
+                case Colors.Purple:
+                    return "btn-ol-purple";
+                default:
+                    return string.Empty;
+            }
+        }
+    }
+
+}
