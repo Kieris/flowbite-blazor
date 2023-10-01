@@ -2,28 +2,58 @@
 @using SharedEnums
 
 @code {
+    /// <summary>
+    /// The element that makes up the body of the button
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
     
+    /// <summary>
+    /// The type of the button based on html types (submit, reset, button, etc.). The default is button.
+    /// </summary>
     [Parameter]
     public string Type { get; set; } = "button";
 
+    /// <summary>
+    /// The style type for the button based on <see cref="ButtonTypes"/>
+    /// </summary>
     [Parameter]
     public ButtonTypes StyleType { get; set; } = ButtonTypes.Normal;
 
+    /// <summary>
+    /// Defines the size of the button based on the <see cref="Sizes"/> enum
+    /// </summary>
     [Parameter]
     public Sizes Size { get; set; } = Sizes.Base;
     
+    /// <summary>
+    /// If true, the button will have the outline style
+    /// </summary>
     [Parameter]
     public bool Outline { get; set; }
     
+    /// <summary>
+    /// Defines whether or not the button is disabled
+    /// </summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// The constructed final color class of the button
+    /// </summary>
     protected string ColorClass = string.Empty;
+    /// <summary>
+    /// The constructed final Style type class of the button
+    /// </summary>
     protected string TypeClass = string.Empty;
+    /// <summary>
+    /// The constructed final size class of the button
+    /// </summary>
     protected string BtnSize = string.Empty;
     
+    /// <summary>
+    /// Initialized the ButtonBase and looks for the traditional disabled attribute
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -33,6 +63,9 @@
         }
     }
 
+    /// <summary>
+    /// Watches for parameter changes on the button and sets styles appropriately
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -51,6 +84,9 @@
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Sets the class for the style type
+    /// </summary>
     private string GetTypeClass()
     {
         switch (StyleType)
@@ -63,6 +99,9 @@
         }
     }
 
+    /// <summary>
+    /// Sets the class for the size of the button
+    /// </summary>
     private string GetSize()
     {
         switch (Size)
@@ -84,6 +123,9 @@
         }
     }
 
+    /// <summary>
+    /// Invokes the callback for when the button is clicked
+    /// </summary>
     private void BtnClicked()
     {
         OnClick.InvokeAsync();

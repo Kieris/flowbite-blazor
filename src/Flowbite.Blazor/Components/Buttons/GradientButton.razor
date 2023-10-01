@@ -17,18 +17,30 @@
 </button>
 
 @code {
+    /// <summary>
+    /// Defines the color for the button based on <see cref="GradientColors"/> enum
+    /// </summary>
     [Parameter]
     public GradientColors Color { get; set; } = GradientColors.Blue;
     
+    /// <summary>
+    /// If true, gradient monochrome buttons will have a colored shadow
+    /// </summary>
     [Parameter]
     public bool Shadow { get; set; }
     
+    /// <summary>
+    /// Initializes the button and sets the color classes based on <see cref="Color"/>
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         ColorClass = GetColorClass();
     }
 
+    /// <summary>
+    /// Sets the color class based on <see cref="Outline"/> and <see cref="Color"/>
+    /// </summary>
     private string GetColorClass()
     {
         if (!Outline)
@@ -92,5 +104,4 @@
             }
         }
     }
-
 }
