@@ -1,0 +1,98 @@
+@inherits Frame
+@using Flowbite.Blazor.Components.Buttons
+@using System.ComponentModel
+
+<li class="@Class" style="@Style">
+  <button @onclick="HandleDropdown" type="button" 
+          class="flex items-center p-2 w-full text-base font-normal rounded-lg transition duration-75 group @(string.IsNullOrWhiteSpace(Parent?.InactiveClass) ? 
+                   "text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" 
+                   : Parent.InactiveClass)" aria-controls="sidebar-dropdown">
+    @Icon
+    <span class="flex-1 ml-3 text-left whitespace-nowrap">@Label</span>
+    @if (_isOpen)
+    {
+      @if (ArrowUp is not null)
+      {
+        @ArrowUp
+      }
+      else
+      {
+        <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5" />
+        </svg>
+      }
+    }
+    else if (ArrowDown is not null)
+    {
+      @ArrowDown
+    }
+    else
+    {
+      <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+      </svg>
+    }
+  </button>
+  @if (_isOpen)
+  {
+    <ul class="py-2 space-y-2">
+      @Items
+    </ul>
+  }
+
+  
+  
+</li>
+
+@code {
+  /// <summary>
+  /// The Sidebar parent
+  /// </summary>
+  [CascadingParameter]
+  private Sidebar? Parent { get; set; }
+  
+  /// <summary>
+  /// The content of the dropdown
+  /// </summary>
+  [Parameter]
+  public RenderFragment? Items { get; set; }
+  
+  /// <summary>
+  /// optional: The icon that is shown to the left 
+  /// </summary>
+  [Parameter]
+  public RenderFragment? Icon { get; set; }
+  
+  /// <summary>
+  /// optional: The icon that is shown when the state of the dropdown is open
+  /// </summary>
+  [Parameter]
+  public RenderFragment? ArrowUp { get; set; }
+  
+  /// <summary>
+  /// optional: The icon that is shown when the state of the dropdown is closed
+  /// </summary>
+  [Parameter]
+  public RenderFragment? ArrowDown { get; set; }
+
+  /// <summary>
+  /// The label for the dropdown
+  /// </summary>
+  [Parameter]
+  public string Label { get; set; } = string.Empty;
+  
+  /// <summary>
+  /// Defines whether the state of the dropdown is open or closed
+  /// </summary>
+  private bool _isOpen;
+
+  private bool _hide = true;
+
+  /// <summary>
+  /// Toggle the state of the dropdown
+  /// </summary>
+  private async void HandleDropdown()
+  {
+    _isOpen = !_isOpen;
+  }
+}

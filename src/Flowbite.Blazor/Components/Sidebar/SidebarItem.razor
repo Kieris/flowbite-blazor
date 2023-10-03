@@ -1,0 +1,66 @@
+@inherits Frame
+
+<li class="@Class" style="@Style">
+    <NavLink href="@Link" class="@GetNavLinkClass()" Match="NavLinkMatch.All"
+             ActiveClass="@(string.IsNullOrWhiteSpace(Parent.ActiveClass) ? "sidebar-item-active" : Parent.ActiveClass)">
+    @Icon
+    <span class="ml-3">@Label</span>
+    @if (Subtext is not null)
+    {
+        @Subtext
+    }
+  </NavLink>
+</li>
+
+@code {
+    /// <summary>
+    /// The Sidebar parent
+    /// </summary>
+    [CascadingParameter]
+    private Sidebar? Parent { get; set; }
+    
+    /// <summary>
+    /// The icon for the sidebar item
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+  
+    /// <summary>
+    /// The text/content to the right of the <see cref="Label"/>
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Subtext { get; set; }
+
+    /// <summary>
+    /// The link (href) for navigation
+    /// </summary>
+    [Parameter]
+    public string Link { get; set; } = "#";
+
+    /// <summary>
+    /// The label for the SidebarItem
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Watches for parameter changes and sets <see cref="Link"/> from href if needed
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Attributes.TryGetValue("href", out var attribute))
+        {
+            Link = attribute.ToString()!;
+        }
+    }
+    
+    /// <summary>
+    /// Used to get NavLink class because component attributes do not support complex content (mixed C# and markup).
+    /// </summary>
+    private string GetNavLinkClass()
+    {
+        return string.IsNullOrWhiteSpace(Parent.InactiveClass) ? "sidebar-item-inactive" : Parent.InactiveClass;
+    }
+
+}

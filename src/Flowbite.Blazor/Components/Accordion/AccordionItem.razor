@@ -125,14 +125,14 @@
       {
         if (CheckFlush())
         {
-          return $"accordion-btn-active-flush {ClassActive}";
+          return $"accordion-btn-active-flush {ActiveClass}";
         }
         else
         {
-          return $"accordion-btn-active {ClassActive}";
+          return $"accordion-btn-active {ActiveClass}";
         }
       }
-      return ClassInactive;
+      return InactiveClass;
     }
   
     /// <summary>
