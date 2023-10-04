@@ -1,0 +1,172 @@
+﻿@using Flowbite.Blazor.SharedEnums
+@inherits Frame
+
+@if (Link is not null)
+{
+    <a href="@Link" class="inline-flex items-center transition-opacity duration-1000 ease-out @(_hidden ? "hidden" :"") 
+        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "badge-base") 
+        @(Pill ? "rounded-full" : "rounded") @(Bordered ? "border" :"")  
+        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @_colorClass @Class" style="@Style">
+        @ChildContent
+        @if (Dismissable)
+        {
+            <span type="button" @onclick="@Hide" style="cursor: pointer;">
+                <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Remove badge</span>
+            </span>
+        }
+    </a>
+}
+else
+{
+    <div class="inline-flex items-center transition-opacity duration-1000 ease-out @(_hidden ? "hidden" :"") 
+        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "badge-base") 
+        @(Pill ? "rounded-full" : "rounded") @(Bordered ? "border" :"")  
+        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @_colorClass @Class" style="@Style">
+        @ChildContent
+        @if (Dismissable)
+        {
+            <span type="button" @onclick="@Hide" style="cursor: pointer;">
+                <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Remove badge</span>
+            </span>
+        }
+    </div>
+}
+
+@code {
+    /// <summary>
+    /// The badge content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Defines if the badge style is bordered
+    /// </summary>
+    [Parameter]
+    public bool Bordered { get; set; }
+
+    /// <summary>
+    /// Defines the badge size. This needs to be set as <see cref="BadgeSizes.Custom"/> to
+    /// override the size of the icon.
+    /// </summary>
+    [Parameter]
+    public BadgeSizes Size { get; set; } = BadgeSizes.Normal;
+    
+    /// <summary>
+    /// Defines whether a badge is a pill (rounded)
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; }
+    
+    /// <summary>
+    /// Defines whether a badge is dismissable
+    /// </summary>
+    [Parameter]
+    public bool Dismissable { get; set; }
+    
+    /// <summary>
+    /// Triggered when the dismiss (x) is clicked on a dismissable badge
+    /// </summary>
+    [Parameter]
+    public EventCallback Dismissed { get; set; }
+    
+    /// <summary>
+    /// The href value if the badge is to be a link
+    /// </summary>
+    [Parameter]
+    public string? Link { get; set; }
+    
+    /// <summary>
+    /// The color of the badge. This needs to be set to <see cref="BadgeColors.None"/> to override the colors in Class.
+    /// </summary>
+    [Parameter]
+    public BadgeColors Color { get; set; } = BadgeColors.Blue;
+
+    /// <summary>
+    /// The combined color classes for the badge
+    /// </summary>
+    private string _colorClass = string.Empty;
+    /// <summary>
+    /// Defines whether opacity of badge is 0
+    /// </summary>
+    private bool _hide;
+    /// <summary>
+    /// Defines whether badge is hidden. Hidden is not added until after dismiss transition.
+    /// </summary>
+    private bool _hidden;
+
+    /// <summary>
+    /// Triggers on parameter update. Looks for attributes and sets classes accordingly, then sets color classes.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Attributes.TryGetValue("href", out var attribute))
+        {
+            Link = attribute.ToString()!;
+        }
+        if (Attributes.ContainsKey("dismissable") && Attributes["dismissable"].ToString() != "false")
+        {
+            Dismissable = true;
+        }
+        if (Attributes.ContainsKey("rounded"))
+        {
+            Pill = true;
+        }
+        if (Attributes.ContainsKey("large"))
+        {
+            Size = BadgeSizes.Large;
+        }
+        if (Attributes.ContainsKey("border"))
+        {
+            Bordered = true;
+        }
+        _colorClass = SetColorClass();
+    }
+
+    /// <summary>
+    /// Creates the color class string based on <see cref="Color"/> and <see cref="Bordered"/>
+    /// </summary>
+    private string SetColorClass()
+    {
+        if (Color == BadgeColors.None) return string.Empty;
+        
+        string color = Color.ToString().ToLower();
+        
+        if (Bordered)
+        {
+            return $"badge-{color} badge-border-{color} badge-dark-bg-dark";
+        }
+        else
+        {
+            return $"badge-{color}";
+        }
+    }
+
+    /// <summary>
+    /// Hide the badge
+    /// </summary>
+    public async void Hide()
+    {
+        _hide = true;
+        await Dismissed.InvokeAsync();
+        await Task.Delay(750);
+        _hidden = true;
+        StateHasChanged();
+    } 
+    
+    /// <summary>
+    /// Show the badge
+    /// </summary>
+    public void Show()
+    {
+        _hide = false;
+        _hidden = false;
+    }
+}
