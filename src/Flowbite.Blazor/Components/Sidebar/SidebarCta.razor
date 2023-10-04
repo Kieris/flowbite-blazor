@@ -1,0 +1,35 @@
+@inherits Frame
+
+<div class="p-4 mt-6 bg-primary-50 rounded-lg dark:bg-primary-900 @Class" style="@Style" role="alert">
+  <div class="flex items-center mb-3">
+    <span class="bg-primary-100 text-primary-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-900">
+      @Label
+    </span>
+    @if (Icon is not null)
+    {
+      @Icon
+    }
+  </div>
+  @Content
+</div>
+
+
+@code {
+    /// <summary>
+    /// The CTA content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+    
+    /// <summary>
+    /// The icon to the right of the label
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
+    /// <summary>
+    /// The label for the CTA
+    /// </summary>
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+}

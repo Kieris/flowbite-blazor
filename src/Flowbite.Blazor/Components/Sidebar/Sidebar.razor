@@ -1,0 +1,15 @@
+@inherits Frame
+<aside class="w-64 @Class"
+       aria-label="Sidebar" style="@Style">
+       <CascadingValue Value="this">
+           @ChildContent
+       </CascadingValue>
+</aside>
+
+@code {
+    /// <summary>
+    /// The sidebar content. Should be a <see cref="SidebarWrapper"/>
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
