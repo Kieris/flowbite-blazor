@@ -1,0 +1,53 @@
+﻿@inherits Frame
+
+<nav class="flex @(Solid ? "px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" : "") @Class" 
+     aria-label="Breadcrumb" style="@Style">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3 @ListClass">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </ol>
+</nav>
+
+@code {
+    /// <summary>
+    /// The breadcrumbs
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Defines whether or not the breadcrumb is solid
+    /// </summary>
+    [Parameter]
+    public bool Solid { get; set; }
+
+    /// <summary>
+    /// Used to add classes to the List element (ol)
+    /// </summary>
+    [Parameter]
+    public string ListClass { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The BreadcrumbItems inside of this Breadcrumb
+    /// </summary>
+    private List<BreadcrumbItem> _items = new();
+    
+    /// <summary>
+    /// Defines whether the first BreadcrumbItem has been set
+    /// </summary>
+    private bool _firstSet;
+
+    /// <summary>
+    /// Used by the BreadcrumbItem children to add themselves to <see cref="Items"/>
+    /// </summary>
+    public void AddItem(BreadcrumbItem item)
+    {
+        _items.Add(item);
+        if (!_firstSet)
+        {
+            item.First = true;
+            _firstSet = true;
+        }
+    }
+}
