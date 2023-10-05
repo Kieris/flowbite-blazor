@@ -1,0 +1,38 @@
+@inherits Frame
+
+<div class="z-50 hidden divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 @Class" style="@Style">
+    @if (Header is not null)
+    {
+        <div class="py-1 overflow-hidden rounded-t-lg @HeaderClass">
+            @Header
+        </div>
+    }
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </ul>
+    @if (Footer is not null)
+    {
+        <div class="py-1 overflow-hidden rounded-b-lg @FooterClass">
+            @Footer
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? Header { get; set; }
+    
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+    
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public string HeaderClass { get; set; } = string.Empty;
+
+    public string FooterClass { get; set; } = string.Empty;
+
+    public string UlClass { get; set; } = string.Empty;
+}

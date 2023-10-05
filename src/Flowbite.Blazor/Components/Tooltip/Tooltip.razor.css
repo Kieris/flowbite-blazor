@@ -1,0 +1,50 @@
+.tooltip-trigger-element {
+    width: fit-content;
+}
+
+.tooltip1-arrow,
+.tooltip1-arrow:before {
+    background: inherit;
+    height: 8px;
+    position: absolute;
+    width: 8px
+}
+
+.tooltip1-arrow {
+    visibility: hidden
+}
+
+.tooltip1-arrow:before {
+    content: "";
+    transform: rotate(45deg);
+    visibility: visible;
+}
+
+.tooltip1 {
+    z-index: 500000;
+    display: none;
+}
+
+.tooltip1[data-show] {
+    display: block;
+}
+
+.tooltip1[data-popper-placement^=top]>.tooltip1-arrow {
+    bottom: -4px;
+}
+
+.tooltip1[data-popper-placement^=bottom]>.tooltip1-arrow {
+    top: -4px;
+}
+
+.tooltip1[data-popper-placement^=left]>.tooltip1-arrow {
+    right: -4px;
+}
+
+.tooltip1[data-popper-placement^=right]>.tooltip1-arrow {
+    left: -4px;
+}
+
+.tooltip1.invisible>.tooltip1-arrow:before {
+    visibility: hidden;
+}
