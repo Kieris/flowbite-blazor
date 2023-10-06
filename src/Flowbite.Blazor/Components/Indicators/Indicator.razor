@@ -1,0 +1,79 @@
+@using Flowbite.Blazor.SharedEnums
+@inherits Frame
+
+<span class="inline-flex items-center justify-center @(!Pill ? "rounded" : "rounded-full") 
+    @($"indi-size-{Size.ToString().ToLower()}") @(Border ? "border-2 border-white dark:border-gray-800" : "") 
+    @(Placement != IndiLocs.None ? $"absolute indi-{Placement.ToString().ToLower()}" : "" ) 
+    @(Placement != IndiLocs.None && Offset ? $"indi-offset-{Placement.ToString().ToLower()}" : "") 
+    @_colorClass @Class" style="@Style">
+    @ChildContent
+</span>
+
+@code {
+    /// <summary>
+    /// The content of the indicator
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// The color of the alert. This needs to be set to <see cref="AlertColors.None"/> to override the colors in Class.
+    /// </summary>
+    [Parameter]
+    public IndiColors Color { get; set; } = IndiColors.Primary;
+
+    /// <summary>
+    /// Defines the size of the indicator
+    /// </summary>
+    [Parameter]
+    public Sizes Size { get; set; } = Sizes.Base;
+
+    /// <summary>
+    /// Defines where the indicator will be placed when it's parent is relative
+    /// </summary>
+    [Parameter]
+    public IndiLocs Placement { get; set; } = IndiLocs.None;
+    
+    /// <summary>
+    /// Defines whether offset is used for positioning
+    /// </summary>
+    [Parameter]
+    public bool Offset { get; set; } = true;
+    
+    /// <summary>
+    /// Defines whether the indicator has a border
+    /// </summary>
+    [Parameter]
+    public bool Border { get; set; }
+
+    /// <summary>
+    /// If false, the indicator will just be rounded instead of circular. Default is true.
+    /// </summary>
+    [Parameter]
+    public bool Pill { get; set; } = true;
+    
+    /// <summary>
+    /// The combined color classes for the badge
+    /// </summary>
+    private string _colorClass = string.Empty;
+    
+    /// <summary>
+    /// Triggers on parameter update. Looks for attributes and sets classes accordingly, then sets color classes.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _colorClass = SetColorClass();
+    }
+	
+    /// <summary>
+    /// Creates the color class string based on <see cref="Color"/>
+    /// </summary>
+    private string SetColorClass()
+    {
+        if (Color == IndiColors.None) return string.Empty;
+        
+        string color = Color.ToString().ToLower();
+        return $"indi-{color}";
+    }
+}
