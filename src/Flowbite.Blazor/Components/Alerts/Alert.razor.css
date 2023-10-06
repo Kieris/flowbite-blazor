@@ -1,0 +1,90 @@
+@tailwind components;
+
+    .alert-base {
+        @apply p-4 mb-4 text-sm;
+    }
+    
+@layer components {
+    .alert-primary {
+        @apply text-primary-800 bg-primary-50 dark:bg-neutral-800 dark:text-primary-300;
+    }
+
+    .alert-border-primary {
+        @apply border-primary-400;
+    }
+
+    .alert-supporting {
+        @apply text-supporting-800 bg-supporting-50 dark:bg-neutral-800 dark:text-supporting-300;
+    }
+
+    .alert-border-supporting {
+        @apply border-supporting-400;
+    }
+
+    .alert-accent {
+        @apply text-accent-800 bg-accent-50 dark:bg-neutral-800 dark:text-accent-300;
+    }
+
+    .alert-border-accent {
+        @apply border-accent-400;
+    }
+    .alert-danger {
+        @apply text-danger-800 bg-danger-50 dark:bg-neutral-800 dark:text-danger-300;
+    }
+
+    .alert-border-danger {
+        @apply border-danger-400;
+    }
+
+    .alert-warning {
+        @apply text-warning-800 bg-warning-50 dark:bg-neutral-800 dark:text-warning-300;
+    }
+
+    .alert-border-warning {
+        @apply border-warning-400;
+    }
+
+    .alert-success {
+        @apply text-success-800 bg-success-50 dark:bg-neutral-800 dark:text-success-300;
+    }
+
+    .alert-border-success {
+        @apply border-success-400;
+    }
+
+    .alert-neutral {
+        @apply text-neutral-800 bg-neutral-50 dark:bg-neutral-800 dark:text-neutral-300;
+    }
+
+    .alert-border-neutral {
+        @apply border-neutral-400;
+    }
+    
+    .alert-dismiss-primary {
+        @apply bg-primary-50 focus:ring-primary-400 hover:bg-primary-200 dark:bg-neutral-800 dark:text-primary-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-supporting {
+        @apply bg-supporting-50 focus:ring-supporting-400 hover:bg-supporting-200 dark:bg-neutral-800 dark:text-supporting-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-accent {
+        @apply bg-accent-50 focus:ring-accent-400 hover:bg-accent-200 dark:bg-neutral-800 dark:text-accent-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-danger {
+        @apply bg-danger-50 focus:ring-danger-400 hover:bg-danger-200 dark:bg-neutral-800 dark:text-danger-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-warning {
+        @apply bg-warning-50 focus:ring-warning-400 hover:bg-warning-200 dark:bg-neutral-800 dark:text-warning-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-success {
+        @apply bg-success-50 focus:ring-success-400 hover:bg-success-200 dark:bg-neutral-800 dark:text-success-400 dark:hover:bg-neutral-700;
+    }
+
+    .alert-dismiss-neutral {
+        @apply bg-neutral-50 focus:ring-neutral-400 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700;
+    }
+}

@@ -74,7 +74,7 @@ else
     /// Triggered when the dismiss (x) is clicked on a dismissable badge
     /// </summary>
     [Parameter]
-    public EventCallback Dismissed { get; set; }
+    public EventCallback VisibleChanged { get; set; }
     
     /// <summary>
     /// The href value if the badge is to be a link
@@ -155,18 +155,19 @@ else
     public async void Hide()
     {
         _hide = true;
-        await Dismissed.InvokeAsync();
         await Task.Delay(750);
         _hidden = true;
         StateHasChanged();
+        await VisibleChanged.InvokeAsync();
     } 
     
     /// <summary>
     /// Show the badge
     /// </summary>
-    public void Show()
+    public async void Show()
     {
         _hide = false;
         _hidden = false;
+        await VisibleChanged.InvokeAsync();
     }
 }

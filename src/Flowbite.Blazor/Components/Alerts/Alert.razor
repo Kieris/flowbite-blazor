@@ -1,20 +1,168 @@
-<div id={$$props.id} class:hidden class={divClass} role="alert">
-	@* <div class="flex items-center {textColor}">
-		{#if icon}
-			<svelte:component this={icon} class="flex-shrink-0 w-5 h-5 mr-3" />
-		{/if}
-
-		<div class="text-sm">
-			<slot />
+@inherits Frame
+<div class:hidden class="transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"") 
+        @(_hide ? "opacity-0" :"opacity-100") alert-base @(Border == AlertBorder.Border ? "border rounded-lg" 
+	     : Border == AlertBorder.TopAccent ? "border-t-4" : Border == AlertBorder.BottomAccent ? "border-b-4" : "rounded-lg")
+ 
+        @_colorClass @Class" style="@Style" role="alert">
+	<div class="flex items-start">
+		@if (Icon is not null)
+		{
+			<span>
+				@Icon
+			</span>
+		}
+		<div>
+			@ChildContent
 		</div>
 
-		{#if dismissable}
-			<CloseButton {color} on:click={handleHide} on:click={handleAlert} />
-		{/if}
+		@if (Dismissable)
+		{
+			<button type="button" @onclick="@Hide" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+				items-center justify-center h-8 w-8 focus:ring-2 @GetDismissColorClass() @DismissColor" aria-label="Close">
+				<span class="sr-only">Dismiss</span>
+				<svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+				</svg>
+			</button>
+		}
+		
 	</div>
-	<slot name="extra" /> *@
+	@if(Extra is not null) 
+	{
+		@Extra
+	}
 </div>
 
 @code {
+	/// <summary>
+	/// Extra content placed underneath the main content and icon
+	/// </summary>
+	[Parameter]
+	public RenderFragment? Extra { get; set; }
+	
+	/// <summary>
+	/// The icon for the alert
+	/// </summary>
+	[Parameter]
+	public RenderFragment? Icon { get; set; }
+	
+	/// <summary>
+	/// The content for the main slot of the alert
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+	
+	/// <summary>
+	/// Defines whether the dismiss button should be shown
+	/// </summary>
+	[Parameter]
+	public bool Dismissable { get; set; }
 
+	/// <summary>
+	/// Allows customizing color theme for dismiss button
+	/// </summary>
+	[Parameter]
+	public string DismissColor { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Defines the style for the alert border
+	/// </summary>
+	[Parameter]
+	public AlertBorder Border { get; set; } = AlertBorder.None;
+
+	/// <summary>
+	/// Triggered when the dismiss (x) is clicked on a dismissable alert
+	/// </summary>
+	[Parameter]
+	public EventCallback VisibleChanged { get; set; }
+	
+	/// <summary>
+	/// The color of the alert. This needs to be set to <see cref="AlertColors.None"/> to override the colors in Class.
+	/// </summary>
+	[Parameter]
+	public AlertColors Color { get; set; } = AlertColors.Primary;
+
+	/// <summary>
+	/// The combined color classes for the badge
+	/// </summary>
+	private string _colorClass = string.Empty;
+	
+	/// <summary>
+	/// Defines whether opacity of alert is 0
+	/// </summary>
+	private bool _hide;
+	/// <summary>
+	/// Defines whether alert is hidden. Hidden is not added until after dismiss transition.
+	/// </summary>
+	public bool Hidden { get; private set; }
+	
+	/// <summary>
+	/// Triggers on parameter update. Looks for attributes and sets classes accordingly, then sets color classes.
+	/// </summary>
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+		if (Attributes.ContainsKey("dismissable") && Attributes["dismissable"].ToString() != "false")
+		{
+			Dismissable = true;
+		}
+		if (Attributes.ContainsKey("border"))
+		{
+			Border = AlertBorder.Border;
+		}
+		_colorClass = SetColorClass();
+	}
+	
+	/// <summary>
+	/// Creates the color class string based on <see cref="Color"/> and <see cref="Bordered"/>
+	/// </summary>
+	private string SetColorClass()
+	{
+		if (Color == AlertColors.None) return string.Empty;
+        
+		string color = Color.ToString().ToLower();
+        
+		if (Border != AlertBorder.None)
+		{
+			return $"alert-{color} alert-border-{color} alert-dark-bg-dark";
+		}
+		else
+		{
+			return $"alert-{color}";
+		}
+	}
+	
+	/// <summary>
+	/// Creates the color class string based on <see cref="Color"/> for the dismiss button
+	/// </summary>
+	private string GetDismissColorClass()
+	{
+		if (Color == AlertColors.None) return string.Empty;
+        
+		string color = Color.ToString().ToLower();
+        
+		return $"alert-dismiss-{color}";
+	}
+	
+	/// <summary>
+	/// Hide the alert
+	/// </summary>
+	public async void Hide()
+	{
+		_hide = true;
+		await Task.Delay(600);
+		Hidden = true;
+		StateHasChanged();
+		await VisibleChanged.InvokeAsync();
+	} 
+    
+	/// <summary>
+	/// Show the alert
+	/// </summary>
+	public async void Show()
+	{
+		_hide = false;
+		Hidden = false;
+		await VisibleChanged.InvokeAsync();
+	}
 }
