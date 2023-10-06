@@ -10,5 +10,6 @@ public enum Sizes
     Base,
     Large,
     ExtraLarge,
-    Icon
+    Icon,
+    None
 }
