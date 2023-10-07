@@ -1,5 +1,10 @@
-<h3>DropdownDivider</h3>
+
+<div class="@(string.IsNullOrWhiteSpace(Class) ? "my-1 h-px bg-gray-100 dark:bg-gray-600" : Class)"></div>
 
 @code {
-    
+    /// <summary>
+    /// The class for overriding the default class
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
 }
