@@ -1,0 +1,223 @@
+@using Microsoft.JSInterop;
+@using Flowbite.Blazor.SharedEnums
+@using System.ComponentModel.Design.Serialization
+@inject IJSRuntime Js;
+@implements IAsyncDisposable;
+@inherits Frame 
+
+<div @ref="@_triggerElement" class="@(MatchWidth ? "inline-block relative" : "") @Class" @onclick="@Clicked" @onfocusout="@FocusOff">
+    @DropdownTrigger
+
+<div @ref="@_dropdown" @onclick:stopPropagation="true" @onclick:preventDefault="true" @onfocusin="@SetDropdownFocus"
+     @onfocusout="@SetDropdownFocusOff" @onmousedown="@SetDropdownFocus"
+     class="dropdown1 @(MatchWidth ? "min-w-full" : "") divide-y divide-gray-100 rounded-lg shadow bg-white dark:bg-gray-700" style="@Style">
+    <ul class="py-2 w-full">
+        @if (Header is not null)
+        {
+            <li class="@(string.IsNullOrWhiteSpace(HeaderClass) ? "py-1 overflow-hidden rounded-t-lg" : @HeaderClass)">
+                @Header
+            </li>
+        }
+        <CascadingValue Value="this">
+            @DropdownItems
+        </CascadingValue>
+        @if (Footer is not null)
+        {
+            <li class="@(string.IsNullOrWhiteSpace(FooterClass) ? "py-1 overflow-hidden rounded-b-lg" : @FooterClass)">
+                @Footer
+            </li>
+        }
+    </ul>
+</div>
+</div>
+
+
+@code {
+    /// <summary>
+    /// The content item that will server as the trigger to click or hover
+    /// </summary>
+    [Parameter]
+    public RenderFragment? DropdownTrigger { get; set; }
+    
+    /// <summary>
+    /// The content of the dropdown
+    /// </summary>
+    [Parameter]
+    public RenderFragment? DropdownItems { get; set; }
+    
+    /// <summary>
+    /// The optional header content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Header { get; set; }
+    
+    /// <summary>
+    /// The optional footer content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    /// <summary>
+    /// Defines whether the DropdownItems width should be made to match the DropdownTrigger width
+    /// </summary>
+    [Parameter]
+    public bool MatchWidth { get; set; } = true;
+
+    /// <summary>
+    /// The placement of the dropdown <see cref="Positions"/>. The default is Auto.
+    /// </summary>
+    [Parameter]
+    public Positions Placement { get; set; } = Positions.Auto;
+    
+    /// <summary>
+    /// The current popper instance
+    /// </summary>
+    private IJSObjectReference? _currentInstance;
+
+    /// <summary>
+    /// The imported JavaScript
+    /// </summary>
+    private IJSObjectReference? _popperModule;
+
+    /// <summary>
+    /// The element which will trigger the dropdown visibility
+    /// </summary>
+    private ElementReference _triggerElement;
+
+    /// <summary>
+    /// The element which holds the dropdown content
+    /// </summary>
+    private ElementReference _dropdown;
+    
+    /// <summary>
+    /// The type of event that will trigger the tooltip visibility
+    /// </summary>
+    [Parameter]
+    public string Trigger { get; set; } = "click";
+
+    /// <summary>
+    /// Defines the delay for when the tooltip shows after hovering
+    /// </summary>
+    [Parameter]
+    public int Delay { get; set; } = 300;
+
+    /// <summary>
+    /// Class used to override the default header class
+    /// </summary>
+    public string HeaderClass { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Class used to override the default footer class
+    /// </summary>
+    public string FooterClass { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Helps keep the dropdown open when it is clicked on
+    /// </summary>
+    private bool _dropdownHasFocus = false;
+    
+    /// <summary>
+    /// Imports the required JS
+    /// </summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Js is not null)
+        {
+            _popperModule = await Js.InvokeAsync<IJSObjectReference>("import", "/_content/Flowbite.Blazor/js/DropdownInterop.js");
+            if (Trigger.Equals("hover", StringComparison.InvariantCultureIgnoreCase))
+            {
+                await _popperModule.InvokeVoidAsync("addPopper", _triggerElement, _dropdown, GetPlacement(), Trigger, Delay);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Disposes of the JS modules if needed
+    /// </summary>
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (_popperModule is not null)
+        {
+            await _popperModule.DisposeAsync();
+        }
+
+        if (_currentInstance is not null)
+        {
+            await _currentInstance.DisposeAsync();
+        }
+    }
+
+    /// <summary>
+    /// Handles the click event and if the trigger type is "click", it will show or hide the dropdown
+    /// </summary>
+    private async Task Clicked()
+    {
+        if (_currentInstance is not null)
+        {
+            await _popperModule.InvokeVoidAsync("hidePopper",  _dropdown, _currentInstance);
+            _currentInstance = null;
+        }
+        else
+        {
+            _currentInstance = await _popperModule.InvokeAsync<IJSObjectReference>(
+                "showPopper", _triggerElement, _dropdown, GetPlacement());
+        }
+    }
+    
+    /// <summary>
+    /// Handles closing when focus is lost from trigger
+    /// </summary>
+    private async Task FocusOff()
+    {
+        if (!_dropdownHasFocus)
+        {
+            await _popperModule.InvokeVoidAsync("hidePopper", _dropdown, _currentInstance);
+            _currentInstance = null;
+        }
+    }
+    
+    /// <summary>
+    /// Helps keep dropdown open when it is clicked on
+    /// </summary>
+    private void SetDropdownFocus()
+    {
+        _dropdownHasFocus = true;
+    }
+    
+    /// <summary>
+    /// Helps close dropdown when it loses focus
+    /// </summary>
+    private async void SetDropdownFocusOff()
+    {
+        _dropdownHasFocus = false;
+        await FocusOff();
+    }
+
+    /// <summary>
+    /// Gets the popperjs text for placement
+    /// </summary>
+    private string GetPlacement()
+    {
+        switch (Placement)
+        {
+            case Positions.BottomEnd:
+                return "bottom-end";
+            case Positions.BottomStart:
+                return "bottom-start";
+            case Positions.TopStart:
+                return "top-start";
+            case Positions.TopEnd:
+                return "top-end";
+            case Positions.RightStart:
+                return "right-start";
+            case Positions.RightEnd:
+                return "right-end";
+            case Positions.LeftEnd:
+                return "left-end";
+            case Positions.LeftStart:
+                return "left-start";
+            default:
+                return Placement.ToString().ToLower();
+        }
+    }
+}

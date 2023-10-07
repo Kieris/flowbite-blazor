@@ -1,0 +1,205 @@
+@using Microsoft.JSInterop;
+@using Flowbite.Blazor.SharedEnums
+@inject IJSRuntime Js;
+@implements IAsyncDisposable;
+@inherits Frame 
+
+<div @ref="@_triggerElement" class="tooltip-trigger-element" @onclick="@Clicked" @onfocusout="@FocusOff">
+    @ChildContent
+</div>
+<div @ref="@_tooltip" role="tooltip"
+     class="tooltip1 @GetClass()"
+     style="@Style">    
+    <span>@Text</span>
+    @if (ShowArrow)
+    {
+        <div @ref="@_arrow" class="tooltip1-arrow"></div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// The elements which make up the trigger content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// The text for the tooltip
+    /// </summary>
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// The type of event that will trigger the tooltip visibility
+    /// </summary>
+    [Parameter]
+    public string Trigger { get; set; } = "hover";
+
+    /// <summary>
+    /// Defines the delay for when the tooltip shows after hovering
+    /// </summary>
+    [Parameter]
+    public int Delay { get; set; } = 400;
+
+    /// <summary>
+    /// Defines the color for the tooltip
+    /// </summary>
+    [Parameter]
+    public TooltipTheme Theme { get; set; } = TooltipTheme.Auto;
+
+    /// <summary>
+    /// The placement of the tooltip <see cref="Positions"/>. The default is Auto.
+    /// </summary>
+    [Parameter]
+    public Positions Placement { get; set; } = Positions.Auto;
+
+    /// <summary>
+    /// Defines whether to show the tooltip arrow
+    /// </summary>
+    [Parameter]
+    public bool ShowArrow { get; set; } = true;
+    
+    /// <summary>
+    /// The current popper instance
+    /// </summary>
+    private IJSObjectReference? _currentInstance;
+
+    /// <summary>
+    /// The imported JavaScript
+    /// </summary>
+    private IJSObjectReference? _popperModule;
+
+    /// <summary>
+    /// The element which will trigger the tooltip visibility
+    /// </summary>
+    private ElementReference _triggerElement;
+
+    /// <summary>
+    /// The element which holds the tooltip
+    /// </summary>
+    private ElementReference _tooltip;
+
+    /// <summary>
+    /// The element for the tooltip arrow
+    /// </summary>
+    private ElementReference _arrow;
+
+    /// <summary>
+    /// Imports the required JS and if trigger type is "hover", it will create the popper instance
+    /// </summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Js is not null)
+        {
+            _popperModule = await Js.InvokeAsync<IJSObjectReference>("import", "/_content/Flowbite.Blazor/js/PopperInterop.js");
+            {
+                if (Trigger.Equals("hover", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    await _popperModule.InvokeVoidAsync("addPopper", _triggerElement, _tooltip, ShowArrow ? _arrow : null, 
+                        GetPlacement(), Trigger, Delay);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Disposes of the JS modules if needed
+    /// </summary>
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (_popperModule is not null)
+        {
+            await _popperModule.DisposeAsync();
+        }
+
+        if (_currentInstance is not null)
+        {
+            await _currentInstance.DisposeAsync();
+        }
+    }
+
+    /// <summary>
+    /// Handles the click event and if the trigger type is "click", it will show or hide the tooltip
+    /// </summary>
+    private async void Clicked()
+    {
+        if (Trigger.Equals("click", StringComparison.InvariantCultureIgnoreCase) && _popperModule is not null)
+        {
+            if (_currentInstance is not null)
+            {
+                await _popperModule.InvokeVoidAsync("hidePopper", ShowArrow ? _arrow : null, _tooltip, _currentInstance);
+                _currentInstance = null;
+            }
+            else
+            {
+                _currentInstance = await _popperModule.InvokeAsync<IJSObjectReference>(
+                    "showPopper", _triggerElement, _tooltip, ShowArrow ? _arrow : null, 
+                    GetPlacement());
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Handles closing when focus is lost from trigger
+    /// </summary>
+    private async Task FocusOff()
+    {
+        await _popperModule.InvokeVoidAsync("hidePopper", ShowArrow ? _arrow : null, _tooltip, _currentInstance);
+        _currentInstance = null;
+    }
+
+    /// <summary>
+    /// Get the style classes for the tooltip
+    /// </summary>
+    private string GetClass()
+    {
+        if (string.IsNullOrWhiteSpace(Class))
+        {
+            if (Theme == TooltipTheme.Auto)
+            {
+                return "tooltip-base tooltip-auto";
+            }
+            else if (Theme == TooltipTheme.Light)
+            {
+                return "tooltip-base tooltip-light";
+            }
+            else
+            {
+                return "tooltip-base tooltip-dark";
+            }
+        }
+        else
+        {
+            return Class;
+        }
+    }
+    
+    /// <summary>
+    /// Gets the popperjs text for placement
+    /// </summary>
+    private string GetPlacement()
+    {
+        switch (Placement)
+        {
+            case Positions.BottomEnd:
+                return "bottom-end";
+            case Positions.BottomStart:
+                return "bottom-start";
+            case Positions.TopStart:
+                return "top-start";
+            case Positions.TopEnd:
+                return "top-end";
+            case Positions.RightStart:
+                return "right-start";
+            case Positions.RightEnd:
+                return "right-end";
+            case Positions.LeftEnd:
+                return "left-end";
+            case Positions.LeftStart:
+                return "left-start";
+            default:
+                return Placement.ToString().ToLower();
+        }
+    }
+}

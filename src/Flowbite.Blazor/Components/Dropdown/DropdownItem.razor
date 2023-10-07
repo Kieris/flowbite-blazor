@@ -1,0 +1,37 @@
+@inherits Frame
+
+<li>
+@if (!string.IsNullOrWhiteSpace(Href))
+{
+    <NavLink href="@Href" class="@(string.IsNullOrWhiteSpace(Class) ? "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full" : Class)">
+        @ChildContent
+    </NavLink>
+}
+else
+{
+    <span class="@(string.IsNullOrWhiteSpace(Class) ? "block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full" : Class) 
+        @(Nested ? "pl-4" : "px-4")">
+        @ChildContent
+    </span>
+}
+</li>
+
+@code {
+    /// <summary>
+    /// The content of the DropdownItem
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// The optional href url of the item
+    /// </summary>
+    [Parameter]
+    public string Href { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Defines whether the item is a nested Dropdown so the padding can be fixed
+    /// </summary>
+    [Parameter]
+    public bool Nested { get; set; }
+}
