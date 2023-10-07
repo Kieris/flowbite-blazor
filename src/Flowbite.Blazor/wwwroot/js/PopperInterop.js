@@ -2,24 +2,40 @@
 let timeoutId;
 
 export function addPopper(popcorn, ttip, arrow, place, trigger, delay) {
-    let popperInstance = Popper.createPopper(popcorn, ttip, {
-        modifiers: [
-            {
-                name: 'arrow',
-                options: {
-                    element: arrow,
+    let popperInstance;
+    if(arrow) {
+        popperInstance = Popper.createPopper(popcorn, ttip, {
+            modifiers: [
+                {
+                    name: 'arrow',
+                    options: {
+                        element: arrow,
+                    },
                 },
-            },
-            {
-                name: 'offset',
-                options: {
-                    offset: [0, 8]
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8]
+                    }
                 }
-            }
-        ],
-        placement: place,
-        triggerType: "hover"
-    });
+            ],
+            placement: place,
+            triggerType: "hover"
+        });
+    } else {
+        popperInstance = Popper.createPopper(popcorn, ttip, {
+            modifiers: [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8]
+                    }
+                }
+            ],
+            placement: place,
+            triggerType: "hover"
+        });
+    }
 
     function show() {
         timeoutId = setTimeout(() => {
@@ -63,10 +79,6 @@ export function addPopper(popcorn, ttip, arrow, place, trigger, delay) {
     });
 };
 
-
-
-
-
 //create popper instance
 function createInstance(popperButton, popperPopup, place) {
     const popperInstance = Popper.createPopper(popperButton, popperPopup, {
@@ -102,14 +114,19 @@ function destroyInstance(popperInstance) {
 //show and create popper
 export function showPopper(popperButton, popperPopup, popperArrow, place) {
     popperPopup.setAttribute("data-show", "");
-    popperArrow.setAttribute("data-popper-arrow", "");
+    if(popperArrow) {
+        popperArrow.setAttribute("data-popper-arrow", "");
+    }    
     return createInstance(popperButton, popperPopup, place);
 }
 
 //hide and destroy popper instance
 export function hidePopper(popperArrow, popperPopup, popperInstance) {
     popperPopup.removeAttribute("data-show");
-    popperArrow.removeAttribute("data-popper-arrow");
+    if(popperArrow) {
+        popperArrow.removeAttribute("data-popper-arrow");
+    }
+    
     destroyInstance(popperInstance);
 }
 

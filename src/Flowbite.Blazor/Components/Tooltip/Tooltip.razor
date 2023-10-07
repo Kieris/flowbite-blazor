@@ -1,19 +1,20 @@
 @using Microsoft.JSInterop;
+@using Flowbite.Blazor.SharedEnums
 @inject IJSRuntime Js;
 @implements IAsyncDisposable;
 @inherits Frame 
 
-<div @ref="@_triggerElement" class="tooltip-trigger-element" @onclick="@Clicked">
+<div @ref="@_triggerElement" class="tooltip-trigger-element" @onclick="@Clicked" @onfocusout="@FocusOff">
     @ChildContent
 </div>
 <div @ref="@_tooltip" role="tooltip"
-     class="tooltip1 px-3 py-1 text-sm font-medium rounded-lg shadow-sm 
-    @(Theme == TooltipTheme.Auto ? "text-white bg-gray-900 dark:bg-gray-200 dark:text-gray-800": 
-        Theme == TooltipTheme.Dark ? "text-white bg-gray-900" : "text-gray-800 bg-gray-200") @Class"
+     class="tooltip1 @GetClass()"
      style="@Style">    
-    
     <span>@Text</span>
-    <div @ref="@_arrow" class="tooltip1-arrow"></div>
+    @if (ShowArrow)
+    {
+        <div @ref="@_arrow" class="tooltip1-arrow"></div>
+    }
 </div>
 
 @code {
@@ -39,7 +40,7 @@
     /// Defines the delay for when the tooltip shows after hovering
     /// </summary>
     [Parameter]
-    public int Delay { get; set; } = 500;
+    public int Delay { get; set; } = 400;
 
     /// <summary>
     /// Defines the color for the tooltip
@@ -48,11 +49,20 @@
     public TooltipTheme Theme { get; set; } = TooltipTheme.Auto;
 
     /// <summary>
-    /// The placement of the tooltip (auto, bottom, top, left, right)
+    /// The placement of the tooltip <see cref="Positions"/>. The default is Auto.
     /// </summary>
     [Parameter]
-    public string Placement { get; set; } = "left";
+    public Positions Placement { get; set; } = Positions.Auto;
 
+    /// <summary>
+    /// Defines whether to show the tooltip arrow
+    /// </summary>
+    [Parameter]
+    public bool ShowArrow { get; set; } = true;
+    
+    /// <summary>
+    /// The current popper instance
+    /// </summary>
     private IJSObjectReference? _currentInstance;
 
     /// <summary>
@@ -86,7 +96,8 @@
             {
                 if (Trigger.Equals("hover", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    await _popperModule.InvokeVoidAsync("addPopper", _triggerElement, _tooltip, _arrow, Placement, Trigger, Delay);
+                    await _popperModule.InvokeVoidAsync("addPopper", _triggerElement, _tooltip, ShowArrow ? _arrow : null, 
+                        GetPlacement(), Trigger, Delay);
                 }
             }
         }
@@ -117,14 +128,78 @@
         {
             if (_currentInstance is not null)
             {
-                await _popperModule.InvokeVoidAsync("hidePopper", _arrow, _tooltip, _currentInstance);
+                await _popperModule.InvokeVoidAsync("hidePopper", ShowArrow ? _arrow : null, _tooltip, _currentInstance);
                 _currentInstance = null;
             }
             else
             {
                 _currentInstance = await _popperModule.InvokeAsync<IJSObjectReference>(
-                    "showPopper", _triggerElement, _tooltip, _arrow, Placement);
+                    "showPopper", _triggerElement, _tooltip, ShowArrow ? _arrow : null, 
+                    GetPlacement());
             }
+        }
+    }
+    
+    /// <summary>
+    /// Handles closing when focus is lost from trigger
+    /// </summary>
+    private async Task FocusOff()
+    {
+        await _popperModule.InvokeVoidAsync("hidePopper", ShowArrow ? _arrow : null, _tooltip, _currentInstance);
+        _currentInstance = null;
+    }
+
+    /// <summary>
+    /// Get the style classes for the tooltip
+    /// </summary>
+    private string GetClass()
+    {
+        if (string.IsNullOrWhiteSpace(Class))
+        {
+            if (Theme == TooltipTheme.Auto)
+            {
+                return "tooltip-base tooltip-auto";
+            }
+            else if (Theme == TooltipTheme.Light)
+            {
+                return "tooltip-base tooltip-light";
+            }
+            else
+            {
+                return "tooltip-base tooltip-dark";
+            }
+        }
+        else
+        {
+            return Class;
+        }
+    }
+    
+    /// <summary>
+    /// Gets the popperjs text for placement
+    /// </summary>
+    private string GetPlacement()
+    {
+        switch (Placement)
+        {
+            case Positions.BottomEnd:
+                return "bottom-end";
+            case Positions.BottomStart:
+                return "bottom-start";
+            case Positions.TopStart:
+                return "top-start";
+            case Positions.TopEnd:
+                return "top-end";
+            case Positions.RightStart:
+                return "right-start";
+            case Positions.RightEnd:
+                return "right-end";
+            case Positions.LeftEnd:
+                return "left-end";
+            case Positions.LeftStart:
+                return "left-start";
+            default:
+                return Placement.ToString().ToLower();
         }
     }
 }

@@ -3,7 +3,7 @@
 @using System.ComponentModel
 
 <li class="@Class" style="@Style">
-  <button @onclick="HandleDropdown" type="button" 
+  <button @onclick="@HandleDropdown" type="button" 
           class="flex items-center p-2 w-full text-base font-normal rounded-lg transition duration-75 group @(string.IsNullOrWhiteSpace(Parent?.InactiveClass) ? 
                    "text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" 
                    : Parent.InactiveClass)" aria-controls="sidebar-dropdown">
@@ -86,12 +86,10 @@
   /// </summary>
   private bool _isOpen;
 
-  private bool _hide = true;
-
   /// <summary>
   /// Toggle the state of the dropdown
   /// </summary>
-  private async void HandleDropdown()
+  private void HandleDropdown()
   {
     _isOpen = !_isOpen;
   }

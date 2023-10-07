@@ -1,3 +1,18 @@
+.tooltip-base {
+    @apply px-3 py-2 text-sm font-medium rounded-lg shadow-sm;
+}
+
+.tooltip-auto {
+    @apply text-white bg-gray-900 dark:bg-gray-700;
+}
+
+.tooltip-dark {
+    @apply text-white bg-gray-700;
+}
+
+.tooltip-light {
+    @apply text-gray-900 border-gray-200 bg-gray-200;
+}
 .tooltip-trigger-element {
     width: fit-content;
 }
