@@ -1,0 +1,280 @@
+@inherits Frame
+<div class="h-full w-full font-medium">
+    @if (TabsToSelectOnSmall)
+    {
+        <!--For small screens-->
+        <div class="sm:hidden">
+            <label for="tabs" class="sr-only">Select tab</label>
+            <select id="tabs" @onchange="SelectionChanged" class="tabs-select">
+                @foreach (TabItem TabItem in Pages)
+                {
+                    <option>
+                        @TabItem.Title
+                    </option>
+                }
+            </select>
+        </div>
+    }
+    @if (TabStyle == TabStyles.Pill)
+    {
+        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-pill">
+            @foreach (TabItem tabItem in Pages)
+            {
+                <li class="mr-2">
+                    <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="@GetButtonClass(tabItem) inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "py-3 px-4" : BtnSizeClass) rounded-lg">
+                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+    else if (TabStyle == TabStyles.Underline)
+    {
+        <div class="tabs-base tabs-underline">
+            <ul class="tabs-underline-ul  @(TabsToSelectOnSmall ? "tabs-hidden" : "flex")">
+                @foreach (TabItem tabItem in Pages)
+                {
+                    <li class="mr-2">
+                        <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) rounded-t-lg border-b-2 @GetButtonClass(tabItem)">
+                            @if (tabItem.IconTitle is not null)
+                            {
+                                @tabItem.IconTitle
+                            }
+                            else
+                            {
+                                @tabItem.Title
+                            }
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else if (TabStyle == TabStyles.Full)
+    {
+        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-full">
+            @foreach (TabItem tabItem in Pages)
+            {
+                <li class="w-full">
+                    <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page"
+                            class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) w-full @GetButtonClass(tabItem) @(tabItem == Pages.First() ? "rounded-l-lg" : "") @(tabItem == Pages.Last() ? "rounded-r-lg" : "")">
+                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-basic">
+            @foreach (TabItem tabItem in Pages)
+            {
+                <li class="mr-2">
+                    <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) @GetButtonClass(tabItem) rounded-t-lg">
+                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+    @if (UseDivider)
+    {
+        <div class="h-px my-2 bg-neutral-200 dark:bg-neutral-700"></div>
+    }
+    <div class="w-full h-full">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</div>
+
+
+
+@code {
+    /// <summary>
+    /// The content TabItems
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Defines the style of the tabs based on <see cref="TabStyles"/>
+    /// </summary>
+    [Parameter]
+    public TabStyles TabStyle { get; set; } = TabStyles.None;
+
+    /// <summary>
+    /// Defines a class to overwrite the default disabled class
+    /// </summary>
+    [Parameter]
+    public string DisabledClass { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Defines whether to use a border between tab buttons and content
+    /// </summary>
+    [Parameter]
+    public bool UseDivider { get; set; }
+
+    [Parameter]
+    public bool TabsToSelectOnSmall { get; set; } = true;
+    
+    /// <summary>
+    /// Allows defining the padding and text size of tab buttons
+    /// </summmary>
+    [Parameter]
+    public string BtnSizeClass { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Triggers when the tab is changed and sends the title of the tab
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> TabChanged { get; set; }
+
+    /// <summary>
+    /// Defines the currently active page
+    /// </summary>
+    public TabItem ActivePage { get; set; }
+
+    /// <summary>
+    /// The collection of TabItems inside ChildContent
+    /// </summary>
+    private List<TabItem> Pages = new();
+
+    /// <summary>
+    /// Allows children TabItems to add themselves to parent and sets initially active page
+    /// </summary>
+    internal void AddPage(TabItem tabItem){
+        TabItem found = Pages.Find(x => x.Title == tabItem.Title);      
+
+        // prevent any tabs being added twice
+        if(found != null)
+        {
+            Pages.Remove(found);
+        } 
+
+        Pages.Add(tabItem);
+        if(Pages.Count == 1)
+        {
+            ActivePage = tabItem;
+        }
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Sets the class of the tab buttons based on the style and whether it is active, disabled, or inactive.
+    /// </summary>
+    private string GetButtonClass(TabItem page)
+    {
+        // for frame
+        page.SetActive(true);
+        if(page == ActivePage)
+        {
+            if(!string.IsNullOrEmpty(ActiveClass))
+            {
+                return ActiveClass;
+            }
+            else 
+            {
+                switch(TabStyle)
+                {
+                    case TabStyles.Underline: return "text-primary-600 border-primary-600 active dark:text-primary-500 dark:border-primary-500";
+                    case TabStyles.Pill: return "text-white bg-primary-600 active";
+                    case TabStyles.Full: 
+                        return "text-neutral-900 bg-neutral-100 active focus:ring-4 focus:ring-primary-300 active focus:outline-none dark:bg-neutral-700 dark:text-white";
+                    default: return "active text-primary-600 bg-neutral-100 dark:bg-neutral-800 dark:text-primary-500";
+                }
+            }
+        }
+        else if (page.Disabled)
+        {
+            // for frame
+            page.SetActive(false);
+            if(!string.IsNullOrEmpty(DisabledClass))
+            {
+                return DisabledClass;
+            }
+            else 
+            {
+                switch(TabStyle)
+                {
+                    case TabStyles.Underline: return "border-transparent tabs-disabled";
+                    default: return "tabs-disabled";
+                }
+            }
+        }
+        else
+        {
+            // for frame
+            page.SetActive(false);
+            if(!string.IsNullOrEmpty(InactiveClass))
+            {
+                return InactiveClass;
+            }
+            else
+            {
+                switch(TabStyle)
+                {
+                    case TabStyles.Underline: return "border-transparent hover:text-neutral-600 hover:border-neutral-300 dark:hover:text-neutral-300";
+                    case TabStyles.Pill: return "hover:text-neutral-900 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-white";
+                    case TabStyles.Full:
+                        return "bg-white hover:text-neutral-700 hover:bg-neutral-50 focus:ring-4 focus:ring-primary-300 focus:outline-none dark:hover:text-white dark:bg-neutral-800 dark:hover:bg-neutral-700";
+                    default: return "hover:text-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-800 dark:hover:text-neutral-300";
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the active page
+    /// </summary>
+    private void ActivatePage(TabItem page)
+    {
+        if(page != ActivePage && !page.Disabled)
+        {
+            TabChanged.InvokeAsync(page.Title);
+            ActivePage = page;
+        }  
+    }
+
+    /// <summary>
+    /// Set the current tab by tab title
+    /// </summary>
+    public void ActivateByTitle(string title)
+    {
+        TabItem page = Pages.Find(x => x.Title == title);
+        
+        if (page is not null)
+        {
+            ActivatePage(page);
+        }
+    }
+    
+    /// <summary>
+    /// Set the current tab by index
+    /// </summary>
+    public void ActivateByIndex(int index)
+    {
+        try
+        {
+            TabItem page = Pages[index];
+            ActivatePage(page);
+        }
+        catch
+        {
+            Console.WriteLine("No tab with that index.");
+        }
+    }
+
+    /// <summary>
+    /// Sets the current tab when the screen size is small
+    /// </summary>
+    private void SelectionChanged(ChangeEventArgs e)
+    {
+        string selected = e.Value?.ToString()!;
+
+        TabItem page = Pages.Find(x => x.Title == selected)!;
+      
+        ActivatePage(page);
+    }
+}
+

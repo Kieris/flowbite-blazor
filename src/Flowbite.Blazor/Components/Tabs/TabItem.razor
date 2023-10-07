@@ -1,0 +1,51 @@
+@inherits Frame
+<div class="h-full w-full py-0.5 @Class" style="@Style">
+    @if(Parent?.ActivePage == this) 
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// The TabControl this TabItem is inside
+    /// </summary>
+    [CascadingParameter]
+    private TabControl? Parent { get; set;}
+
+    /// <summary>
+    /// The content of the TabItem
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// optional: Defines an element with icon and title that will be used for tab button
+    /// </summary>
+    [Parameter]
+    public RenderFragment? IconTitle { get; set; }
+
+    /// <summary>
+    /// The title of the TabItem which will show in tab button
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Defines whether this TabItem is disabled
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// Initializes the component and adds itself to parent TabItem collection
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        if(Parent is null)
+        {
+            throw new ArgumentNullException(nameof(Parent), "TabPage must be inside of a TabControl");
+        }    
+        Parent.AddPage(this);
+    }
+}
