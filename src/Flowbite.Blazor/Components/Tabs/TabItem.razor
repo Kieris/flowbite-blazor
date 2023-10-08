@@ -36,6 +36,9 @@
     /// </summary>
     [Parameter]
     public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
     
     /// <summary>
     /// Initializes the component and adds itself to parent TabItem collection
@@ -47,5 +50,9 @@
             throw new ArgumentNullException(nameof(Parent), "TabPage must be inside of a TabControl");
         }    
         Parent.AddPage(this);
+        if (Attributes.TryGetValue("href", out var attribute))
+        {
+            Href = attribute.ToString()!;
+        }
     }
 }

@@ -1,4 +1,6 @@
 @inherits Frame
+@inject NavigationManager NavManager
+
 <div class="h-full w-full font-medium">
     @if (TabsToSelectOnSmall)
     {
@@ -143,7 +145,7 @@
     /// <summary>
     /// Allows children TabItems to add themselves to parent and sets initially active page
     /// </summary>
-    internal void AddPage(TabItem tabItem){
+    public void AddPage(TabItem tabItem){
         TabItem found = Pages.Find(x => x.Title == tabItem.Title);      
 
         // prevent any tabs being added twice
@@ -233,6 +235,11 @@
         {
             TabChanged.InvokeAsync(page.Title);
             ActivePage = page;
+
+            if (page.Href is not null)
+            {
+                NavManager.NavigateTo(page.Href);
+            }
         }  
     }
 
