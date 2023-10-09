@@ -1,0 +1,52 @@
+﻿
+<div role="status" class="@(Animate ? "animate-pulse" : "") @GetSizeClass() @Class">
+  <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-1/2 mb-4" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 w-9/12 mb-2.5" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 mb-2.5" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 mb-2.5" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 w-10/12 mb-2.5" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 w-11/12 mb-2.5" />
+  <div class="h-2 bg-neutral-200 rounded-full dark:bg-neutral-700 w-9/12" />
+  <span class="sr-only">Loading...</span>
+</div>
+
+@code {
+    /// <summary>
+    /// Defines classes to add to the top element
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    /// <summary>
+    /// Defines the size of the skeleton
+    /// </summary>
+    [Parameter]
+    public SkSize Size { get; set; } = SkSize.Sm;
+
+    /// <summary>
+    /// Defines whether to animate the skeleton
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
+
+    /// <summary>
+    /// Retrieves the correct string for size class
+    /// </summary>
+    private string GetSizeClass()
+    {
+        switch (Size)
+        {
+            case SkSize.Sm:
+                return "max-w-sm";
+            case SkSize.Md:
+                return "max-w-md";
+            case SkSize.Lg:
+                return "max-w-lg";
+            case SkSize.Xl:
+                return "max-w-xl";
+            case SkSize.Xxl:
+                return "max-w-2xl";
+            default: return string.Empty;
+        }
+    }
+}

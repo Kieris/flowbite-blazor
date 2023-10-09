@@ -1,0 +1,74 @@
+﻿<div role="status" class="space-y-2.5 @(Animate ? "animate-pulse" : "") @GetSizeClass() @Class">
+    <div class="flex items-center space-x-2 w-full">
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-32" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-24" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+    </div>
+    <div class="flex items-center space-x-2 w-11/12">
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-full" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-24" />
+    </div>
+    <div class="flex items-center space-x-2 w-9/12">
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-80" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+    </div>
+    <div class="flex items-center space-x-2 w-11/12">
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-full" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-24" />
+    </div>
+    <div class="flex items-center space-x-2 w-10/12">
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-32" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-24" />
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-full" />
+    </div>
+    <div class="flex items-center space-x-2 w-8/12">
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+        <div class="h-2.5 bg-neutral-200 rounded-full dark:bg-neutral-700 w-80" />
+        <div class="h-2.5 bg-neutral-300 rounded-full dark:bg-neutral-600 w-full" />
+    </div>
+    <span class="sr-only">Loading...</span>
+</div>
+
+@code {
+    /// <summary>
+    /// Defines classes to add to the top element
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    /// <summary>
+    /// Defines the size of the skeleton
+    /// </summary>
+    [Parameter]
+    public SkSize Size { get; set; } = SkSize.Sm;
+
+    /// <summary>
+    /// Defines whether to animate the skeleton
+    /// </summary>
+    [Parameter]
+    public bool Animate { get; set; } = true;
+
+    /// <summary>
+    /// Retrieves the correct string for size class
+    /// </summary>
+    private string GetSizeClass()
+    {
+        switch (Size)
+        {
+            case SkSize.Sm:
+                return "max-w-sm";
+            case SkSize.Md:
+                return "max-w-md";
+            case SkSize.Lg:
+                return "max-w-lg";
+            case SkSize.Xl:
+                return "max-w-xl";
+            case SkSize.Xxl:
+                return "max-w-2xl";
+            default: return string.Empty;
+        }
+    }
+}
