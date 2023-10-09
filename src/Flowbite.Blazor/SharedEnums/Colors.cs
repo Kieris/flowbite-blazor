@@ -5,13 +5,14 @@
 /// </summary>
 public enum Colors
 {
-    Default,
+    Primary,
     Alternative,
-    Dark,
+    Neutral,
     Light,
-    Red,
-    Green,
-    Yellow,
-    Purple,
+    Danger,
+    Success,
+    Warning,
+    Supporting,
+    Accent,
     None
 }

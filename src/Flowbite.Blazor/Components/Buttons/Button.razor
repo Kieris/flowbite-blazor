@@ -13,7 +13,7 @@
     /// Defines the color for the button based on <see cref="Colors"/> enum
     /// </summary>
     [Parameter]
-    public Colors Color { get; set; } = Colors.Default;
+    public Colors Color { get; set; } = Colors.Primary;
 
     /// <summary>
     /// Initializes the button and sets the color classes based on <see cref="Color"/>
@@ -25,7 +25,7 @@
     }
 
     /// <summary>
-    /// Sets the color class based on <see cref="Outline"/> and <see cref="Color"/>
+    /// Sets the color class based on <see cref="ButtonBase.Outline"/> and <see cref="Color"/>
     /// </summary>
     private string GetColorClass()
     {
@@ -33,21 +33,21 @@
         {
             switch (Color)
             {
-                case Colors.Default:
+                case Colors.Primary:
                     return "btn-default";
                 case Colors.Alternative:
                     return "btn-alternative";
-                case Colors.Dark:
+                case Colors.Neutral:
                     return "btn-dark";
                 case Colors.Light:
                     return "btn-light";
-                case Colors.Green:
+                case Colors.Success:
                     return "btn-green";
-                case Colors.Red:
+                case Colors.Danger:
                     return "btn-red";
-                case Colors.Yellow:
+                case Colors.Warning:
                     return "btn-yellow";
-                case Colors.Purple:
+                case Colors.Supporting:
                     return "btn-purple";
                 default:
                     return string.Empty;
@@ -57,21 +57,21 @@
         {
             switch (Color)
             {
-                case Colors.Default:
+                case Colors.Primary:
                     return "btn-ol-default";
                 case Colors.Alternative:
                     return "btn-ol-alternative";
-                case Colors.Dark:
+                case Colors.Neutral:
                     return "btn-ol-dark";
                 case Colors.Light:
                     return "btn-ol-light";
-                case Colors.Green:
+                case Colors.Success:
                     return "btn-ol-green";
-                case Colors.Red:
+                case Colors.Danger:
                     return "btn-ol-red";
-                case Colors.Yellow:
+                case Colors.Warning:
                     return "btn-ol-yellow";
-                case Colors.Purple:
+                case Colors.Supporting:
                     return "btn-ol-purple";
                 default:
                     return string.Empty;
