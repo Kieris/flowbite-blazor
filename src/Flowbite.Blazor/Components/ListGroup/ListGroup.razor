@@ -1,0 +1,88 @@
+﻿@using System.Dynamic
+
+<ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white @Class" style="@Style">
+    <CascadingValue Value="this">
+        @if (Items is null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            @foreach (var item in Items)
+            {
+                <ListGroupItem Item="@item">@item.Name</ListGroupItem>
+            }
+        }
+    </CascadingValue>
+</ul>
+
+@code {
+    /// <summary>
+    /// The content of the ListGroup which should be one or more ListGroupItems
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// A List of ListGroupItemModel that will define the ListGroupItems inside the ListGroup
+    /// </summary>
+    [Parameter]
+    public List<ListGroupItemModel>? Items { get; set; }
+
+    /// <summary>
+    /// Keeps track of the ListGroupItem RenderFragments
+    /// </summary>
+    private List<ListGroupItem> _listItems = new();
+    
+    /// <summary>
+    /// Callback for onclick event which will send the ListGroupItemModel. If Items list is not defined,
+    /// the Name value will be set to the ListGroupItem content as a string.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ListGroupItemModel> OnClick { get; set; }
+
+    /// <summary>
+    /// Defines extra classes to add to the component
+    /// </summary>
+    [Parameter]
+    public string? Class { get; set; }
+    
+    /// <summary>
+    /// Defines styles to add to the component
+    /// </summary>
+    [Parameter]
+    public string? Style { get; set; }
+    
+    /// <summary>
+    /// Defines whether the ListGroupItems will include hover, focus, and active styles
+    /// </summary>
+    [Parameter]
+    public bool Active { get; set; }
+    
+    /// <summary>
+    /// Used by ListGroupItem to pass the clicked item with the OnClick callback
+    /// </summary>
+    internal async void ItemClicked(ListGroupItemModel item)
+    {
+        await OnClick.InvokeAsync(item);
+    }
+    
+    /// <summary>
+    /// Used to add ListGroupItems to the parent ListGroup for tracking
+    /// </summary>
+    public void AddListItem(ListGroupItem item) => _listItems.Add(item);
+
+    /// <summary>
+    /// Looks for the current/active item and resets if for a new item to become current/active 
+    /// </summary>
+    public void SetItemsNormal()
+    {
+        var itemList = _listItems.FindAll(x => x.Current == true);
+
+        foreach(var item in itemList)
+        {
+            item.SetState("normal");
+            StateHasChanged();
+        }
+    }
+}

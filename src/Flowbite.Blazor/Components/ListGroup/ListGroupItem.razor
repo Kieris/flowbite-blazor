@@ -1,0 +1,200 @@
+﻿@using System.Reflection.Metadata
+@inherits Frame
+@if (!Active)
+{
+  <li class="@_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") @Class" style="@Style" >
+        @if (_useItem)
+        {
+            @Item.Name
+        }
+        else
+        {
+            @ChildContent
+        }
+    </li>
+}
+else if (Href is not null)
+{
+    <a href="@Href" class="block @_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") 
+                               @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @Class" style="@Style" @onclick="HandleClick">
+        @if (_useItem)
+        {
+            @Item.Name
+        }
+        else
+        {
+            @ChildContent
+        }
+    </a>
+}
+else
+{
+    <li role="button" class="text-left @_itemDefaultClass @(_state == "disabled" ? "cursor-not-allowed" : "") 
+    @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @_states[_state] @Class" style="@Style" disabled="@Disabled" @onclick="HandleClick">
+      @if (_useItem)
+      {
+          @Item.Name
+      }
+      else
+      {
+          @ChildContent
+      }
+    </li>
+}
+
+@code {
+    /// <summary>
+    /// The content of the ListGroupItem
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// The ListGroup parent
+    /// </summary>
+    [CascadingParameter]
+    public ListGroup? Parent { get; set; }
+    
+    /// <summary>
+    /// The optional url to make items links for when ListGroup is Active
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+    
+    /// <summary>
+    /// If true, the ListGroupItem will be disabled.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// If true, the ListGroupItem is the current/active/selected item
+    /// </summary>
+    [Parameter]
+    public bool Current { get; set; }
+    
+    /// <summary>
+    /// Defines required parameters for the ListGroupItem. Not required for individual items but is when using <see cref="ListGroup.Items"/> to define items.
+    /// </summary>
+    [Parameter]
+    public ListGroupItemModel? Item { get; set; }
+
+    /// <summary>
+    /// Defines whether content has been defined for the ListGroupItem or <see cref="ListGroup.Items"/> was used.
+    /// </summary>
+    private bool _useItem;
+    /// <summary>
+    /// The possible states and their classes
+    /// </summary>
+    private Dictionary<string, string> _states = new();
+    /// <summary>
+    /// The default state
+    /// </summary>
+    private string _state = "normal";
+    /// <summary>
+    /// The class for when the item is in the current state
+    /// </summary>
+    string _currentClass = "text-white bg-primary-700 dark:text-white dark:bg-gray-800";
+    /// <summary>
+    /// The class for when the item is in the normal state
+    /// </summary>
+    string _normalClass = "";
+    /// <summary>
+    /// The class for when the item is in the disabled state
+    /// </summary>
+    string _disabledClass = "text-gray-700 bg-gray-100 dark:bg-gray-600 dark:text-gray-400 cursor-not-allowed";
+    /// <summary>
+    /// The class for when the item is in focus in an Active <see cref="ListGroup"/>
+    /// </summary>
+    string _focusClass = "focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white";
+    /// <summary>
+    /// The class for when the item is hovered in an Active <see cref="ListGroup"/>
+    /// </summary>
+    string _hoverClass = "hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white";
+    /// <summary>
+    /// The class for all items
+    /// </summary>
+    string _itemDefaultClass = "py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg";
+
+    /// <summary>
+    /// Sets the <see cref="_states"/> dict, <see cref="Item"/>, adds itself to parent and checks to enable Active 
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _states =  new (){ ["current"] = _currentClass, ["normal"]= _normalClass, ["disabled"] = _disabledClass };
+        if (Item is null)
+        {
+            Item = new ListGroupItemModel()
+            {
+                Current = Current,
+                Disabled = Disabled,
+                Href = Href,
+                Name = ChildContent is null ? "Unknown" : ChildContent.ToString()!
+            };
+        }
+        else
+        {
+            _useItem = true;
+            Current = Item.Current;
+            Disabled = Item.Disabled;
+            Href = Item.Href;
+        }
+        
+        if (Disabled)
+        {
+            _state = "disabled";
+        }
+        else if (Current)
+        {
+            _state = "current";
+        }
+        if (Parent is not null)
+        {
+            Parent.AddListItem(this);
+            if (Parent.Active)
+            {
+                Active = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handles the click event and communicates with parent to handle its click event callback. It also sets the state of
+    /// the ListGroupItem
+    /// </summary>
+    private async void HandleClick()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        await OnClick.InvokeAsync();
+        if (Parent is not null)
+        {
+            Parent.SetItemsNormal();
+            Parent.ItemClicked(Item!);
+        }
+        SetState("current");
+    }
+
+    /// <summary>
+    /// Sets the state of the ListGroupItem
+    /// </summary>
+    public void SetState(string state)
+    {
+        _state = state;
+        if (state.Equals("current"))
+        {
+            Item!.Current = true;
+            Current = true;
+        }
+        else
+        {
+            Item!.Current = false;
+            Current = false;
+        }
+        StateHasChanged();
+    }
+}

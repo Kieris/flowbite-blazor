@@ -40,7 +40,8 @@
     /// <summary>
     /// Classes for the component's top element to only be used when it is not active
     /// </summary>
-    protected bool Active;
+    [Parameter]
+    public bool Active { get; set; }
 
     protected override void OnInitialized()
     {
