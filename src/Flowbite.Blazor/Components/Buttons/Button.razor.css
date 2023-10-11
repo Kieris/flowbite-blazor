@@ -1,5 +1,5 @@
 ﻿.btn-base {
-    @apply text-white font-medium focus:ring-4 focus:outline-none text-center my-auto;
+    @apply text-white font-medium focus:ring-4 focus:outline-none text-center flex items-center;
 }
 
 .btn-normal {
