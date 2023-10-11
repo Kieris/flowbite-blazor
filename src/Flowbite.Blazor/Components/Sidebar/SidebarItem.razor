@@ -2,7 +2,7 @@
 
 <li class="@Class" style="@Style">
     <NavLink href="@Link" class="@GetNavLinkClass()" Match="NavLinkMatch.All"
-             ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) ? "sidebar-item-active" : Parent.ActiveClass)">
+             ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) && !Link.Equals(string.Empty) ? "sidebar-item-active" : Parent.ActiveClass)">
     @Icon
     <span class="ml-3">@Label</span>
     @if (Subtext is not null)
@@ -35,7 +35,7 @@
     /// The link (href) for navigation
     /// </summary>
     [Parameter]
-    public string Link { get; set; } = "#";
+    public string Link { get; set; } = string.Empty;
 
     /// <summary>
     /// The label for the SidebarItem

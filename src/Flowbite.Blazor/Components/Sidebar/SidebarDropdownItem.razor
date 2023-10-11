@@ -1,7 +1,8 @@
 @inherits Frame
 <li class="@Class" style="@Style">
     <NavLink href="@Link" class="@GetNavLinkClass()" 
-             Match="NavLinkMatch.All" ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) ? "sidebar-dropdown-active" : $"pl-11 {Parent.ActiveClass}")">
+             Match="NavLinkMatch.All" ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) && !Link.Equals(string.Empty) 
+                                                       ? "sidebar-dropdown-active" : $"pl-11 {Parent.ActiveClass}")">
     @Label
   </NavLink>
 </li>
