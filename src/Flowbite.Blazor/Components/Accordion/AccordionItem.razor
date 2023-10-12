@@ -2,10 +2,10 @@
 @using Microsoft.Extensions.Primitives
 @inherits Frame
 
-<div class="@Class" style="@Style">
+<div style="@Style">
   <h2 class="group">
     <button @onclick="@HandleToggle" type="button"
-            class="accordion-item @(CheckFlush() ? "accordion-btn-flush" : "accordion-flush-diff") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "")"
+            class="accordion-item @(CheckFlush() ? "accordion-btn-flush py-5" : "accordion-flush-diff p-5") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "") @Class"
             aria-expanded="@Open.ToString()">
       @if (Header is not null)
       {
@@ -151,6 +151,7 @@
               Parent.CloseAllOthers(this);
             }
           }
+          StateHasChanged();
         }
     }
   

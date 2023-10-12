@@ -2,7 +2,7 @@
 @inherits ButtonBase
 
 <button type="@Type" disabled="@Disabled" 
-        class="@(Disabled ? "cursor-not-allowed" : "") btn-base @BtnSize @TypeClass @ColorClass @Class" 
+        class="@(Disabled ? "cursor-not-allowed" : "") btn-base @ColorClass @BtnSize @(string.IsNullOrWhiteSpace(Class) ? $"{TypeClass}": Class)" 
         style="@Style" @onclick="OnClick">
     @ChildContent
 </button>

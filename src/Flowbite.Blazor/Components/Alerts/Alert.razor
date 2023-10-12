@@ -1,20 +1,22 @@
 @inherits Frame
 <div class:hidden class="transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"") 
         @(_hide ? "opacity-0" :"opacity-100") alert-base @(Border == AlertBorder.Border ? "border rounded-lg" 
-	     : Border == AlertBorder.TopAccent ? "border-t-4" : Border == AlertBorder.BottomAccent ? "border-b-4" : "rounded-lg")
+	                                                         : Border == AlertBorder.TopAccent ? "border-t-4" : Border == AlertBorder.BottomAccent ? "border-b-4" : "rounded-lg")
  
         @_colorClass @Class" style="@Style" role="alert">
-	<div class="flex items-start">
-		@if (Icon is not null)
-		{
-			<span>
-				@Icon
-			</span>
-		}
-		<div>
-			@ChildContent
+	<div class="flex items-center">
+		<div class="flex items-start">
+			@if (Icon is not null)
+			{
+				<span>
+					@Icon
+				</span>
+			}
+			<div>
+				@ChildContent
+			</div>
 		</div>
-
+		
 		@if (Dismissable)
 		{
 			<button type="button" @onclick="@Hide" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
@@ -25,7 +27,6 @@
 				</svg>
 			</button>
 		}
-		
 	</div>
 	@if(Extra is not null) 
 	{

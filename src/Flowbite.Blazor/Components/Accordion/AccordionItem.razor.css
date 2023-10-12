@@ -3,7 +3,7 @@
 }
 
 .accordion-flush-diff {
-    @apply border focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 p-5;
+    @apply border focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700;
 }
 
 .accordion-body {
@@ -19,7 +19,7 @@
 }
 
 .accordion-body-flush {
-    @apply py-5 border-b;
+    @apply border-b;
 }
 
 .accordion-btn-active {

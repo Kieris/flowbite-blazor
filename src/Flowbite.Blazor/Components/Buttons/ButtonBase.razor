@@ -92,10 +92,10 @@
         switch (StyleType)
         {
             case ButtonTypes.Normal:
-                return "btn-normal";
+                return "rounded-lg";
             case ButtonTypes.Pill:
-                 return "btn-pill";
-            default: return "btn-normal";;
+                 return "rounded-full";
+            default: return "rounded-lg";;
         }
     }
 
@@ -119,7 +119,7 @@
             case Sizes.Icon:
                 return "btn-icon";
             default:
-                return "btn-base-size";
+                return "";
         }
     }
 

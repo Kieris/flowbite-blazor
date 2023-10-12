@@ -2,14 +2,6 @@
     @apply text-white font-medium focus:ring-4 focus:outline-none text-center flex items-center;
 }
 
-.btn-normal {
-    @apply rounded-lg;
-}
-
-.btn-pill {
-    @apply rounded-full;
-}
-
 .btn-xs {
     @apply px-3 py-2 text-xs;
 }
