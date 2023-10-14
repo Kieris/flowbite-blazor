@@ -1,16 +1,16 @@
-@inherits Frame
+@inherits BaseComponent
 @inject NavigationManager NavManager
 
 <li>
-    @if (Attributes.TryGetValue("href", out var url))
+    @if (UserAttributes.TryGetValue("href", out var url))
     {
-        <a class="block text-left py-2 pr-4 pl-3 rounded @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@Attributes">
+        <a class="block text-left py-2 pr-4 pl-3 rounded @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@UserAttributes">
             <span>@ChildContent</span>
         </a>
     }
     else
     {
-        <div class="@LiClass @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@Attributes">
+        <div class="@LiClass @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@UserAttributes">
             @ChildContent
         </div>
     }
@@ -88,7 +88,7 @@
     /// </summary>
     private void SetActive()
     {
-        if (Attributes.TryGetValue("href", out var url))
+        if (UserAttributes.TryGetValue("href", out var url))
         {
             string path = NavManager.ToBaseRelativePath(NavManager.Uri);
             

@@ -1,4 +1,4 @@
-@inherits Frame
+@inherits BaseComponent
 <li class="@Class" style="@Style">
     <NavLink href="@Link" class="@GetNavLinkClass()" 
              Match="NavLinkMatch.All" ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) && !Link.Equals(string.Empty) 
@@ -32,7 +32,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Attributes.TryGetValue("href", out var attribute))
+        if (UserAttributes.TryGetValue("href", out var attribute))
         {
             Link = attribute.ToString()!;
         }

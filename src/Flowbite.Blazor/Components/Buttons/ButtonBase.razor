@@ -1,4 +1,4 @@
-﻿@inherits Frame
+﻿@inherits BaseComponent
 @using SharedEnums
 
 @code {
@@ -39,6 +39,12 @@
     public bool Disabled { get; set; }
 
     /// <summary>
+    /// Event callback for click events
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    
+    /// <summary>
     /// The constructed final color class of the button
     /// </summary>
     protected string ColorClass = string.Empty;
@@ -57,7 +63,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (Attributes.ContainsKey("disabled") && Attributes["disabled"].ToString() != "false")
+        if (UserAttributes.ContainsKey("disabled") && UserAttributes["disabled"].ToString() != "false")
         {
             Disabled = true;
         }
@@ -72,12 +78,12 @@
         TypeClass = GetTypeClass();
         BtnSize = GetSize();
         
-        if (Attributes.TryGetValue("type", out var attribute))
+        if (UserAttributes.TryGetValue("type", out var attribute))
         {
             Type = attribute.ToString()!;
         }
         
-        if (Attributes.ContainsKey("pill"))
+        if (UserAttributes.ContainsKey("pill"))
         {
             StyleType = ButtonTypes.Pill;
         }

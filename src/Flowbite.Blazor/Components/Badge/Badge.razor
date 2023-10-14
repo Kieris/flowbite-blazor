@@ -1,5 +1,5 @@
 ﻿@using Flowbite.Blazor.SharedEnums
-@inherits Frame
+@inherits BaseComponent
 
 @if (Link is not null)
 {
@@ -107,23 +107,23 @@ else
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Attributes.TryGetValue("href", out var attribute))
+        if (UserAttributes.TryGetValue("href", out var attribute))
         {
             Link = attribute.ToString()!;
         }
-        if (Attributes.ContainsKey("dismissable") && Attributes["dismissable"].ToString() != "false")
+        if (UserAttributes.ContainsKey("dismissable") && UserAttributes["dismissable"].ToString() != "false")
         {
             Dismissable = true;
         }
-        if (Attributes.ContainsKey("rounded"))
+        if (UserAttributes.ContainsKey("rounded"))
         {
             Pill = true;
         }
-        if (Attributes.ContainsKey("large"))
+        if (UserAttributes.ContainsKey("large"))
         {
             Size = BadgeSizes.Large;
         }
-        if (Attributes.ContainsKey("border"))
+        if (UserAttributes.ContainsKey("border"))
         {
             Bordered = true;
         }

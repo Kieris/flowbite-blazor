@@ -1,4 +1,4 @@
-@inherits Frame
+@inherits BaseComponent
 <div class:hidden class="transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"") 
         @(_hide ? "opacity-0" :"opacity-100") alert-base @(Border == AlertBorder.Border ? "border rounded-lg" 
 	     : Border == AlertBorder.TopAccent ? "border-t-4" : Border == AlertBorder.BottomAccent ? "border-b-4" : "rounded-lg")
@@ -102,11 +102,11 @@
 	protected override void OnParametersSet()
 	{
 		base.OnParametersSet();
-		if (Attributes.ContainsKey("dismissable") && Attributes["dismissable"].ToString() != "false")
+		if (UserAttributes.ContainsKey("dismissable") && UserAttributes["dismissable"].ToString() != "false")
 		{
 			Dismissable = true;
 		}
-		if (Attributes.ContainsKey("border"))
+		if (UserAttributes.ContainsKey("border"))
 		{
 			Border = AlertBorder.Border;
 		}

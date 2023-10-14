@@ -1,5 +1,5 @@
 ﻿@using System.Reflection.Metadata
-@inherits Frame
+@inherits BaseComponent
 @if (!Active)
 {
   <li class="@_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") @Class" style="@Style" >
@@ -72,6 +72,12 @@ else
     /// </summary>
     [Parameter]
     public bool Current { get; set; }
+    
+    /// <summary>
+    /// Event callback for click events
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClick { get; set; }
     
     /// <summary>
     /// Defines required parameters for the ListGroupItem. Not required for individual items but is when using <see cref="ListGroup.Items"/> to define items.

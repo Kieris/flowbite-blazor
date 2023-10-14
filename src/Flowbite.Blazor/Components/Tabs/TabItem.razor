@@ -1,4 +1,4 @@
-@inherits Frame
+@inherits BaseComponent
 <div class="h-full w-full py-0.5 @Class" style="@Style">
     @if(Parent?.ActivePage == this) 
     {
@@ -50,7 +50,7 @@
             throw new ArgumentNullException(nameof(Parent), "TabPage must be inside of a TabControl");
         }    
         Parent.AddPage(this);
-        if (Attributes.TryGetValue("href", out var attribute))
+        if (UserAttributes.TryGetValue("href", out var attribute))
         {
             Href = attribute.ToString()!;
         }

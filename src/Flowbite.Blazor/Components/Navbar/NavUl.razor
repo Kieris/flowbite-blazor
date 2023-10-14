@@ -1,8 +1,8 @@
-@inherits Frame
+@inherits BaseComponent
 
 @if (Parent is not null && !Parent.Hidden)
 {
-  <button class="@DivClass block @(Parent.AlwaysCollapseMenu ? "": "md:hidden")"  type="button" tabindex="0" @attributes="@Attributes">
+  <button class="@DivClass block @(Parent.AlwaysCollapseMenu ? "": "md:hidden")"  type="button" tabindex="0" @attributes="@UserAttributes">
     <ul class="@UlClass @(Parent.AlwaysCollapseMenu ? "": "nav-ul-md")">
         <CascadingValue Value="this">
             @ChildContent
@@ -10,7 +10,7 @@
     </ul>
   </button>
 }
-  <div class="@(Parent is not null && Parent.AlwaysCollapseMenu ? "hidden": "hidden md:block") @DivClass"  @attributes="@Attributes">
+  <div class="@(Parent is not null && Parent.AlwaysCollapseMenu ? "hidden": "hidden md:block") @DivClass"  @attributes="@UserAttributes">
     <ul class="@UlClass nav-ul-md">
         <CascadingValue Value="this">
             @ChildContent

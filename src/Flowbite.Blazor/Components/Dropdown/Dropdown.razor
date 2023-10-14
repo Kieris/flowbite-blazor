@@ -3,7 +3,7 @@
 @using System.ComponentModel.Design.Serialization
 @inject IJSRuntime Js;
 @implements IAsyncDisposable;
-@inherits Frame 
+@inherits BaseComponent 
 
 <div @ref="@_triggerElement" class="@(MatchWidth ? "inline-block relative" : "") @Class" @onclick="@Clicked" @onfocusout="@FocusOff">
     @DropdownTrigger

@@ -1,6 +1,6 @@
 @using System.Text
 @using Microsoft.Extensions.Primitives
-@inherits Frame
+@inherits BaseComponent
 
 <div class="@Class" style="@Style">
   <h2 class="group">
@@ -110,7 +110,7 @@
     {
         base.OnInitialized();
         Parent?.AddItem(this);
-        if (Attributes.ContainsKey("open") || OpenAlways)
+        if (UserAttributes.ContainsKey("open") || OpenAlways)
         {
             Open = true;
         }

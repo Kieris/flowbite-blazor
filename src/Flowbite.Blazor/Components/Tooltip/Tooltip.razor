@@ -2,7 +2,7 @@
 @using Flowbite.Blazor.SharedEnums
 @inject IJSRuntime Js;
 @implements IAsyncDisposable;
-@inherits Frame 
+@inherits BaseComponent 
 
 <div @ref="@_triggerElement" class="tooltip-trigger-element" @onclick="@Clicked" @onfocusout="@FocusOff">
     @ChildContent

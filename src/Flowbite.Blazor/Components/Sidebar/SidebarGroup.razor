@@ -1,4 +1,4 @@
-@inherits Frame
+@inherits BaseComponent
 
 <ul class="space-y-2 @(Border ? "pt-4 mt-4 border-t border-gray-200 dark:border-gray-700" : "") @Class" style="@Style">
     @ChildContent
@@ -23,7 +23,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Attributes.ContainsKey("border") && Attributes["border"].ToString() != "false")
+        if (UserAttributes.ContainsKey("border") && UserAttributes["border"].ToString() != "false")
         {
             Border = true;
         }

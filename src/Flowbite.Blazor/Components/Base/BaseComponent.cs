@@ -1,5 +1,9 @@
-<!--Most if not all UI components inherit from this -->
-@code {
+﻿using Microsoft.AspNetCore.Components;
+
+namespace Flowbite.Blazor.Components.Base;
+
+public abstract class BaseComponent : ComponentBase
+{
     /// <summary>
     /// Classes for the component's top element to only be used when it is active
     /// </summary>
@@ -29,36 +33,21 @@
     /// will be appended to Style and Class attributes if they are a string
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> Attributes { get; set; } = new ();
-    
-    /// <summary>
-    /// Event callback for click events
-    /// </summary>
-    [Parameter]
-    public EventCallback OnClick { get; set; }
+    public Dictionary<string, object> UserAttributes { get; set; } = new ();
     
     /// <summary>
     /// Classes for the component's top element to only be used when it is not active
     /// </summary>
     [Parameter]
     public bool Active { get; set; }
-
-    protected override void OnInitialized()
-    {
-        if (Attributes.ContainsKey("style") && Attributes["style"] is string)
-        {
-            Style = string.IsNullOrWhiteSpace(Style)! ? Attributes["style"].ToString()! : $"{Style} {Attributes["style"]}"!;
-        }
-        
-        if (Attributes.ContainsKey("class") && Attributes["class"] is string)
-        {
-            Class = string.IsNullOrWhiteSpace(Class)! ? Attributes["Class"].ToString()! : $"{Class} {Attributes["class"]}"!;
-        }
-    }
+    
+    /// <summary>
+    /// If the UserAttributes contain an ID make it accessible for WCAG labelling of input fields
+    /// </summary>
+    public string FieldId => (UserAttributes?.ContainsKey("id") == true ? UserAttributes["id"]?.ToString() ?? $"blaz-{Guid.NewGuid()}" : $"blaz-{Guid.NewGuid()}");
 
     /// <summary>
     /// Used to set the active flag of the component
     /// </summary>
     public void SetActive(bool active) => Active = active;
-
 }
