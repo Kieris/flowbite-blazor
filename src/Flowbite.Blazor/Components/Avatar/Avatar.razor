@@ -1,0 +1,230 @@
+﻿@using System.Text
+@using Flowbite.Blazor.SharedEnums
+@using Flowbite.Blazor.Components.Indicators
+@inherits BaseComponent
+
+@if (!string.IsNullOrEmpty(Src) || !string.IsNullOrEmpty(Href))
+{
+  @if (!string.IsNullOrEmpty(Href))
+  {
+    <a @attributes=@UserAttributes href="@Href" class="relative flex justify-center items-center @_avatarClass">
+      @if (!string.IsNullOrEmpty(Src))
+      {
+        <img alt="@Alt" src="@Src" class="@(Rounded ? "rounded" : "rounded-full")" />
+      }
+      else
+      {
+          @if (ChildContent is not null)
+          {
+            <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 @_avatarClass @(Stacked ? "ml-0":"")">
+              <span class="font-medium">
+                @ChildContent
+              </span>
+            </div>
+          }
+          else
+          {
+            <AvatarPlaceholder Rounded="@Rounded" Size="@Size" Border="@Border" Class="@(Border ? $"p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 {PlaceholderClass}": PlaceholderClass)"/>
+          }
+      }
+      @if (Dot)
+      {
+        <Indicator Offset="@Rounded" Placement="@DotPlacement" Color="@DotColor" Border="@DotBorder" Size="Sizes.Large" />
+      }
+    </a>
+  }
+  else
+  {
+    <div @attributes=@UserAttributes class="relative flex justify-center items-center @_avatarClass">
+        <img alt="@Alt" src="@Src" class="@(Rounded ? "rounded" : "rounded-full")" />
+        @if (Dot)
+        {
+          <Indicator Offset="@Rounded" Placement="@DotPlacement" Color="@DotColor" Border="@DotBorder" Size="Sizes.Large" />
+        }
+    </div>
+  }
+}
+else
+{
+  <div @attributes=@UserAttributes class="relative">
+  @if (ChildContent is not null)
+  {
+    <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 @_avatarClass">
+      <span class="font-medium">
+        @ChildContent
+      </span>
+    </div>
+  }
+  else
+  {
+    <AvatarPlaceholder Rounded="@Rounded" Size="@Size" Border="@Border" Class="@GetSecPlaceholderClass()"/>
+  }
+  @if (Dot)
+  {
+    <Indicator Offset="@Rounded" Placement="@DotPlacement" Color="@DotColor" Border="@DotBorder" Size="Sizes.Large" />
+  }
+  </div>
+}
+
+@code {
+  /// <summary>
+  /// The text content of an avatar with no img src
+  /// </summary>
+  [Parameter]
+  public RenderFragment? ChildContent { get; set; }
+  
+  /// <summary>
+  /// Defines whether the avatar is rounded. If false, the avatar is a circle.
+  /// </summary>
+  [Parameter]
+  public bool Rounded { get; set; }
+  
+  /// <summary>
+  /// Defines whether the avatar has a border
+  /// </summary>
+  [Parameter]
+  public bool Border { get; set; }
+  
+  /// <summary>
+  /// Defines whether the avatar is stacked
+  /// </summary>
+  [Parameter]
+  public bool Stacked { get; set; }
+  
+  /// <summary>
+  /// Defines the size of the avatar
+  /// </summary>
+  [Parameter]
+  public Sizes Size { get; set; } = Sizes.Base;
+
+  /// <summary>
+  /// Defines the class of the placeholder
+  /// </summary>
+  [Parameter]
+  public string PlaceholderClass { get; set; } = string.Empty;
+
+  /// <summary>
+  /// Defines whether the avatar has a dot indicator
+  /// </summary>
+  [Parameter]
+  public bool Dot { get; set; } = false;
+  
+  /// <summary>
+  /// Defines the color of the dot indicator
+  /// </summary>
+  [Parameter]
+  public IndiColors DotColor { get; set; } = IndiColors.Neutral;
+  
+  /// <summary>
+  /// Defines the placement of the dot indicator
+  /// </summary>
+  [Parameter]
+  public IndiLocs DotPlacement { get; set; } = IndiLocs.TopRight;
+
+  /// <summary>
+  /// Defines whether the indicator has a border
+  /// </summary>
+  [Parameter]
+  public bool DotBorder { get; set; } = true;
+
+  /// <summary>
+  /// The optional src for the avatar img
+  /// </summary>
+  [Parameter]
+  public string Src { get; set; } = string.Empty;
+  
+  /// <summary>
+  /// The optional href for the avatar
+  /// </summary>
+  [Parameter]
+  public string Href { get; set; } = string.Empty;
+  
+  /// <summary>
+  /// The optional alt for the avatar img
+  /// </summary>
+  [Parameter]
+  public string Alt { get; set; } = string.Empty;
+  
+  /// <summary>
+  /// The main syle classes
+  /// </summary>
+  private string _avatarClass = "";
+
+  /// <summary>
+  /// Watches for parameter changes to update the classes
+  /// </summary>
+  protected override void OnParametersSet()
+  {
+    base.OnParametersSet();
+    SetAvatarClass();
+  }
+
+  /// <summary>
+  /// Checks the parameters in order to set the class
+  /// </summary>
+  private void SetAvatarClass()
+  {
+    StringBuilder sb = new();
+    if (Rounded)
+    {
+      sb.Append("rounded ");
+    }
+    else
+    {
+      sb.Append("rounded-full ");
+    }
+    if (Border)
+    {
+      sb.Append("p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 ");
+    }
+    switch (Size)
+    {
+      case Sizes.ExtraSmall:
+        sb.Append("w-6 h-6 ");
+        break;
+      case Sizes.Small:
+        sb.Append("w-8 h-8 ");
+        break;
+      case Sizes.Base:
+        sb.Append("w-10 h-10 ");
+        break;
+      case Sizes.Large:
+        sb.Append("w-20 h-20 ");
+        break;
+      case Sizes.ExtraLarge:
+        sb.Append("w-36 h-36 ");
+        break;
+      default:
+        sb.Append("w-10 h-10 ");
+        break;
+    }
+    if (Stacked)
+    {
+        sb.Append("border-2 -ml-4 border-white dark:border-neutral-800 ");
+     
+    }
+    sb.Append("text-neutral-600 dark:text-neutral-300");
+    if (!string.IsNullOrWhiteSpace(Class))
+    {
+      sb.Append(" ");
+      sb.Append(Class);
+    }
+    
+    _avatarClass = sb.ToString();
+  }
+
+  /// <summary>
+  /// Returns the default placeholder class along with the class for stacked
+  /// </summary>
+  private string GetSecPlaceholderClass()
+  {
+    if (Stacked)
+    {
+      return Border ? $"p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 -ml-4 {PlaceholderClass}" : $"-ml-4 {PlaceholderClass}";
+    }
+    else
+    {
+      return Border ? $"p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 {PlaceholderClass}" : PlaceholderClass;
+    }
+  }
+}

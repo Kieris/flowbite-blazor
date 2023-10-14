@@ -1,0 +1,85 @@
+﻿@using Flowbite.Blazor.SharedEnums
+@using System.Text
+
+<svg class="@_svgClass @Class" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+</svg>
+@code {
+  /// <summary>
+  /// The main class. Comes from PlaceholderClass in Avatar
+  /// </summary>
+  [Parameter]
+  public string Class { get; set; } = string.Empty;
+
+  /// <summary>
+  /// Defines whether the placeholder is rounded. If false, the placeholder is a circle.
+  /// </summary>
+  [Parameter]
+  public bool Rounded { get; set; }
+  
+  /// <summary>
+  /// Defines whether the placeholder has a border
+  /// </summary>
+  [Parameter]
+  public bool Border { get; set; }
+  
+  /// <summary>
+  /// Defines the size of the placeholder
+  /// </summary>
+  [Parameter]
+  public Sizes Size { get; set; } = Sizes.Base;
+  
+  /// <summary>
+  /// The svg class of the placeholder
+  /// </summary>
+  private string _svgClass = "";
+
+  ///<inheritdoc cref="Avatar.OnParametersSet"/>
+  protected override void OnParametersSet()
+  {
+      base.OnParametersSet();
+      SetSvgClass();
+  }
+
+  /// <summary>
+  /// Sets the svg class based on parameters
+  /// </summary>
+  private void SetSvgClass()
+  {
+      StringBuilder sb = new();
+      if (Rounded)
+      {
+        sb.Append("rounded ");
+      }
+      else
+      {
+        sb.Append("rounded-full ");
+      }
+      
+      switch (Size)
+      {
+        case Sizes.ExtraSmall:
+          sb.Append("w-6 h-6 ");
+          break;
+        case Sizes.Small:
+          sb.Append("w-8 h-8 ");
+          break;
+        case Sizes.Base:
+          sb.Append("w-10 h-10 ");
+          break;
+        case Sizes.Large:
+          sb.Append("w-20 h-20 ");
+          break;
+        case Sizes.ExtraLarge:
+          sb.Append("w-36 h-36 ");
+          break;
+        default:
+          sb.Append("w-10 h-10 ");
+          break;
+      }
+
+      sb.Append("text-gray-400 bg-gray-100 dark:bg-gray-600");
+      
+      _svgClass = sb.ToString();
+  }
+}
