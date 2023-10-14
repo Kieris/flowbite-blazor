@@ -1,0 +1,106 @@
+@inherits Frame
+@inject NavigationManager NavManager
+
+<li>
+    @if (Attributes.TryGetValue("href", out var url))
+    {
+        <a class="block text-left py-2 pr-4 pl-3 rounded @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@Attributes">
+            <span>@ChildContent</span>
+        </a>
+    }
+    else
+    {
+        <div class="@LiClass @Class @(Active ? _activeClass : _inactiveClass)" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    }
+</li>
+
+@code {
+    /// <summary>
+    /// The NavUl parent
+    /// </summary>
+    [CascadingParameter]
+    public NavUl? Parent { get; set; }
+    
+    /// <summary>
+    /// The NavLi content
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Can be used to override default classes
+    /// </summary>
+    [Parameter]
+    public string LiClass { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Used to define local active class
+    /// </summary>
+    private string _activeClass = string.Empty;
+    /// <summary>
+    /// Used to define local inactive class
+    /// </summary>
+    private string _inactiveClass = string.Empty;
+    
+    /// <summary>
+    /// Initializes the component and sets active item
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _inactiveClass = string.IsNullOrEmpty(InactiveClass) ? Parent?.InactiveClass! : InactiveClass;
+        _activeClass = string.IsNullOrEmpty(ActiveClass) ? Parent?.ActiveClass! : ActiveClass;
+        
+        // if user did not define LiClass, set it
+        if (string.IsNullOrEmpty(LiClass))
+        {              
+            LiClass = "block text-left py-2 pr-4 pl-3 md:p-0 rounded md:border-0";
+        }
+        
+        NavManager.LocationChanged += NavManager_LocationChanged;
+    }
+
+    /// <summary>
+    /// Check for active url after first render
+    /// </summary>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            SetActive();
+        }
+    }
+
+    /// <summary>
+    /// Called when active url changes to set whether at item is active. NavLink ActiveClass is not sufficient for this purpose
+    /// </summary>
+    private void NavManager_LocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        SetActive();
+    }
+    
+    /// <summary>
+    /// Sets whether an item is active
+    /// </summary>
+    private void SetActive()
+    {
+        if (Attributes.TryGetValue("href", out var url))
+        {
+            string path = NavManager.ToBaseRelativePath(NavManager.Uri);
+            
+            if (path.Equals(url) || url.Equals($"/{path}"))
+            {
+                Active = true;
+            }
+            else
+            {
+                Active = false;
+            }
+            StateHasChanged();
+        }
+    }
+}

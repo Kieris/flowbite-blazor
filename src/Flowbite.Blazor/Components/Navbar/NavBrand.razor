@@ -1,0 +1,32 @@
+    @if (Attributes.TryGetValue("href", out var url))
+    {
+        <a @attributes="@Attributes" class="flex items-center @Class">
+            @ChildContent
+        </a>
+    }
+    else
+    {
+        <div @attributes="@Attributes" class="flex items-center @Class">
+            @ChildContent
+        </div>
+    }
+
+    @code {
+        /// <summary>
+        /// The content of the NavBrand
+        /// </summary>
+        [Parameter]
+        public RenderFragment? ChildContent { get; set; }
+            
+        /// <summary>
+        /// Used to add other classes to the component
+        /// </summary>
+        [Parameter]
+        public string Class { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Attributes added to the component that don't match any of its parameters
+        /// </summary>
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> Attributes { get; set; } = new ();
+    }

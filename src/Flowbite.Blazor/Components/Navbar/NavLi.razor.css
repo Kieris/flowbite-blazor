@@ -1,0 +1,18 @@
+@tailwind components;
+
+@layer components {
+    .nav-ul-active {
+        @apply text-white bg-primary-700 md:bg-transparent md:text-primary-700 md:dark:text-primary-500 dark:bg-primary-600 md:dark:bg-transparent;
+    }
+    .nav-ul-inactive {
+        @apply text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-100 md:dark:hover:text-primary-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent;
+    }
+    
+    .nav-ul-collapse-active {
+        @apply text-white bg-primary-700 dark:bg-primary-600;
+    }
+
+    .nav-ul-collapse-inactive {
+        @apply text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700 dark:hover:text-white;
+    }
+}

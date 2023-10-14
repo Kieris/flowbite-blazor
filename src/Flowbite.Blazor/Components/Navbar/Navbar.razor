@@ -1,0 +1,50 @@
+@inherits Frame
+
+<div class="pl-2 pr-3 sm:px-4 py-2.5 w-full @Class" @attributes="@Attributes">
+    <div class="mx-auto flex flex-wrap justify-between items-center @(Fluid ? "w-full" : "container") @ContainerClass">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Defines whether the menu is fluid (w-full if true, else container). Default is false.
+    /// </summary>
+    [Parameter]
+    public bool Fluid { get; set; }
+    
+    /// <summary>
+    /// The content of the Navbar 
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Defines whether the NavUl is hidden
+    /// </summary>
+    [Parameter]
+    public bool Hidden { get; set; } = true;
+    
+    /// <summary>
+    /// Defines classes for the inside container
+    /// </summary>
+    [Parameter]
+    public string ContainerClass { get; set; } = "";
+    
+    /// <summary>
+    /// If true, the NavUl will always be hidden. Default is false.
+    /// </summary>
+    [Parameter]
+    public bool AlwaysCollapseMenu { get; set; } = false;
+
+    /// <summary>
+    /// Toggle the menu hidden state
+    /// </summary>
+    public void ToggleMenu()
+    {
+        Hidden = !Hidden;
+        StateHasChanged();
+    }
+}

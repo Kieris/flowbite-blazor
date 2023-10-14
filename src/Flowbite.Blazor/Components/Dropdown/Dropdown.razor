@@ -18,9 +18,11 @@
                 @Header
             </li>
         }
-        <CascadingValue Value="this">
-            @DropdownItems
-        </CascadingValue>
+        <div class="@ItemsClass">
+            <CascadingValue Value="this">
+                @DropdownItems
+            </CascadingValue>
+        </div>
         @if (Footer is not null)
         {
             <li class="@(string.IsNullOrWhiteSpace(FooterClass) ? "py-1 overflow-hidden rounded-b-lg" : @FooterClass)">
@@ -62,6 +64,12 @@
     /// </summary>
     [Parameter]
     public bool MatchWidth { get; set; } = true;
+    
+    /// <summary>
+    /// Defines extra classes for the DropdownItems
+    /// </summary>
+    [Parameter]
+    public string? ItemsClass { get; set; }
 
     /// <summary>
     /// The placement of the dropdown <see cref="Positions"/>. The default is Auto.

@@ -1,0 +1,95 @@
+@inherits Frame
+
+@if (Parent is not null && !Parent.Hidden)
+{
+  <button class="@DivClass block @(Parent.AlwaysCollapseMenu ? "": "md:hidden")"  type="button" tabindex="0" @attributes="@Attributes">
+    <ul class="@UlClass @(Parent.AlwaysCollapseMenu ? "": "nav-ul-md")">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </ul>
+  </button>
+}
+  <div class="@(Parent is not null && Parent.AlwaysCollapseMenu ? "hidden": "hidden md:block") @DivClass"  @attributes="@Attributes">
+    <ul class="@UlClass nav-ul-md">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </ul>
+  </div>
+
+
+@code {
+    /// <summary>
+    /// The Navbar parent
+    /// </summary>
+    [CascadingParameter]
+    public Navbar? Parent { get; set; }
+  
+    /// <summary>
+    /// The NavLi items
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+  
+    /// <summary>
+    /// Can be used to override default classes
+    /// (w-full md:block md:w-auto)
+    /// </summary>
+    [Parameter]
+    public string DivClass { get; set; } = string.Empty;
+  
+    /// <summary>
+    /// Can be used to override default inner Ul element classes
+    /// (flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium)
+    /// </summary>
+    [Parameter]
+    public string UlClass { get; set; } = "nav-ul";
+  
+    /// <summary>
+    /// Initializes the component and sets classes based on parameters
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // if user did not define DivClass, set it
+        if (string.IsNullOrEmpty(DivClass))
+        {
+            if (Parent is not null && Parent.AlwaysCollapseMenu)
+            {
+                DivClass = $"w-full {Class}";
+            }
+            else
+            {
+               DivClass = $"ul-div {Class}"; 
+            }
+            
+        }
+      
+        // if user did not define inherited ActiveClass, set it
+        if (string.IsNullOrEmpty(ActiveClass))
+        {
+            if (Parent is not null && Parent.AlwaysCollapseMenu)
+            {
+                ActiveClass = "nav-ul-collapse-active";
+            }
+            else
+            {
+                ActiveClass = "nav-ul-active";
+            }
+        }
+      
+        // if user did not define inherited InactiveClass, set it
+        if (string.IsNullOrEmpty(InactiveClass))
+        {
+            if (Parent is not null && Parent.AlwaysCollapseMenu)
+            {
+                InactiveClass = "nav-ul-collapse-inactive";
+            }
+            else
+            {
+                InactiveClass = "nav-ul-inactive";
+            } 
+        }
+    }
+}
