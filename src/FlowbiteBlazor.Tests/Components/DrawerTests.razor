@@ -1,0 +1,237 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Drawer
+
+@code {
+
+    [Fact]
+    public void DefaultLeftDrawerTest()
+    {
+        var cut = Render(@<div><Drawer>
+                             <DrawerHeader></DrawerHeader>
+                             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                 Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                 for Flowbite Docs + Job Board.
+                             </p>
+                         </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 -translate-x-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-0 left-0 h-full w-80 " tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                      </svg>Info
+                                              </h5>
+                                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                              <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                          </div></div>);
+        //open the drawer
+        cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+        
+        cut.Find("div").MarkupMatches(@<div><div role="presentation" class="fixed top-0 left-0 z-50 w-full h-full bg-gray-900 bg-opacity-75">
+                                      </div><div class="overflow-y-auto transition-translate duration-500 translate-x-0 z-50 p-4 bg-white dark:bg-gray-800 fixed top-0 left-0 h-full w-80 " tabindex="-1">
+                                                     <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                     <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                     </svg>Info
+                                                       </h5>
+                                                       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                       <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p></div></div>);
+    }
+    
+        [Fact]
+    public void RightDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Placement="Placement.Right">
+                             <DrawerHeader></DrawerHeader>
+                             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                 Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                 for Flowbite Docs + Job Board.
+                             </p>
+                         </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 translate-x-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-0 right-0 h-full w-80 " tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                      </svg>Info
+                                              </h5>
+                                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                              <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                          </div></div>);
+        //open the drawer
+        cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+        
+        cut.Find("div").MarkupMatches(@<div><div role="presentation" class="fixed top-0 left-0 z-50 w-full h-full bg-gray-900 bg-opacity-75">
+                                      </div><div class="overflow-y-auto transition-translate duration-500 translate-x-0 z-50 p-4 bg-white dark:bg-gray-800 fixed top-0 right-0 h-full w-80 " tabindex="-1">
+                                                     <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                     <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                     </svg>Info
+                                                       </h5>
+                                                       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                       <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p></div></div>);
+    }
+    
+    [Fact]
+    public void TopDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Placement="Placement.Top">
+                             <DrawerHeader></DrawerHeader>
+                             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                 Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                 for Flowbite Docs + Job Board.
+                             </p>
+                         </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 -translate-y-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-0 left-0 w-full h-64 " tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                      </svg>Info
+                                              </h5>
+                                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                              <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                          </div></div>);
+        //open the drawer
+        cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+        
+        cut.Find("div").MarkupMatches(@<div><div role="presentation" class="fixed top-0 left-0 z-50 w-full h-full bg-gray-900 bg-opacity-75">
+                                      </div><div class="overflow-y-auto transition-translate duration-500 translate-x-0 z-50 p-4 bg-white dark:bg-gray-800 fixed top-0 left-0 h-64 w-full " tabindex="-1">
+                                                     <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                     <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                     </svg>Info
+                                                       </h5>
+                                                       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                       <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p></div></div>);
+    }
+    
+    [Fact]
+    public void BottomDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Placement="Placement.Bottom">
+                             <DrawerHeader></DrawerHeader>
+                             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                 Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                 for Flowbite Docs + Job Board.
+                             </p>
+                         </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 translate-y-full z-50 p-4 bg-white dark:bg-gray-800 fixed bottom-0 left-0 w-full h-64 " tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                      </svg>Info
+                                              </h5>
+                                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                              <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                          </div></div>);
+        //open the drawer
+        cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+        
+        cut.Find("div").MarkupMatches(@<div><div role="presentation" class="fixed top-0 left-0 z-50 w-full h-full bg-gray-900 bg-opacity-75">
+                                      </div><div class="overflow-y-auto transition-translate duration-500 translate-x-0 z-50 p-4 bg-white dark:bg-gray-800 fixed bottom-0 left-0 h-64 w-full " tabindex="-1">
+                                                     <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                     <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                     </svg>Info
+                                                       </h5>
+                                                       <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                       <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p></div></div>);
+    }
+    
+    [Fact]
+    public void OffsetDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Placement="Placement.Left" LeftOffset="top-16 h-screen left-0 w-80">
+                                           <DrawerHeader Title="Offset test"></DrawerHeader>
+                                           <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                               Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                               for Flowbite Docs + Job Board.
+                                           </p>
+                                       </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 -translate-x-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-16 h-screen left-0 w-80" tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>Offset test
+                                              </h5>
+                                              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                  <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                      </div></div>);
+    }
+    
+    [Fact]
+    public void NoBackdropDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Backdrop="false">
+                                           <DrawerHeader Title="Backdrop test"></DrawerHeader>
+                                           <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                               Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                               for Flowbite Docs + Job Board.
+                                           </p>
+                                       </Drawer></div>);
+
+         //open the drawer
+         cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+         
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 translate-x-0 z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-0 h-full left-0 w-80" tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>Backdrop test
+                                              </h5>
+                                              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                  <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                      </div></div>);
+    }
+    
+    [Fact]
+    public void CloseButtonDrawerTest()
+    {
+        Action onClosed = () => { };
+        
+        var cut = Render(@<div><Drawer>
+                                           <DrawerHeader CloseClicked="@onClosed"></DrawerHeader>
+                                           <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                               Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                               for Flowbite Docs + Job Board.
+                                           </p>
+                                       </Drawer></div>);
+        
+        //onClosed will trigger when CloseButton on drawer is clicked
+        onClosed = () => { cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Hide());};
+         //open the drawer
+         cut.WaitForAssertion(() => cut.FindComponent<Drawer>().Instance.Show());
+         //Click the close button   
+         cut.WaitForAssertion(() => cut.Find("button").Click());
+        
+        //drawer should be closed
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 -translate-x-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        fixed top-0 h-full left-0 w-80" tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>Info
+                                              </h5>
+                                              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                  <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                      </div></div>);
+    }
+    
+    [Fact]
+    public void AbsolutePositionDrawerTest()
+    {
+        var cut = Render(@<div><Drawer Absolute="true">
+                             <DrawerHeader></DrawerHeader>
+                             <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                                 Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>
+                                 for Flowbite Docs + Job Board.
+                             </p>
+                         </Drawer></div>);
+
+        cut.Find("div").MarkupMatches(@<div><div class="overflow-y-auto transition-translate duration-500 -translate-x-full z-50 p-4 bg-white dark:bg-gray-800 
+                                        absolute hidden top-0 left-0 h-full w-80 " tabindex="-1">
+                                          <div class="flex items-center"><h5 class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                  <svg class="w-4 h-4 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                      </svg>Info
+                                              </h5>
+                                          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                              <span class="sr-only">Close menu</span></button></div><p class="mb-6 text-sm text-gray-500 dark:text-gray-400"> Supercharge your hiring by taking advantage of our <a href="/" class="text-primary-600 underline dark:text-primary-500 hover:no-underline"> limited-time sale </a>for Flowbite Docs + Job Board.</p>
+                                          </div></div>);
+    }
+}

@@ -1,0 +1,221 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Banner
+
+@code {
+
+    [Fact]
+    public void DefaultBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Absolute">
+                             <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                                 <span class="inline-flex p-1 mr-3 bg-gray-200 rounded-full dark:bg-gray-600">
+                                     <BullhornSolid class="w-3 h-3 text-gray-500 dark:text-gray-400"/>
+                                     <span class="sr-only">Light bulb</span>
+                                 </span>
+                                 <span>
+                                     New brand identity has been launched for the <a href="https://flowbite.com" class="inline font-medium text-primary-600 underline dark:text-primary-500 underline-offset-2 decoration-600 dark:decoration-500 decoration-solid hover:no-underline">
+                                          Flowbite Library
+                                     </a>
+                                 </span>
+                             </p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="absolute top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex items-center mx-auto ">
+                                              <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                                                  <span class="inline-flex p-1 mr-3 bg-gray-200 rounded-full dark:bg-gray-600"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 18 19" aria-hidden="true" class="w-3 h-3 text-gray-500 dark:text-gray-400"><path d="M15 1.943v12.114a1 1 0 0 1-1.581.814L8 11V5l5.419-3.871A1 1 0 0 1 15 1.943ZM7 4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2v5a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4ZM4 17v-5h1v5H4ZM16 5.183v5.634a2.985 2.985 0 0 0 0-5.634Z"></path></svg>
+                                                      <span class="sr-only">Light bulb</span>
+                                                      </span>
+                                                      <span>
+                                                      New brand identity has been launched for the
+                                                      <a href="https://flowbite.com" class="inline font-medium text-primary-600 underline dark:text-primary-500 underline-offset-2 decoration-600 dark:decoration-500 decoration-solid hover:no-underline">
+                                                          Flowbite Library
+                                                      </a>
+                                                      </span>
+                                                  </p>
+                                              </div>
+                                          <div class="flex items-center">
+                                              <button type="button" class="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path></svg>
+                                                  <span class="sr-only">Close banner</span>
+                                              </button></div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void FixedPositionBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Fixed">
+                             <p class="flex">
+                             Basic</p>
+                         </Banner>);
+
+         cut.Find("div").MarkupMatches(@<div tabindex="-1" class="fixed top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                           <div class="flex items-center mx-auto ">
+                                               <p class="flex">Basic</p>
+                                           </div>
+                                           <div class="flex items-center">
+                                               <button diff:ignore></button>
+                                           </div>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void StaticPositionBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Static">
+                             <p class="flex">
+                                 Basic</p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="static top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex items-center mx-auto ">
+                                              <p class="flex">Basic</p>
+                                          </div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void RelativePositionBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Relative">
+                             <p class="flex">
+                                 Basic</p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="relative top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex items-center mx-auto ">
+                                              <p class="flex">Basic</p>
+                                          </div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void StickyPositionBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Sticky">
+                             <p class="flex">
+                                 Basic</p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="sticky top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex items-center mx-auto ">
+                                              <p class="flex">Basic</p>
+                                          </div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void BottomBannerTest()
+    {
+        var cut = Render(@<Banner Type="BannerType.Bottom">
+                             <p class="flex">
+                                 Basic</p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="absolute bottom-0 left-0 w-full border-t border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex items-center mx-auto ">
+                                              <p class="flex">Basic</p>
+                                          </div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void MarketingCTABannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Absolute" Type="BannerType.Cta">
+                             <a href="https://flowbite-svelte.com/" class="flex items-center mb-2 border-gray-200 md:pr-4 md:mr-4 md:border-r md:mb-0 dark:border-gray-600">
+                                 <img src="images/flowbite-icon-logo.svg" class="h-6 mr-2" alt="Flowbite Logo" />
+                                 <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                             </a>
+                             <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">Build websites even faster with components on top of Tailwind CSS</p>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="absolute bg-white border border-gray-100 rounded-lg shadow-sm left-1/2 top-6 flex-col md:flex-row w-[calc(100%-2rem)] -translate-x-1/2 lg:max-w-7xl z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                          <div class="flex flex-col items-start mb-3 mr-4 md:items-center md:flex-row md:mb-0 ">
+                                              <a href="https://flowbite-svelte.com/" class="flex items-center mb-2 border-gray-200 md:pr-4 md:mr-4 md:border-r md:mb-0 dark:border-gray-600"><img src="images/flowbite-icon-logo.svg" class="h-6 mr-2" alt="Flowbite Logo">
+                                                  <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">Flowbite</span></a>
+                                              <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">Build websites even faster with components on top of Tailwind CSS</p></div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void SignupBannerTest()
+    {
+        var cut = Render(@<Banner Position="BannerPosition.Absolute" Type="BannerType.Signup">
+                             <form action="/" class="flex flex-col items-center w-full md:flex-row">
+                                 <label for="email" class="flex-shrink-0 mb-2 mr-auto text-sm font-medium text-gray-500 md:mb-0 md:mr-4 dark:text-gray-400 md:m-0"> Sign up for our newsletter </label>
+                                 <input type="email" id="email" placeholder="Enter your email" class="bg-white border border-gray-300 text-gray-900 md:w-64 mb-2 md:mb-0 md:mr-4 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required />
+                                 <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"> Subscribe </button>
+                             </form>
+                         </Banner>);
+
+            cut.Find("div").MarkupMatches(@<div tabindex="-1" class="absolute top-0 left-0 w-full border-b border-gray-200 bg-gray-50 z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600" style="">
+                                              <div class="flex items-center flex-shrink-0 w-full mx-auto sm:w-auto ">
+                                                  <form action="/" class="flex flex-col items-center w-full md:flex-row">
+                                                      <label for="email" class="flex-shrink-0 mb-2 mr-auto text-sm font-medium text-gray-500 md:mb-0 md:mr-4 dark:text-gray-400 md:m-0"> Sign up for our newsletter </label>
+                                                      <input type="email" id="email" placeholder="Enter your email" class="bg-white border border-gray-300 text-gray-900 md:w-64 mb-2 md:mb-0 md:mr-4 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                                      <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"> Subscribe </button>
+                                                  </form>
+                                                  </div>
+                                              <div class="flex items-center">
+                                                  <button diff:ignore></button>
+                                              </div>
+                                          </div>);
+    }
+    
+    [Fact]
+    public void InfoBannerTest()
+    {
+        var cut = Render(@<Banner class="mb-4 md:mb-0 md:mr-4" Position="BannerPosition.Absolute" Type="BannerType.Info">
+                             <Header>
+                                 <h2 class="mb-1 text-base font-semibold text-gray-900 dark:text-white">Integration is the key</h2>
+                                 <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">You can integrate Flowbite with many tools.</p>
+                             </Header>
+                             <ChildContent>
+                                 <a href="/" class="inline-flex items-center px-3 py-2 my-2 mr-3 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                     <OpenBookSolid class="w-3 h-3 mr-2" />
+                                     Learn more
+                                 </a>
+                                 <a href="/" class="inline-flex px-3 py-2 mr-2 text-xs font-medium text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                     Get started <ArrowRightSolid class="w-3 h-3 ml-2" />
+                                 </a>
+                             </ChildContent>
+                         </Banner>);
+
+        cut.Find("div").MarkupMatches(@<div tabindex="-1" class="absolute top-0 left-0 flex-col w-full border-b border-gray-200 bg-gray-50 md:flex-row z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600 mb-4 md:mb-0 md:mr-4" style="">
+                                          <div>
+                                              <h2 class="mb-1 text-base font-semibold text-gray-900 dark:text-white">Integration is the key</h2>
+                                              <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">You can integrate Flowbite with many tools.</p></div>
+                                          <div class="flex items-center flex-shrink-0 md:items-center md:flex-row md:mb-0 ">
+                                              <a href="/" class="inline-flex items-center px-3 py-2 my-2 mr-3 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 18" aria-hidden="true" class="w-3 h-3 mr-2"><path d="M9 1.334C7.06.594 1.646-.84.293.653a1.158 1.158 0 0 0-.293.77v13.973c0 .193.046.383.134.55.088.167.214.306.366.403a.932.932 0 0 0 .5.147c.176 0 .348-.05.5-.147 1.059-.32 6.265.851 7.5 1.65V1.334ZM19.707.653C18.353-.84 12.94.593 11 1.333V18c1.234-.799 6.436-1.968 7.5-1.65a.931.931 0 0 0 .5.147.931.931 0 0 0 .5-.148c.152-.096.279-.235.366-.403.088-.167.134-.357.134-.55V1.423a1.158 1.158 0 0 0-.293-.77Z"></path>
+                                                      </svg>
+                                                  Learn more
+                                              </a>
+                                              <a href="/" class="inline-flex px-3 py-2 mr-2 text-xs font-medium text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                                                  Get started
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 12" aria-hidden="true" class="w-3 h-3 ml-2"><path d="M13.923 6.382a1 1 0 0 0-.217-1.09l-4-4a1 1 0 1 0-1.414 1.414L10.586 5H1a1 1 0 0 0 0 2h9.586L8.293 9.293a1 1 0 1 0 1.414 1.414l4-4a.999.999 0 0 0 .216-.325Z"></path>
+                                                  </svg></a></div>
+                                          <div class="flex items-center">
+                                              <button diff:ignore></button>
+                                          </div>
+                                      </div>);
+    }
+
+}

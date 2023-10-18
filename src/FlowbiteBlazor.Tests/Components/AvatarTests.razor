@@ -1,0 +1,428 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Avatar
+@using Flowbite.Blazor.Components.Indicators
+
+@code {
+
+    [Fact]
+    public void DefaultAvatarTest()
+    {
+        var cut = Render(@<Avatar Src="/images/people/profile-picture-2.webp" />);
+
+        cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                                  <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                              </div>);
+    }
+
+    [Fact]
+    public void DefaultWithSrcAndHrefAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Src="/images/people/profile-picture-2.webp" />);
+
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void BorderedAvatarTest()
+    {
+        var cut = Render(@<Avatar Border="true" Src="/images/people/profile-picture-2.webp" />);
+
+        cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                                    p-1 ring-2 ring-neutral-300 dark:ring-neutral-500">
+                                          <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void RoundedAvatarTest()
+    {
+        var cut = Render(@<Avatar Rounded="true" Src="/images/people/profile-picture-2.webp" />);
+
+        cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <img alt="" src="/images/people/profile-picture-2.webp" class="rounded"/>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void StackedAvatarTest()
+    {
+        var cut = Render(@<Avatar Stacked="true" Src="/images/people/profile-picture-2.webp" />);
+
+        cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                                    border-2 -ml-4 border-white dark:border-neutral-800">
+                                          <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                      </div>);
+    }
+
+    [Fact]
+    public void PlaceholderIconAvatarTest()
+    {
+        var cut = Render(@<Avatar/>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                                  <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                                  </svg>
+                                              </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderIconRoundedAvatarTest()
+    {
+        var cut = Render(@<Avatar Rounded="true"/>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <svg class="rounded w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </div>);
+    }
+
+    [Fact]
+    public void PlaceholderIconBorderedAvatarTest()
+    {
+        var cut = Render(@<Avatar Border="true"/>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600 p-1 ring-2 ring-neutral-300 dark:ring-neutral-500" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderIconStackedAvatarTest()
+    {
+        var cut = Render(@<Avatar Stacked="true"/>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600 -ml-4" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsAvatarTest()
+    {
+        var cut = Render(@<Avatar>JG</Avatar>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                                <span class="font-medium">
+                                                  JG
+                                                </span>
+                                              </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsStackedAvatarTest()
+    {
+        var cut = Render(@<Avatar Stacked="true">JG</Avatar>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300 border-2 -ml-4 border-white dark:border-neutral-800">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsBorderedAvatarTest()
+    {
+        var cut = Render(@<Avatar Border="true">JG</Avatar>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full
+                                            p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsRoundedAvatarTest()
+    {
+        var cut = Render(@<Avatar Rounded="true">JG</Avatar>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public void SizesAvatarTest()
+    {
+        var cut = Render(@<div><Avatar Src="/images/people/profile-picture-2.webp" Size="Sizes.ExtraSmall" />
+                                            <Avatar Src="/images/people/profile-picture-2.webp" Size="Sizes.Small" />
+                                            <Avatar Src="/images/people/profile-picture-2.webp" Size="Sizes.Base" />
+                                            <Avatar Src="/images/people/profile-picture-2.webp" Size="Sizes.Large" />
+                                            <Avatar Src="/images/people/profile-picture-2.webp" Size="Sizes.ExtraLarge" /></div>);
+        
+        cut.Find("div").MarkupMatches(@<div><div class="relative flex justify-center items-center rounded-full w-6 h-6 text-neutral-600 dark:text-neutral-300">
+                                              <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                          </div>
+                                          <div class="relative flex justify-center items-center rounded-full w-8 h-8 text-neutral-600 dark:text-neutral-300">
+                                              <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                          </div>
+                                          <div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                              <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                          </div>
+                                          <div class="relative flex justify-center items-center rounded-full w-20 h-20 text-neutral-600 dark:text-neutral-300">
+                                              <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                          </div>
+                                          <div class="relative flex justify-center items-center rounded-full w-36 h-36 text-neutral-600 dark:text-neutral-300">
+                                              <img alt="" src="/images/people/profile-picture-2.webp" class="rounded-full"/>
+                                          </div>
+                                          </div>);
+    }
+
+    [Fact]
+    public void PlaceholderIconSizesAvatarTest()
+    {
+        var cut = Render(@<div><Avatar Size="Sizes.ExtraSmall"/>
+                             <Avatar Size="Sizes.Small"/>
+                             <Avatar Size="Sizes.Base"/>
+                             <Avatar Size="Sizes.Large"/>
+                             <Avatar Size="Sizes.ExtraLarge"/></div>);
+        
+        cut.Find("div").MarkupMatches(@<div><div class="relative">
+                                          <svg class="rounded-full w-6 h-6 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </div>
+                                          <div class="relative">
+                                              <svg class="rounded-full w-8 h-8 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                  <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                              </svg>
+                                          </div>
+                                          <div class="relative">
+                                              <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                  <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                              </svg>
+                                          </div>
+                                          <div class="relative">
+                                              <svg class="rounded-full w-20 h-20 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                  <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                              </svg>
+                                          </div>
+                                          <div class="relative">
+                                              <svg class="rounded-full w-36 h-36 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                  <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                              </svg>
+                                          </div>
+                                          </div>);
+
+    }
+
+    [Fact]
+    public void PlaceholderInitialsSizesAvatarTest()
+    {
+        var cut = Render(@<div><Avatar Size="Sizes.ExtraSmall">JG</Avatar>
+                             <Avatar Size="Sizes.Small">JG</Avatar>
+                             <Avatar Size="Sizes.Base">JG</Avatar>
+                             <Avatar Size="Sizes.Large">JG</Avatar>
+                             <Avatar Size="Sizes.ExtraLarge">JG</Avatar></div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="relative">
+                                              <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                            w-6 h-6 text-neutral-600 dark:text-neutral-300">
+                                                  <span class="font-medium">
+                                                      JG
+                                                  </span>
+                                              </div>
+                                          </div>
+                                          <div class="relative">
+                                              <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                                                                      w-8 h-8 text-neutral-600 dark:text-neutral-300">
+                                                  <span class="font-medium">
+                                                      JG
+                                                  </span>
+                                              </div>
+                                          </div>
+                                          <div class="relative">
+                                              <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                                                                      w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                                  <span class="font-medium">
+                                                      JG
+                                                  </span>
+                                              </div>
+                                          </div>
+                                          <div class="relative">
+                                              <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                                                                      w-20 h-20 text-neutral-600 dark:text-neutral-300">
+                                                  <span class="font-medium">
+                                                      JG
+                                                  </span>
+                                              </div>
+                                          </div>
+                                          <div class="relative">
+                                              <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                                                                      w-36 h-36 text-neutral-600 dark:text-neutral-300">
+                                                  <span class="font-medium">
+                                                      JG
+                                                  </span>
+                                              </div>
+                                          </div>
+                                          </div>);
+    }
+
+    [Fact]
+    public void PlaceholderWithHrefIconAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/"/>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                                  <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                                  </svg>
+                                              </a>);
+    }
+    
+    [Fact]
+    public void PlaceholderIconWithHrefRoundedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Rounded="true"/>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <svg class="rounded w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </a>);
+    }
+
+    [Fact]
+    public void PlaceholderIconWithHrefBorderedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Border="true"/>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                                p-1 ring-2 ring-neutral-300 dark:ring-neutral-500">
+                                          <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600 p-1 ring-2 ring-neutral-300 dark:ring-neutral-500" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void PlaceholderIconWithHrefStackedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Stacked="true"/>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                                                                                            border-2 -ml-4 border-white dark:border-neutral-800">
+                                          <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                          </svg>
+                                      </a>);
+    }
+    
+        [Fact]
+    public void PlaceholderInitialsWithHrefAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/">JG</Avatar>);
+        
+            cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                                <span class="font-medium">
+                                                  JG
+                                                </span>
+                                              </div>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsWithHrefStackedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Stacked="true">JG</Avatar>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                          border-2 -ml-4 border-white dark:border-neutral-800">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300 border-2 border-white dark:border-neutral-800">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsWithHrefBorderedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Border="true">JG</Avatar>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300
+                                                                                       p-1 ring-2 ring-neutral-300 dark:ring-neutral-500">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded-full
+                                            p-1 ring-2 ring-neutral-300 dark:ring-neutral-500 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void PlaceholderInitialsWithHrefRoundedAvatarTest()
+    {
+        var cut = Render(@<Avatar Href="/" Rounded="true">JG</Avatar>);
+        
+        cut.Find("a").MarkupMatches(@<a href="/" class="relative flex justify-center items-center rounded w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 rounded 
+                                            w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                              <span class="font-medium">
+                                                  JG
+                                              </span>
+                                          </div>
+                                      </a>);
+    }
+    
+    [Fact]
+    public void AvatarWithIndicatorTest()
+    {
+        var cut = Render(@<Avatar dot DotColor="IndiColors.Success" Src="/images/people/profile-picture-1.webp" alt="indicator avatar"/>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
+                                          <img alt="indicator avatar" src="/images/people/profile-picture-1.webp" class="rounded-full"/>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                        indi-size-large border-2 border-white dark:border-gray-800 absolute indi-topright indi-success" style=""></span>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void AvatarWithTopLeftIndicatorTest()
+    {
+        var cut = Render(@<Avatar Dot="true" DotColor="IndiColors.Danger" DotPlacement="IndiLocs.TopLeft"></Avatar>);
+        
+        cut.Find("div").MarkupMatches(@<div class="relative">
+                                          <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600 " fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                              <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                          </svg><span class="inline-flex items-center justify-center rounded-full 
+                                                indi-size-large border-2 border-white dark:border-gray-800 
+                                                absolute indi-topleft indi-danger " style=""></span>
+                                            </div>);
+    }
+    
+
+
+
+}

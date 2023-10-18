@@ -1,0 +1,162 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Breadcrumbs
+
+@code {
+
+    [Fact]
+    public void DefaultBreadcrumbTest()
+    {
+        var cut = Render(@<Breadcrumb>
+                             <BreadcrumbItem Href="/">Home</BreadcrumbItem>
+                             <BreadcrumbItem Href="#">Projects</BreadcrumbItem>
+                             <BreadcrumbItem>Flowbite</BreadcrumbItem>
+                         </Breadcrumb>);
+
+        cut.Find("nav").MarkupMatches(@<nav aria-label="Breadcrumb" class="flex" style="">
+                                          <ol class="inline-flex items-center space-x-1 md:space-x-3 ">
+                                              <li class="inline-flex items-center">
+                                                  <a class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white" href="#">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                                          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                                                      </svg>
+                                                      <span class="" style="">Home</span>
+                                                  </a>
+                                              </li>
+                                              <li>
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                                                          <path d="m1 9 4-4-4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                      </svg>
+                                                      <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white" href="#" style="">Projects</a>
+                                                  </div>
+                                              </li>
+                                              <li aria-current="page">
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                                                          <path d="m1 9 4-4-4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                      </svg>
+                                                      <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400 " style="">Flowbite</span>
+                                                  </div>
+                                              </li>
+                                          </ol>
+                                      </nav>);
+    }
+    
+    [Fact]
+    public void SolidBreadcrumbTest()
+    {
+        var cut = Render(@<Breadcrumb Solid="true">
+                             <BreadcrumbItem Href="/">Home</BreadcrumbItem>
+                             <BreadcrumbItem Href="#">Projects</BreadcrumbItem>
+                             <BreadcrumbItem>Flowbite</BreadcrumbItem>
+                         </Breadcrumb>);
+
+        cut.Find("nav").MarkupMatches(@<nav aria-label="Breadcrumb" class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" style="">
+                                          <ol class="inline-flex items-center space-x-1 md:space-x-3 ">
+                                              <li class="inline-flex items-center">
+                                                  <a class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white" href="#">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 mr-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                                          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                                                      </svg>
+                                                      <span class="" style="">Home</span>
+                                                  </a>
+                                              </li>
+                                              <li>
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                                                          <path d="m1 9 4-4-4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                      </svg>
+                                                      <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white" href="#" style="">Projects</a>
+                                                  </div>
+                                              </li>
+                                              <li aria-current="page">
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                                                          <path d="m1 9 4-4-4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                      </svg>
+                                                      <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400 " style="">Flowbite</span>
+                                                  </div>
+                                              </li>
+                                          </ol>
+                                      </nav>);
+    }
+    
+    [Fact]
+    public void CustomIconBreadcrumbTest()
+    {
+        var cut = Render(@<Breadcrumb Solid="true">
+                             <BreadcrumbItem Href="/">
+                                 <Icon>
+                                     <HomeOutline class="w-3 h-3"></HomeOutline>
+                                 </Icon>
+                                 <ChildContent>
+                                     Home
+                                 </ChildContent>
+                             </BreadcrumbItem>
+                             <BreadcrumbItem Href="#">
+                                 <Icon>
+                                     <ChevronDoubleRightSolid class="w-3 h-3 text-gray-400"></ChevronDoubleRightSolid>
+                                 </Icon>
+                                 <ChildContent>
+                                     Projects
+                                 </ChildContent>
+                             </BreadcrumbItem>
+                             <BreadcrumbItem>
+                                 <Icon>
+                                     <ChevronDoubleRightSolid class="w-3 h-3 text-gray-400"></ChevronDoubleRightSolid>
+                                 </Icon>
+                                 <ChildContent>
+                                     Flowbite
+                                 </ChildContent>
+                             </BreadcrumbItem>
+                         </Breadcrumb>);
+
+        cut.Find("nav").MarkupMatches(@<nav aria-label="Breadcrumb" class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 " style="">
+                                          <ol class="inline-flex items-center space-x-1 md:space-x-3 ">
+                                              <li class="inline-flex items-center">
+                                                  <a class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white" href="#">
+                                                      <span class="mr-2.5">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3" fill="none" viewBox="0 0 20 20">
+                                                              <path d="M3 8v10a1 1 0 0 0 1 1h4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h4a1 1 0 0 0 1-1V8M1 10l9-9 9 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                          </svg>
+                                                      </span>
+                                                      <span class="" style="">
+                                                          Home
+                                                      </span>
+                                                  </a>
+                                              </li>
+                                     
+                                              <li>
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400" fill="currentColor" stroke-width="0" viewBox="0 0 12 10">
+                                                          <g>
+                                                              <path d="M7.005 10A1 1 0 0 1 6.3 8.295l3.29-3.289L6.3 1.717A.999.999 0 1 1 7.712.305L11.707 4.3a.999.999 0 0 1 0 1.412L7.712 9.707a1 1 0 0 1-.707.293Z"/>
+                            
+                                                              <path d="M1.011 10a1 1 0 0 1-.706-1.705l3.29-3.289-3.29-3.289A.999.999 0 1 1 1.718.305L5.714 4.3a.999.999 0 0 1 0 1.412L1.718 9.707A1 1 0 0 1 1.01 10Z"/>
+                                                          </g>
+                                                      </svg>
+                                                      <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white " href="#" style="">
+                                                          Projects
+                                                      </a>
+                                                  </div>
+                                              </li>
+                                     
+                                              <li aria-current="page">
+                                                  <div class="flex items-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-3 h-3 text-gray-400" fill="currentColor" stroke-width="0" viewBox="0 0 12 10">
+                                                          <g>
+                                                              <path d="M7.005 10A1 1 0 0 1 6.3 8.295l3.29-3.289L6.3 1.717A.999.999 0 1 1 7.712.305L11.707 4.3a.999.999 0 0 1 0 1.412L7.712 9.707a1 1 0 0 1-.707.293Z"/>
+                            
+                                                              <path d="M1.011 10a1 1 0 0 1-.706-1.705l3.29-3.289-3.29-3.289A.999.999 0 1 1 1.718.305L5.714 4.3a.999.999 0 0 1 0 1.412L1.718 9.707A1 1 0 0 1 1.01 10Z"/>
+                                                          </g>
+                                                      </svg>
+                                                      <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400 " style="">
+                                                          Flowbite
+                                                      </span>
+                                                  </div>
+                                              </li>
+                                          </ol>
+                                      </nav>);
+    }
+
+}
