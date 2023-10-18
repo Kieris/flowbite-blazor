@@ -1,5 +1,5 @@
 @inherits BaseComponent
-<div class:hidden class="transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"") 
+<div class="transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"") 
         @(_hide ? "opacity-0" :"opacity-100") alert-base @(Border == AlertBorder.Border ? "border rounded-lg" 
 	     : Border == AlertBorder.TopAccent ? "border-t-4" : Border == AlertBorder.BottomAccent ? "border-b-4" : "rounded-lg")
  
@@ -163,6 +163,7 @@
 	{
 		_hide = false;
 		Hidden = false;
+		StateHasChanged();
 		await VisibleChanged.InvokeAsync();
 	}
 }

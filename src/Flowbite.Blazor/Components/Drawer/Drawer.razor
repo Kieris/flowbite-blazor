@@ -13,7 +13,7 @@
 }
 <div class="overflow-y-auto transition-translate duration-500 @_translate z-50 p-4 bg-white dark:bg-gray-800 
     @(Absolute ? Hidden ? "absolute hidden": "absolute" :"fixed") @GetPlacement() @Class" 
-         tabindex="-1" aria-controls="drawer" aria-labelledby="drawer">
+         tabindex="-1">
         @ChildContent
   </div>
 
@@ -95,6 +95,7 @@
     {
         SetTrans();
         Hidden = true;
+        StateHasChanged();
     }
 
     private void SetTrans()
