@@ -4,9 +4,13 @@
 {                                                                   
   <div tabindex="-1" class="@Position.ToString().ToLower() @_divClasses[Type] z-10 flex justify-between p-4 dark:bg-gray-700 dark:border-gray-600 
    @Class" style="@Style" @attributes="@UserAttributes">
-    <div>
-    @Header
-    </div>
+    @if (Header is not null)
+    {
+          <div>
+            @Header
+          </div>
+    }
+
     <div class="flex @_innerDivClasses[Type] @InnerClass">
       @ChildContent
     </div>

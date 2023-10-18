@@ -1,13 +1,13 @@
 @inherits BaseComponent
 @inject NavigationManager NavManager
 
-<div class="h-full w-full font-medium">
+<div class="h-full w-full font-medium" @attributes="@UserAttributes">
     @if (TabsToSelectOnSmall)
     {
         <!--For small screens-->
         <div class="sm:hidden">
             <label for="tabs" class="sr-only">Select tab</label>
-            <select id="tabs" @onchange="SelectionChanged" class="tabs-select">
+            <select id="tabs" @onchange="SelectionChanged" class="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                 @foreach (TabItem TabItem in Pages)
                 {
                     <option>
@@ -19,7 +19,7 @@
     }
     @if (TabStyle == TabStyles.Pill)
     {
-        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-pill">
+        <ul class="@_tabsBase @(TabsToSelectOnSmall ? "hidden sm:flex" : "flex") flex-wrap">
             @foreach (TabItem tabItem in Pages)
             {
                 <li class="mr-2">
@@ -32,12 +32,14 @@
     }
     else if (TabStyle == TabStyles.Underline)
     {
-        <div class="tabs-base tabs-underline">
-            <ul class="tabs-underline-ul  @(TabsToSelectOnSmall ? "tabs-hidden" : "flex")">
+        <div class="@_tabsBase border-b border-neutral-200 dark:border-neutral-700 mb-1">
+            <ul class="flex-wrap -mb-px  @(TabsToSelectOnSmall ? "hidden sm:flex" : "flex")">
                 @foreach (TabItem tabItem in Pages)
                 {
                     <li class="mr-2">
-                        <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) rounded-t-lg border-b-2 @GetButtonClass(tabItem)">
+                        <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" 
+                                class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : 
+                                                        BtnSizeClass) rounded-t-lg border-b-2 @GetButtonClass(tabItem)">
                             @if (tabItem.IconTitle is not null)
                             {
                                 @tabItem.IconTitle
@@ -54,7 +56,7 @@
     }
     else if (TabStyle == TabStyles.Full)
     {
-        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-full">
+        <ul class="@_tabsBase @(TabsToSelectOnSmall ? "hidden sm:flex" : "flex") rounded-lg divide-x divide-neutral-200 shadow dark:divide-neutral-600">
             @foreach (TabItem tabItem in Pages)
             {
                 <li class="w-full">
@@ -68,7 +70,7 @@
     }
     else
     {
-        <ul class="tabs-base @(TabsToSelectOnSmall ? "tabs-hidden" : "flex") tabs-basic">
+        <ul class="@_tabsBase @(TabsToSelectOnSmall ? "hidden sm:flex" : "flex") border-b flex-wrap border-neutral-200 dark:border-neutral-700">
             @foreach (TabItem tabItem in Pages)
             {
                 <li class="mr-2">
@@ -83,11 +85,11 @@
     {
         <div class="h-px my-2 bg-neutral-200 dark:bg-neutral-700"></div>
     }
-    <div class="w-full h-full">
-        <CascadingValue Value="this">
-            @ChildContent
-        </CascadingValue>
-    </div>
+    
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+
 </div>
 
 
@@ -122,7 +124,7 @@
     
     /// <summary>
     /// Allows defining the padding and text size of tab buttons
-    /// </summmary>
+    /// </summary>
     [Parameter]
     public string BtnSizeClass { get; set; } = string.Empty;
 
@@ -131,7 +133,7 @@
     /// </summary>
     [Parameter]
     public EventCallback<string> TabChanged { get; set; }
-
+    
     /// <summary>
     /// Defines the currently active page
     /// </summary>
@@ -141,6 +143,11 @@
     /// The collection of TabItems inside ChildContent
     /// </summary>
     private List<TabItem> Pages = new();
+    
+    /// <summary>
+    /// The base classes for the tabs
+    /// </summary>
+    private string _tabsBase = "text-sm font-medium text-center text-neutral-500 dark:text-neutral-400";
 
     /// <summary>
     /// Allows children TabItems to add themselves to parent and sets initially active page
@@ -199,8 +206,8 @@
             {
                 switch(TabStyle)
                 {
-                    case TabStyles.Underline: return "border-transparent tabs-disabled";
-                    default: return "tabs-disabled";
+                    case TabStyles.Underline: return "border-transparent text-neutral-300 dark:text-neutral-600 cursor-not-allowed";
+                    default: return "text-neutral-300 dark:text-neutral-600 cursor-not-allowed";
                 }
             }
         }
@@ -240,6 +247,7 @@
             {
                 NavManager.NavigateTo(page.Href);
             }
+            StateHasChanged();
         }  
     }
 

@@ -16,7 +16,8 @@
       {
           @if (ChildContent is not null)
           {
-            <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 @_avatarClass @(Stacked ? "ml-0":"")">
+            <div class="relative inline-flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-600 
+@(Stacked ? _avatarClass.Replace("-ml-4 ", ""): _avatarClass)">
               <span class="font-medium">
                 @ChildContent
               </span>

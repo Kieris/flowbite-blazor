@@ -1,11 +1,10 @@
 @inherits BaseComponent
-<div class="h-full w-full py-0.5 @Class" style="@Style">
-    @if(Parent?.ActivePage == this) 
-    {
-        @ChildContent
-    }
-</div>
-
+   @if (Parent?.ActivePage == this)
+   {
+       <div class="h-full w-full py-0.5 @Class" @attributes="@UserAttributes" style="@Style">
+           @ChildContent
+       </div>
+   }
 @code {
     /// <summary>
     /// The TabControl this TabItem is inside

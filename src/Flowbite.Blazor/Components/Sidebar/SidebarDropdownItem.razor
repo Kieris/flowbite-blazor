@@ -1,8 +1,9 @@
 @inherits BaseComponent
-<li class="@Class" style="@Style">
-    <NavLink href="@Link" class="@GetNavLinkClass()" 
-             Match="NavLinkMatch.All" ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) && !Link.Equals(string.Empty) 
-                                                       ? "sidebar-dropdown-active" : $"pl-11 {Parent.ActiveClass}")">
+<li class="@Class" style="@Style" @attributes="@UserAttributes">
+    <NavLink href="@Href" class="@GetNavLinkClass()" 
+             Match="NavLinkMatch.All" ActiveClass="@(string.IsNullOrWhiteSpace(Parent?.ActiveClass) && !Href.Equals(string.Empty) 
+                                                       ? "flex items-center p-2 pl-10 text-base font-normal text-gray-900 bg-gray-200 dark:bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                       : Parent.ActiveClass)">
     @Label
   </NavLink>
 </li>
@@ -18,31 +19,21 @@
     /// The link (href)
     /// </summary>
     [Parameter]
-    public string Link { get; set; } = string.Empty;
+    public string Href { get; set; } = string.Empty;
     
     /// <summary>
     /// The label for the dropdown item
     /// </summary>
     [Parameter]
     public string Label { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Watches for parameter changes and sets <see cref="Link"/> from href if needed
-    /// </summary>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        if (UserAttributes.TryGetValue("href", out var attribute))
-        {
-            Link = attribute.ToString()!;
-        }
-    }
     
     /// <summary>
     /// Used to get NavLink class because component attributes do not support complex content (mixed C# and markup).
     /// </summary>
     private string GetNavLinkClass()
     {
-        return string.IsNullOrWhiteSpace(Parent?.InactiveClass) ? "sidebar-dropdown-inactive" : $"pl-11 {Parent.InactiveClass}"!;
+        return string.IsNullOrWhiteSpace(Parent?.InactiveClass) 
+            ? "flex items-center p-2 pl-10 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" 
+            : $"pl-10 {Parent.InactiveClass}"!;
     }
 }
