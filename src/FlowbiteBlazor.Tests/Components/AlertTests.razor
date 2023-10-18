@@ -1,0 +1,487 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Alerts
+
+@code {
+    [Fact]
+    public void DefaultAlertAllColorsTest()
+    {
+        //Test the alert with primary color
+        var cut = Render(@<Alert>Primary alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Primary alert!</div>
+                                          </div>
+                                    </div>);
+        
+        cut = Render(@<Alert Color="@AlertColors.Primary">Primary alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Primary alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with supporting color
+        cut = Render(@<Alert Color="@AlertColors.Supporting">Supporting alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-supporting" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Supporting alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with accent color
+        cut = Render(@<Alert Color="@AlertColors.Accent">Accent alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-accent" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Accent alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with danger color
+        cut = Render(@<Alert Color="@AlertColors.Danger">Danger alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-danger" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Danger alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with neutral color
+        cut = Render(@<Alert Color="@AlertColors.Neutral">Neutral alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-neutral" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Neutral alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with warning color
+        cut = Render(@<Alert Color="@AlertColors.Warning">Warning alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-warning" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Warning alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with success color
+        cut = Render(@<Alert Color="@AlertColors.Success">Success alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-success" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Success alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //Test the alert with custom color
+        cut = Render(@<Alert Color="@AlertColors.None" Class="text-purple-600 bg-gray-200 dark:text-purple-200 dark:bg-neutral-700">Custom alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg text-purple-600 bg-gray-200 dark:text-purple-200 dark:bg-neutral-700" 
+                                            style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Custom alert!</div>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void AlertWithIconTest()
+    {
+        var cut = Render(@<Alert>
+                             <Icon><InfoCircleSolid class="flex-shrink-0 inline w-4 h-4 mr-3"></InfoCircleSolid></Icon>
+                             <ChildContent>Primary alert! Change a few things up and try submitting again.</ChildContent>
+                         </Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <span>
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true"
+                                                       class="flex-shrink-0 inline w-4 h-4 mr-3">
+                                                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>
+                                              </span>
+                                              <div>Primary alert! Change a few things up and try submitting again.</div>
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public void AlertWithBorderAllColorsTest()
+    {
+        var cut = Render(@<Alert Border="AlertBorder.Border">Primary alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-primary border rounded-lg alert-border-primary alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Primary alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Primary">Primary alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-primary border rounded-lg alert-border-primary alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Primary alert!</div>
+                                          </div>
+                                      </div>);
+        
+
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Supporting">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-supporting border rounded-lg alert-border-supporting alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Accent">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-accent border rounded-lg alert-border-accent alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Neutral">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-neutral border rounded-lg alert-border-neutral alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Danger">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-danger border rounded-lg alert-border-danger alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Warning">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-warning border rounded-lg alert-border-warning alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Border="AlertBorder.Border" Color="@AlertColors.Success">Alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-success border rounded-lg alert-border-success alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Alert!</div>
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public void AlertWithListTest()
+    {
+        var cut = Render(@<Alert>
+                             <Icon>
+                                 <InfoCircleSolid class="flex-shrink-0 inline w-4 h-4 mr-3"></InfoCircleSolid>
+                             </Icon>
+                             <ChildContent>
+                                <span class="sr-only">Info</span>
+                                 <div>
+                                     <span class="font-medium">Ensure that these requirements are met:</span>
+                                     <ul class="mt-1.5 ml-4 list-disc list-inside">
+                                         <li>At least 10 characters (and up to 100 characters)</li>
+                                         <li>At least one lowercase character</li>
+                                         <li>Inclusion of at least one special character, e.g., ! @@ # ?</li>
+                                     </ul>
+                                 </div>
+                                 </ChildContent>
+                                </Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <span>
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true"
+                                                       class="flex-shrink-0 inline w-4 h-4 mr-3">
+                                                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>
+                                              </span>
+                                              <div>
+                                                  <span class="sr-only">Info</span>
+                                                  <div>
+                                                      <span class="font-medium">Ensure that these requirements are met:</span>
+                                                      <ul class="mt-1.5 ml-4 list-disc list-inside">
+                                                          <li>At least 10 characters (and up to 100 characters)</li>
+                                                          <li>At least one lowercase character</li>
+                                                          <li>Inclusion of at least one special character, e.g., ! @@ # ?</li>
+                                                      </ul>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void DismissableAlertAllColorsTest()
+    {
+        var cut = Render(@<Alert Dismissable="true">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-primary" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                                  </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Primary">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-primary" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Supporting">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-supporting" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-supporting" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Accent">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-accent" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-accent" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Neutral">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-neutral" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-neutral" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Danger">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-danger" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-danger" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Warning">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-warning" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-warning" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<Alert Dismissable="true" Color="@AlertColors.Success">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-success" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-success" aria-label="Close" ><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public async void DismissedAlertTest()
+    {
+        //Prepare to receive VisibleChanged event callback
+        string dismissStr = string.Empty;
+        Action onDismissedHandler = () => { dismissStr = "success"; };
+        
+        var cut = Render(@<Alert Dismissable="true" VisibleChanged="onDismissedHandler">Dismiss alert!</Alert>);
+        var buttonElement = cut.Find("button");
+        
+        buttonElement.Click();
+        //wait for alert to fade out and be hidden
+        await Task.Delay(650);
+        
+        //check that event callback worked
+        Assert.Equal(dismissStr, "success");
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out hidden  
+                                             opacity-0 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                              <button type="button" blazor:onclick="1" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex 
+                                              				items-center justify-center h-8 w-8 focus:ring-2 alert-dismiss-primary " aria-label="Close"><span class="sr-only">Dismiss</span>
+                                                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                              </button>
+                                          </div>
+                                      </div>);
+        
+    }
+
+    [Fact]
+    public void AccentBorderAlertTest()
+    {
+        //top accent border
+        var cut = Render(@<Alert Border="@AlertBorder.TopAccent">Dismiss alert!</Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-primary border-t-4 alert-border-primary alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                          </div>
+                                      </div>);
+        
+        //bottom accent border
+        cut = Render(@<Alert Border="@AlertBorder.BottomAccent">Dismiss alert!</Alert>);
+        
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base alert-primary border-b-4 alert-border-primary alert-dark-bg-dark" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public void ExtraContentAlertTest()
+    {
+        var cut = Render(@<Alert>
+                             <Icon>
+                                 <InfoCircleSolid class="flex-shrink-0 inline w-4 h-4 mr-3"></InfoCircleSolid>
+                             </Icon>
+                             <ChildContent>
+                                 <span class="sr-only">Info</span>
+                                 <div>
+                                     <h3 class="text-lg font-medium">This is a info alert</h3>
+                                 </div>
+                             </ChildContent>
+                             <Extra>
+                                 <div class="mt-2 mb-4 text-sm">
+                                     More info about this info alert goes here. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.
+                                 </div>
+                                 <div class="flex">
+                                     This is extra content.
+                                 </div>
+                             </Extra>
+                         </Alert>);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <span >
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="flex-shrink-0 inline w-4 h-4 mr-3">
+                                                      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                                  </svg>
+                                              </span>
+                                              <div>
+                                                  <span class="sr-only">Info</span>
+                                                  <div>
+                                                      <h3 class="text-lg font-medium">This is a info alert</h3>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="mt-2 mb-4 text-sm">
+                                              More info about this info alert goes here. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.
+                                          </div>
+                                          <div class="flex">
+                                              This is extra content.
+                                          </div>
+                                      </div>);
+    }
+
+    [Fact]
+    public async void ShowAndHideAlertTest()
+    {
+        var cut = Render(@<Alert>Dismiss alert!</Alert>);
+        
+        cut.WaitForAssertion(() => cut.FindComponent<Alert>().Instance.Hide());
+
+        //Waiting for alert to fade out
+        await Task.Delay(650);
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out hidden  
+                                             opacity-0 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                          </div>
+                                      </div>);
+        
+        cut.WaitForAssertion(() => cut.FindComponent<Alert>().Instance.Show());
+        
+        cut.Find("div").MarkupMatches(@<div class="transition-opacity duration-1000 ease-out  
+                                             opacity-100 alert-base rounded-lg alert-primary" style="" role="alert">
+                                          <div class="flex items-start">
+                                              <div>Dismiss alert!</div>
+                                          </div>
+                                      </div>);
+    }
+}

@@ -1,0 +1,218 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.ListGroup
+
+@code {
+
+    [Fact]
+    public void DefaultListGroupTest()
+    {
+        List<ListGroupItemModel> _items1 = new()
+        {
+            new ListGroupItemModel()
+            {
+                Name = "Profile"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Settings"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Messages"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Download"
+            }
+        };
+        
+        var cut = Render(@<div class="flex justify-center gap-4">
+                             <ListGroup Items="@_items1" Class="w-48"></ListGroup>
+                             <ListGroup Class="w-48">
+                                 <ListGroupItem>Profile</ListGroupItem>
+                                 <ListGroupItem>Settings</ListGroupItem>
+                                 <ListGroupItem>Messages</ListGroupItem>
+                                 <ListGroupItem>Downloads</ListGroupItem>
+                             </ListGroup>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-4">
+                                          <ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-48">
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Profile</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Settings</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Messages</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Download</li>
+                                          </ul>
+                                          <ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-48">
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Profile</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Settings</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Messages</li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   " style="">Downloads</li>
+                                          </ul>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void ListGroupWithLinksTest()
+    {
+        List<ListGroupItemModel> _items2 = new()
+        {
+            new ListGroupItemModel()
+            {
+                Name = "Profile",
+                Href = "/profile"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Settings",
+                Href = "#"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Messages",
+                Href = "#"
+            },
+            new ListGroupItemModel()
+            {
+                Name = "Download",
+                Href = "#"
+            }
+        };
+        
+        var cut = Render(@<ListGroup Active="true" Items="@_items2" Class="w-48"></ListGroup>);
+
+        cut.Find("ul").MarkupMatches(@<ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-48">
+                                         <a href="/profile" class="block py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   
+                               hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white " style="" >Profile</a>
+                                         <a href="#" class="block py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   
+                               hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white " style="" >Settings</a>
+                                         <a href="#" class="block py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   
+                               hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white " style="" >Messages</a>
+                                         <a href="#" class="block py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   
+                               hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white " style="" >Download</a>
+                                     </ul>);
+    }
+    
+    [Fact]
+    public void ListGroupWithButtonsTest()
+    {
+            List<ListGroupItemModel> items3 = new()
+            {
+                new ListGroupItemModel()
+                {
+                    Name = "Profile"
+                },
+                new ListGroupItemModel()
+                {
+                    Name = "Settings"
+                },
+                new ListGroupItemModel()
+                {
+                    Name = "Messages"
+                },
+                new ListGroupItemModel()
+                {
+                    Name = "Download",
+                    Disabled = true
+                }
+            };
+
+            ListGroupItemModel? testItem = null;
+            Action<ListGroupItemModel> btnClick = model => { testItem = model; };
+        
+        var cut = Render(@<div>
+                             <div class="flex justify-center">
+                                 <ListGroup Items="@items3" Active="true" Class="w-48" OnClick="@btnClick"></ListGroup>
+                             </div>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="flex justify-center">
+                                              <ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-48">
+                                                  <li role="button" class="text-left py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg  
+    hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white  " style="" >Profile</li>
+                                                  <li role="button" class="text-left py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg  
+    hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white  " style="" >Settings</li>
+                                                  <li role="button" class="text-left py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg  
+    hover:bg-gray-100 hover:text-primary-700 dark:hover:bg-gray-600 dark:hover:text-white focus:z-40 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:focus:ring-gray-500 dark:focus:text-white  " style="" >Messages</li>
+                                                  <li role="button" class="text-left py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg cursor-not-allowed 
+      text-gray-700 bg-gray-100 dark:bg-gray-600 dark:text-gray-400 cursor-not-allowed " style="" disabled="" >Download</li>
+                                              </ul>
+                                          </div>
+                                      </div>);
+        
+        //Find the first list item and click it
+        var buttonElement = cut.Find("li");
+        buttonElement.Click();
+
+        Assert.NotNull(testItem!);
+
+        if (testItem is not null)
+        {
+            Assert.Equal(items3.First(), testItem);
+        }
+    }
+    
+    [Fact]
+    public void ListGroupWithIconsTest()
+    {
+        var cut = Render(@<div class="flex justify-center">
+                             <ListGroup Class="w-48">
+                                 <ListGroupItem Class="flex justify-start items-center">
+                                     <UserSolid class="w-3 h-3 mr-2.5" />
+                                     Profile
+                                 </ListGroupItem>
+                                 <ListGroupItem Class="flex justify-start items-center">
+                                     <AdjustmentsHorizontalSolid class="w-3 h-3 mr-2.5" />
+                                     Settings
+                                 </ListGroupItem>
+                                 <ListGroupItem Class="flex justify-start items-center">
+                                     <MessagesSolid class="w-3 h-3 mr-2.5" />
+                                     Messages
+                                 </ListGroupItem>
+                                 <ListGroupItem Class="flex justify-start items-center">
+                                     <DownloadSolid class="w-3 h-3 mr-2.5" />
+                                     Download
+                                 </ListGroupItem>
+                             </ListGroup>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex justify-center">
+                                          <ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white w-48">
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   flex justify-start items-center" style="">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 18" aria-hidden="true" class="w-3 h-3 mr-2.5">
+                                                      <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"></path>
+                                                  </svg>
+                                                  Profile
+                                              </li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   flex justify-start items-center" style="">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-3 h-3 mr-2.5">
+                                                      <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"></path>
+                                                  </svg>
+                                                  Settings
+                                              </li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   flex justify-start items-center" style="">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 18" aria-hidden="true" class="w-3 h-3 mr-2.5">
+                                                      <path d="M8 5h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"></path>
+                                                      <path d="M18 4h-2v5a4 4 0 0 1-4 4H9l-2.162 1.621c.338.245.744.378 1.162.379h3.667l3.733 2.8A1 1 0 0 0 17 17v-2h1a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"></path>
+                                                      <path d="M12 1H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"></path>
+                                                      <path d="M4 14a1 1 0 0 1-1-1v-2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.333L4.6 13.8a1 1 0 0 1-.6.2Z"></path>
+                                                  </svg>
+                                                  Messages
+                                              </li>
+                                              <li class="py-2 px-4 w-full text-sm font-medium list-none first:rounded-t-lg last:rounded-b-lg   flex justify-start items-center" style="">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-3 h-3 mr-2.5">
+                                                      <g>
+                                                          <path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"></path>
+                                                          <path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+                                                      </g>
+                                                  </svg>
+                                                  Download
+                                              </li>
+                                          </ul>
+                                      </div>);
+    }
+    
+    
+    
+}
