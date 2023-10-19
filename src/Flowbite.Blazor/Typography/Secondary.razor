@@ -1,0 +1,13 @@
+@inherits BaseTypography
+
+<small @ref="@ElementRef" class="font-semibold @Color @Class" @attributes="@UserAttributes">
+    @ChildContent
+</small>
+
+@code {
+    /// <summary>
+    /// The default color classes that can be overridden. Default is (text-neutral-500 dark:text-neutral-400).
+    /// </summary>
+    [Parameter]
+    public string Color { get; set; } = "text-neutral-500 dark:text-neutral-400";
+}

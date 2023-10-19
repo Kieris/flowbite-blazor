@@ -1,0 +1,57 @@
+@inherits BaseTypography
+
+@if (ChildContent is not null)
+{
+    <div @ref="@ElementRef" class="relative @TopDivClass" @attributes="@UserAttributes">
+        <hr class="@HrClass @Class" />
+        <div class="@InnerDivClass @(Icon ? IconDivClass : SpanClass)">
+           @ChildContent
+        </div>
+    </div> 
+}
+else
+{
+    <hr @ref="@ElementRef" class="@HrClass @Class" @attributes="@UserAttributes" />
+}
+
+@code {
+    /// <summary>
+    /// Defines whether the content is an icon
+    /// </summary>
+    [Parameter]
+    public bool Icon { get; set; }
+    
+    /// <summary>
+    /// Defines the classes for the top div when there is content.
+    /// Can be overridden. Default is (inline-flex items-center justify-center w-full).
+    /// </summary>
+    [Parameter]
+    public string TopDivClass { get; set; } = "inline-flex items-center justify-center w-full";
+
+    /// <summary>
+    /// Defines the classes for the hr. Can be overridden. Default is (h-px my-8 bg-neutral-200 border-0 dark:bg-neutral-700).
+    /// </summary>
+    [Parameter]
+    public string HrClass { get; set; } = "h-px my-8 bg-neutral-200 border-0 dark:bg-neutral-700";
+
+    /// <summary>
+    /// Defines the classes for the icon when there is content and <see cref="Icon"/> is true.
+    /// Can be overridden. Default is (absolute left-1/2 px-4 bg-white -translate-x-1/2).
+    /// </summary>
+    [Parameter]
+    public string IconDivClass { get; set; } = "absolute left-1/2 px-4 bg-white -translate-x-1/2";
+    
+    /// <summary>
+    /// Defines the classes for the text content div when there is content.
+    /// Can be overridden. Default is (absolute px-3 font-medium text-neutral-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-neutral-900).
+    /// </summary>
+    [Parameter]
+    public string SpanClass { get; set; } = "absolute px-3 font-medium text-neutral-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-neutral-900";
+
+    /// <summary>
+    /// Defines the classes for the content div when there is content.
+    /// Can be overridden. Default is (absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-neutral-900).
+    /// </summary>
+    [Parameter]
+    public string InnerDivClass { get; set; } = "absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-neutral-900";
+}

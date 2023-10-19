@@ -1,0 +1,71 @@
+@inherits BaseTypography
+
+@switch (Tag)
+{
+    case "h1":
+        <h1 @ref="@ElementRef" class="@(Size ?? "text-5xl font-extrabold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h1>
+        break;
+    case "h2":
+        <h2 @ref="@ElementRef" class="@(Size ?? "text-4xl font-bold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h2>
+        break;
+    case "h3":
+        <h3 @ref="@ElementRef" class="@(Size ?? "text-3xl font-bold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h3>
+        break;
+    case "h4":
+        <h4 @ref="@ElementRef" class="@(Size ?? "text-2xl font-bold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h4>
+        break;
+    case "h5":
+        <h5 @ref="@ElementRef" class="@(Size ?? "text-xl font-bold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h5>
+        break;
+    default:
+        <h6 @ref="@ElementRef" class="@(Size ?? "text-lg font-bold") w-full @(Color ?? "text-gray-900 dark:text-white") @Class" 
+            @attributes="@UserAttributes">
+            @ChildContent
+        </h6>
+        break;
+}
+
+@code {
+    /// <summary>
+    /// Defines the HTML tag for the component
+    /// </summary>
+    [Parameter]
+    public string Tag { get; set; } = "h6";
+    
+    /// <summary>
+    /// Defines the text color
+    /// </summary>
+    [Parameter]
+    public string? Color { get; set; }
+    
+    /// <summary>
+    /// Defines the font weight and size
+    /// </summary>
+    [Parameter]
+    public string? Size { get; set; }
+
+    /// <summary>
+    /// Called when the component is initialized and ensures Tag is lower case
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Tag = Tag.ToLower();
+    }
+
+}

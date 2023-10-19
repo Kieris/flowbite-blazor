@@ -1,0 +1,42 @@
+@inherits BaseTypography
+
+@switch (Type)
+{
+    case ListType.Unordered:
+        <ul @ref="@ElementRef" class="list-disc @(Outside ? "list-outside": "list-inside") @Class" @attributes="@UserAttributes">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </ul>
+        break;
+    case ListType.Ordered:
+        <ol @ref="@ElementRef" class="list-decimal @(Outside ? "list-outside": "list-inside") @Class" @attributes="@UserAttributes">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </ol>
+        break;
+    default:
+        <dl @ref="@ElementRef" class="list-none @(Outside ? "list-outside": "list-inside") @Class" @attributes="@UserAttributes">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </dl>
+        break;
+}
+
+
+@code {
+    /// <summary>
+    /// Defines the type of the list
+    /// </summary>
+    [Parameter]
+    public ListType Type { get; set; } = ListType.Definition;
+    
+    /// <summary>
+    /// Defines if the list is outside or inside. Default is (false) which means inside.
+    /// </summary>
+    [Parameter]
+    public bool Outside { get; set; }
+
+}

@@ -1,0 +1,157 @@
+@inherits BaseTypography
+<p @ref="@ElementRef" class="@_weightDefs[Weight] @_sizeDefs[Size] @Color @_heightDefs[Height] @_spacesDefs[Space] @_alignDefs[Align] 
+@_whitespaceDefs[Whitespace] @(Justify ? "text-justify" : "") @(Italic ? "italic" : "") @(FirstUpper ? UpperClass : "") @Class" @attributes="@UserAttributes">
+    @ChildContent
+</p>
+
+@code {
+    /// <summary>
+    /// Defines whether the first line will be specialized with first letter capitalized big. Default is false.
+    /// </summary>
+    [Parameter]
+    public bool FirstUpper { get; set; }
+
+    /// <summary>
+    /// Defines the upper class for when FirstUpper is true. Default is
+    /// (first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left).
+    /// </summary>
+    [Parameter]
+    public string UpperClass { get; set; } = "first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left";
+    /// <summary>
+    /// Defines the font weight. Default is Normal.
+    /// </summary>
+    [Parameter] 
+    public FontWeights Weight { get; set; } = FontWeights.Normal;
+
+    /// <summary>
+    /// Defines the text spacing. Default is Normal.
+    /// </summary>
+    [Parameter] 
+    public Spaces Space { get; set; } = Spaces.Normal;
+    
+    /// <summary>
+    /// Defines the text height. Default is Normal.
+    /// </summary>
+    [Parameter]
+    public Heights Height { get; set; } = Heights.Normal;
+    
+    /// <summary>
+    /// Defines the font size. Default is Base.
+    /// </summary>
+    [Parameter]
+    public TextSizes Size { get; set; } = TextSizes.Base;
+    
+    /// <summary>
+    /// Defines the text alignment. Default is Left.
+    /// </summary>
+    [Parameter]
+    public Aligns Align { get; set; } = Aligns.Left;
+    
+    /// <summary>
+    /// Defines the whitespace for text. Default is Normal.
+    /// </summary>
+    [Parameter]
+    public Whitespace Whitespace { get; set; } = Whitespace.Normal;
+    
+    /// <summary>
+    /// Defines the text color. Can be overridden. Default is (text-neutral-900 dark:text-white)
+    /// </summary>
+    [Parameter]
+    public string Color { get; set; } = "text-neutral-900 dark:text-white";
+    
+    /// <summary>
+    /// Defines whether the text should be justified. Default is false.
+    /// </summary>
+    [Parameter]
+    public bool Justify { get; set; }
+    
+    /// <summary>
+    /// Defines whether the text should be italic. Default is false.
+    /// </summary>
+    [Parameter]
+    public bool Italic { get; set; }
+    
+    /// <summary>
+    /// Dictionary of classes for the font weight
+    /// </summary>
+    private readonly Dictionary<FontWeights, string> _weightDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the text spacing
+    /// </summary>
+    private readonly Dictionary<Spaces, string> _spacesDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the text height
+    /// </summary>
+    private readonly Dictionary<Heights, string> _heightDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the font size
+    /// </summary>
+    private readonly Dictionary<TextSizes, string> _sizeDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the text alignment
+    /// </summary>
+    private readonly Dictionary<Aligns, string> _alignDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the whitespace
+    /// </summary>
+    private readonly Dictionary<Whitespace, string> _whitespaceDefs = new();
+    
+    /// <summary>
+    /// Initializes the component and style classes for dictionaries
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //Initialize definitions for dictionaries. Doing it this way so tailwind can see classes.
+        _weightDefs.Add(FontWeights.Thin, "font-thin");
+        _weightDefs.Add(FontWeights.ExtraLight, "font-extralight");
+        _weightDefs.Add(FontWeights.Light, "font-light");
+        _weightDefs.Add(FontWeights.Normal, "font-normal");
+        _weightDefs.Add(FontWeights.Medium, "font-medium");
+        _weightDefs.Add(FontWeights.SemiBold, "font-semibold");
+        _weightDefs.Add(FontWeights.Bold, "font-bold");
+        _weightDefs.Add(FontWeights.ExtraBold, "font-extrabold");
+        _weightDefs.Add(FontWeights.Black, "font-black");
+
+        _spacesDefs.Add(Spaces.Tighter, "tracking-tighter");
+        _spacesDefs.Add(Spaces.Tight, "tracking-tight");
+        _spacesDefs.Add(Spaces.Normal, "tracking-normal");
+        _spacesDefs.Add(Spaces.Wide, "tracking-wide");
+        _spacesDefs.Add(Spaces.Wider, "tracking-wider");
+        _spacesDefs.Add(Spaces.Widest, "tracking-widest");
+
+        _heightDefs.Add(Heights.Normal, "leading-normal");
+        _heightDefs.Add(Heights.Relaxed, "leading-relaxed");
+        _heightDefs.Add(Heights.Loose, "leading-loose");
+        _heightDefs.Add(Heights.Snug, "leading-snug");
+        _heightDefs.Add(Heights.Tight, "leading-tight");
+        _heightDefs.Add(Heights.None, "leading-none");
+        
+        _sizeDefs.Add(TextSizes.XS, "text-xs");
+        _sizeDefs.Add(TextSizes.SM, "text-sm");
+        _sizeDefs.Add(TextSizes.Base, "text-base");
+        _sizeDefs.Add(TextSizes.LG, "text-lg");
+        _sizeDefs.Add(TextSizes.XL, "text-xl");
+        _sizeDefs.Add(TextSizes.XL2, "text-2xl");
+        _sizeDefs.Add(TextSizes.XL3, "text-3xl");
+        _sizeDefs.Add(TextSizes.XL4, "text-4xl");
+        _sizeDefs.Add(TextSizes.XL5, "text-5xl");
+        _sizeDefs.Add(TextSizes.XL6, "text-6xl");
+        _sizeDefs.Add(TextSizes.XL7, "text-7xl");
+        _sizeDefs.Add(TextSizes.XL8, "text-8xl");
+        _sizeDefs.Add(TextSizes.XL9, "text-9xl");
+
+        _alignDefs.Add(Aligns.Left, "text-left");
+        _alignDefs.Add(Aligns.Center, "text-center");
+        _alignDefs.Add(Aligns.Right, "text-right");
+
+        _whitespaceDefs.Add(Whitespace.Normal, "whitespace-normal");
+        _whitespaceDefs.Add(Whitespace.NoWrap, "whitespace-nowrap");
+        _whitespaceDefs.Add(Whitespace.Pre, "whitespace-pre");
+        _whitespaceDefs.Add(Whitespace.PreLine, "whitespace-pre-line");
+        _whitespaceDefs.Add(Whitespace.PreWrap, "whitespace-pre-wrap");
+        _whitespaceDefs.Add(Whitespace.BreakSpace, "whitespace-break-spaces");
+
+    }
+
+}

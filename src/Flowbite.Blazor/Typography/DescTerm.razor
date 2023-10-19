@@ -1,0 +1,19 @@
+@inherits BaseTypography
+
+<dt @ref="@ElementRef" class="text-neutral-500 md:text-lg dark:text-neutral-400 @(Icon ? "flex items-center":"") @Class" @attributes="@UserAttributes">
+    @ChildContent
+</dt>
+
+@code {
+    /// <summary>
+    /// Defines whether the content has an icon. Default is false.
+    /// </summary>
+    [Parameter]
+    public bool Icon { get; set; }
+    
+    /// <summary>
+    /// The List parent if the DescTerm is inside a List
+    /// </summary>
+    [CascadingParameter]
+    public List? Parent { get; set; }
+}

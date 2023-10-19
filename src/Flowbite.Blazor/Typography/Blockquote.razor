@@ -1,0 +1,73 @@
+@inherits BaseTypography
+
+<blockquote @ref="@ElementRef" class="font-semibold text-gray-900 dark:text-white @_alignDefs[Align] @_sizeDefs[Size] 
+@(Bg ? "bg-neutral-50 dark:bg-neutral-800" : "") @(Border ? "border-l-4 border-neutral-300 dark:border-neutral-500" : "") 
+@(Italic ? "italic" : "") @Class" @attributes="@UserAttributes">
+  @ChildContent
+</blockquote>
+
+@code {
+    /// <summary>
+    /// Defines the font size
+    /// </summary>
+    [Parameter]
+    public TextSizes Size { get; set; } = TextSizes.LG;
+    
+    /// <summary>
+    /// Defines the text alignment
+    /// </summary>
+    [Parameter]
+    public Aligns Align { get; set; } = Aligns.Left;
+    
+    /// <summary>
+    /// Defines whether the text should be italic
+    /// </summary>
+    [Parameter]
+    public bool Italic { get; set; }
+    
+    /// <summary>
+    /// Defines whether the text should have a background
+    /// </summary>
+    [Parameter]
+    public bool Bg { get; set; }
+    
+    /// <summary>
+    /// Defines whether the text should have a border
+    /// </summary>
+    [Parameter]
+    public bool Border { get; set; }
+    
+    /// <summary>
+    /// Dictionary of classes for the font size
+    /// </summary>
+    private readonly Dictionary<TextSizes, string> _sizeDefs = new();
+    /// <summary>
+    /// Dictionary of classes for the text alignment
+    /// </summary>
+    private readonly Dictionary<Aligns, string> _alignDefs = new();
+    
+    /// <summary>
+    /// Initializes the component and style classes for dictionaries
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _sizeDefs.Add(TextSizes.XS, "text-xs");
+        _sizeDefs.Add(TextSizes.SM, "text-sm");
+        _sizeDefs.Add(TextSizes.Base, "text-base");
+        _sizeDefs.Add(TextSizes.LG, "text-lg");
+        _sizeDefs.Add(TextSizes.XL, "text-xl");
+        _sizeDefs.Add(TextSizes.XL2, "text-2xl");
+        _sizeDefs.Add(TextSizes.XL3, "text-3xl");
+        _sizeDefs.Add(TextSizes.XL4, "text-4xl");
+        _sizeDefs.Add(TextSizes.XL5, "text-5xl");
+        _sizeDefs.Add(TextSizes.XL6, "text-6xl");
+        _sizeDefs.Add(TextSizes.XL7, "text-7xl");
+        _sizeDefs.Add(TextSizes.XL8, "text-8xl");
+        _sizeDefs.Add(TextSizes.XL9, "text-9xl");
+
+        _alignDefs.Add(Aligns.Left, "text-left");
+        _alignDefs.Add(Aligns.Center, "text-center");
+        _alignDefs.Add(Aligns.Right, "text-right");
+    }
+}

@@ -1,0 +1,41 @@
+@inherits BaseTypography
+
+<a @ref="@ElementRef" class="@LinkClass @Color @Class" href="@Href" @attributes="@UserAttributes" @onclick="Clicked">
+    @ChildContent
+</a>
+
+@code {
+
+    /// <summary>
+    /// The href/uri of the link
+    /// </summary>
+    [Parameter]
+    public string Href { get; set; } = "#";
+
+    /// <summary>
+    /// The color of the link. Can be overridden. Default is (text-primary-600 dark:text-primary-500).
+    /// </summary>
+    [Parameter]
+    public string Color { get; set; } = "text-primary-600 dark:text-primary-500";
+    
+    /// <summary>
+    /// The class of the link. Can be overridden. Default is (inline-flex items-center hover:underline).
+    /// </summary>
+    [Parameter]
+    public string LinkClass { get; set; } = "inline-flex items-center hover:underline";
+
+    /// <summary>
+    /// Callback that returns the href of an link/anchor when it is clicked
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnClick { get; set; }
+
+    /// <summary>
+    /// Invokes the OnClick event
+    /// </summary>
+    private void Clicked()
+    {
+        OnClick.InvokeAsync(Href);
+    }
+
+}

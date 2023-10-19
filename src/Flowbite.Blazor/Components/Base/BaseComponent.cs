@@ -42,7 +42,7 @@ public abstract class BaseComponent : ComponentBase
     public bool Active { get; set; }
     
     /// <summary>
-    /// If the UserAttributes contain an ID make it accessible for WCAG labelling of input fields
+    /// If the UserAttributes contain an ID, make it accessible
     /// </summary>
     public string FieldId => (UserAttributes?.ContainsKey("id") == true ? UserAttributes["id"]?.ToString() ?? $"blaz-{Guid.NewGuid()}" : $"blaz-{Guid.NewGuid()}");
 

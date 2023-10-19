@@ -1,0 +1,66 @@
+@inherits BaseTypography
+
+@if (ChildContent is not null)
+{
+    <figure @ref="@ElementRef" class="@FigClass @Class" @attributes="@UserAttributes">
+         <img class="@ImgClass @Size" src="@Src" alt="@Alt" srcset="@SrcSet" />
+         <figcaption class="@CaptionClass">
+             @ChildContent
+         </figcaption>
+    </figure>
+}
+else
+{
+    <img @ref="@ElementRef" class="@ImgClass @Size @Class" src="@Src" alt="@Alt" srcset="@SrcSet" @attributes="@UserAttributes" />
+}
+
+@code {
+
+    /// <summary>
+    /// The src of the image
+    /// </summary>
+    [Parameter]
+    public string Src { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The srcset of the image
+    /// </summary>
+    [Parameter]
+    public string SrcSet { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// The alt of the image
+    /// </summary>
+    [Parameter]
+    public string Alt { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// The caption of the figure
+    /// </summary>
+    [Parameter]
+    public string? Caption { get; set; }
+
+    /// <summary>
+    /// The class of the img that can be overridden. Default is (h-auto).
+    /// </summary>
+    [Parameter]
+    public string ImgClass { get; set; } = "h-auto";
+
+    /// <summary>
+    /// The class of the figure that can be overridden. Default is (max-w-lg).
+    /// </summary>
+    [Parameter]
+    public string FigClass { get; set; } = "max-w-lg";
+    
+    /// <summary>
+    /// The class for size of the img that can be overridden. Default is (max-w-full).
+    /// </summary>
+    [Parameter]
+    public string Size { get; set; } = "max-w-full";
+
+    /// <summary>
+    /// The classes of the figure caption that can be overridden. Default is (mt-2 text-sm text-center text-neutral-500 dark:text-neutral-400).
+    /// </summary>
+    [Parameter]
+    public string CaptionClass { get; set; } = "mt-2 text-sm text-center text-neutral-500 dark:text-neutral-400";
+}

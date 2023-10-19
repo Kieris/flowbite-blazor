@@ -1,0 +1,13 @@
+@inherits BaseTypography
+
+<mark @ref="@ElementRef" class="px-2 rounded @Color @Class" @attributes="@UserAttributes">
+    @ChildContent
+</mark>
+
+@code {
+    /// <summary>
+    /// The default color classes that can be overridden. Default is (bg-primary-600 text-white dark:bg-primary-500).
+    /// </summary>
+    [Parameter]
+    public string Color { get; set; } = "bg-primary-600 text-white dark:bg-primary-500";
+}
