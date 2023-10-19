@@ -10,8 +10,8 @@ public enum BadgeColors
     Success,
     Danger,
     Warning,
-    Accent,
     Supporting,
+    Accent,
     Pink,
     None
 }
