@@ -2,10 +2,10 @@
 @inherits BaseComponent
 
 <span class="inline-flex items-center justify-center @(!Pill ? "rounded" : "rounded-full") 
-    @($"indi-size-{Size.ToString().ToLower()}") @(Border ? "border-2 border-white dark:border-gray-800" : "") 
-    @(Placement != IndiLocs.None ? $"absolute indi-{Placement.ToString().ToLower()}" : "" ) 
-    @(Placement != IndiLocs.None && Offset ? $"indi-offset-{Placement.ToString().ToLower()}" : "") 
-    @_colorClass @Class" style="@Style">
+    @_sizeClasses[Size] @(Border ? "border-2 border-white dark:border-gray-800" : "") 
+    @(Placement != IndiLocs.None ? $"absolute {_placeClasses[Placement]}" : "" ) 
+    @(Placement != IndiLocs.None && Offset ? _offsetClasses[Placement] : "") 
+    @_colorClasses[Color] @Class" style="@Style">
     @ChildContent
 </span>
 
@@ -17,7 +17,7 @@
     public RenderFragment? ChildContent { get; set; }
     
     /// <summary>
-    /// The color of the alert. This needs to be set to <see cref="AlertColors.None"/> to override the colors in Class.
+    /// The color of the indicator. This needs to be set to <see cref="IndiColors.None"/> to override the colors in Class.
     /// </summary>
     [Parameter]
     public IndiColors Color { get; set; } = IndiColors.Primary;
@@ -53,27 +53,64 @@
     public bool Pill { get; set; } = true;
     
     /// <summary>
-    /// The combined color classes for the badge
+    /// Color classes
     /// </summary>
-    private string _colorClass = string.Empty;
-    
+    private Dictionary<IndiColors, string> _colorClasses = new();
     /// <summary>
-    /// Triggers on parameter update. Looks for attributes and sets classes accordingly, then sets color classes.
+    /// Placement classes
     /// </summary>
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        _colorClass = SetColorClass();
-    }
-	
+    private Dictionary<IndiLocs, string> _placeClasses = new();
     /// <summary>
-    /// Creates the color class string based on <see cref="Color"/>
+    /// Offset classes
     /// </summary>
-    private string SetColorClass()
+    private Dictionary<IndiLocs, string> _offsetClasses = new();
+    /// <summary>
+    /// Size classes
+    /// </summary>
+    private Dictionary<Sizes, string> _sizeClasses = new();
+
+    protected override void OnInitialized()
     {
-        if (Color == IndiColors.None) return string.Empty;
+        base.OnInitialized();
+        _colorClasses.Add(IndiColors.Primary, "bg-primary-600");
+        _colorClasses.Add(IndiColors.Supporting, "bg-supporting-500");
+        _colorClasses.Add(IndiColors.Accent, "bg-accent-500");
+        _colorClasses.Add(IndiColors.Danger, "bg-danger-500");
+        _colorClasses.Add(IndiColors.Warning, "bg-warning-400");
+        _colorClasses.Add(IndiColors.Success, "bg-success-500");
+        _colorClasses.Add(IndiColors.Neutral, "bg-neutral-400 dark:bg-neutral-600");
+        _colorClasses.Add(IndiColors.Light, "bg-neutral-200");
+        _colorClasses.Add(IndiColors.None, "");
+
+        _placeClasses.Add(IndiLocs.None, "");
+        _placeClasses.Add(IndiLocs.TopLeft, "top-0 left-0");
+        _placeClasses.Add(IndiLocs.TopCenter, "top-0 left-1/2 -translate-x-1/2");
+        _placeClasses.Add(IndiLocs.TopRight, "top-0 right-0");
+        _placeClasses.Add(IndiLocs.CenterLeft, "top-1/2 -translate-y-1/2 left-0");
+        _placeClasses.Add(IndiLocs.Center, "top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2");
+        _placeClasses.Add(IndiLocs.CenterRight, "top-1/2 -translate-y-1/2 right-0");
+        _placeClasses.Add(IndiLocs.BottomLeft, "bottom-0 left-0");
+        _placeClasses.Add(IndiLocs.BottomCenter, "bottom-0 left-1/2 -translate-x-1/2");
+        _placeClasses.Add(IndiLocs.BottomRight, "bottom-0 right-0");
+
+        _offsetClasses.Add(IndiLocs.None, "");
+        _offsetClasses.Add(IndiLocs.TopLeft, "-translate-x-1/3 -translate-y-1/3");
+        _offsetClasses.Add(IndiLocs.TopCenter, "-translate-y-1/3");
+        _offsetClasses.Add(IndiLocs.TopRight, "translate-x-1/3 -translate-y-1/3");
+        _offsetClasses.Add(IndiLocs.CenterLeft, "-translate-x-1/3");
+        _offsetClasses.Add(IndiLocs.Center, "");
+        _offsetClasses.Add(IndiLocs.CenterRight, "translate-x-1/3");
+        _offsetClasses.Add(IndiLocs.BottomLeft, "-translate-x-1/3 translate-y-1/3");
+        _offsetClasses.Add(IndiLocs.BottomCenter, "translate-y-1/3");
+        _offsetClasses.Add(IndiLocs.BottomRight, "translate-x-1/3 translate-y-1/3");
         
-        string color = Color.ToString().ToLower();
-        return $"indi-{color}";
+        _sizeClasses.Add(Sizes.None, "");
+        _sizeClasses.Add(Sizes.Base, "w-3 h-3");
+        _sizeClasses.Add(Sizes.Small, "w-2.5 h-2.5");
+        _sizeClasses.Add(Sizes.ExtraSmall, "w-2 h-2");
+        _sizeClasses.Add(Sizes.Large, "w-3.5 h-3.5");
+        _sizeClasses.Add(Sizes.ExtraLarge, "w-6 h-6");
+        _sizeClasses.Add(Sizes.Icon, "");
     }
+
 }

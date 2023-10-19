@@ -1,12 +1,12 @@
 ﻿@using Flowbite.Blazor.SharedEnums
 @inherits BaseComponent
 
-@if (Link is not null)
+@if (Href is not null)
 {
-    <a href="@Link" class="inline-flex items-center transition-opacity duration-1000 ease-out @(_hidden ? "hidden" :"") 
-        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "badge-base") 
-        @(Pill ? "rounded-full" : "rounded") @(Bordered ? "border" :"")  
-        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @_colorClass @Class" style="@Style">
+    <a href="@Href" class="items-center transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"inline-flex") 
+        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "font-medium px-2.5 py-0.5") 
+        @(Pill ? "rounded-full" : "rounded") @_colorClasses[Color] @(Bordered ? $"border dark:bg-neutral-700 {_borderClasses[Color]}" : _darkBgClasses[Color])  
+        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @Class" style="@Style">
         @ChildContent
         @if (Dismissable)
         {
@@ -21,10 +21,10 @@
 }
 else
 {
-    <div class="inline-flex items-center transition-opacity duration-1000 ease-out @(_hidden ? "hidden" :"") 
-        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "badge-base") 
-        @(Pill ? "rounded-full" : "rounded") @(Bordered ? "border" :"")  
-        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @_colorClass @Class" style="@Style">
+    <div class="items-center transition-opacity duration-1000 ease-out @(Hidden ? "hidden" :"inline-flex") 
+        @(_hide ? "opacity-0" :"opacity-100") @(Size == BadgeSizes.Custom ? "" : "font-medium px-2.5 py-0.5") 
+        @(Pill ? "rounded-full" : "rounded") @_colorClasses[Color] @(Bordered ? $"border dark:bg-neutral-700 {_borderClasses[Color]}" : _darkBgClasses[Color])  
+        @(Size == BadgeSizes.Large ? "text-sm" : "text-xs") @Class" style="@Style">
         @ChildContent
         @if (Dismissable)
         {
@@ -80,18 +80,14 @@ else
     /// The href value if the badge is to be a link
     /// </summary>
     [Parameter]
-    public string? Link { get; set; }
+    public string? Href { get; set; }
     
     /// <summary>
     /// The color of the badge. This needs to be set to <see cref="BadgeColors.None"/> to override the colors in Class.
     /// </summary>
     [Parameter]
-    public BadgeColors Color { get; set; } = BadgeColors.Blue;
+    public BadgeColors Color { get; set; } = BadgeColors.Primary;
 
-    /// <summary>
-    /// The combined color classes for the badge
-    /// </summary>
-    private string _colorClass = string.Empty;
     /// <summary>
     /// Defines whether opacity of badge is 0
     /// </summary>
@@ -99,7 +95,56 @@ else
     /// <summary>
     /// Defines whether badge is hidden. Hidden is not added until after dismiss transition.
     /// </summary>
-    private bool _hidden;
+    [Parameter]
+    public bool Hidden { get; set; }
+
+    /// <summary>
+    /// The color classes
+    /// </summary>
+    private Dictionary<BadgeColors, string> _colorClasses = new();
+    /// <summary>
+    /// The border color classes
+    /// </summary>
+    private Dictionary<BadgeColors, string> _borderClasses = new();
+    /// <summary>
+    /// The background dark color classes
+    /// </summary>
+    private Dictionary<BadgeColors, string> _darkBgClasses = new();
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized(); 
+        _colorClasses.Add(BadgeColors.Primary, "bg-primary-100 text-primary-800 dark:text-primary-300");
+        _colorClasses.Add(BadgeColors.Supporting, "bg-supporting-100 text-supporting-800 dark:text-supporting-300");
+        _colorClasses.Add(BadgeColors.Accent, "bg-accent-100 text-accent-800 dark:text-accent-300");
+        _colorClasses.Add(BadgeColors.Danger, "bg-danger-100 text-danger-800 dark:text-danger-300");
+        _colorClasses.Add(BadgeColors.Success, "bg-success-100 text-success-800 dark:text-success-300");
+        _colorClasses.Add(BadgeColors.Warning, "bg-warning-100 text-warning-800 dark:text-warning-300");
+        _colorClasses.Add(BadgeColors.Neutral, "bg-neutral-100 text-neutral-800 dark:text-neutral-300");
+        _colorClasses.Add(BadgeColors.Pink, "bg-pink-100 text-pink-800 dark:text-pink-300");
+        _colorClasses.Add(BadgeColors.None, "");
+        
+        _darkBgClasses.Add(BadgeColors.Primary, "dark:bg-primary-900");
+        _darkBgClasses.Add(BadgeColors.Supporting, "dark:bg-supporting-900");
+        _darkBgClasses.Add(BadgeColors.Accent, "dark:bg-accent-900");
+        _darkBgClasses.Add(BadgeColors.Danger, "dark:bg-danger-900");
+        _darkBgClasses.Add(BadgeColors.Success, "dark:bg-success-900");
+        _darkBgClasses.Add(BadgeColors.Warning, "dark:bg-warning-900");
+        _darkBgClasses.Add(BadgeColors.Neutral, "dark:bg-neutral-700");
+        _darkBgClasses.Add(BadgeColors.Pink, "dark:bg-pink-900");
+        _darkBgClasses.Add(BadgeColors.None, "");
+        
+        _borderClasses.Add(BadgeColors.Primary, "border-primary-400");
+        _borderClasses.Add(BadgeColors.Supporting, "border-supporting-400");
+        _borderClasses.Add(BadgeColors.Accent, "border-accent-400");
+        _borderClasses.Add(BadgeColors.Danger, "border-danger-400");
+        _borderClasses.Add(BadgeColors.Success, "border-success-400");
+        _borderClasses.Add(BadgeColors.Warning, "border-warning-400");
+        _borderClasses.Add(BadgeColors.Neutral, "border-neutral-400");
+        _borderClasses.Add(BadgeColors.Pink, "border-pink-400");
+        _borderClasses.Add(BadgeColors.None, "");
+    }
 
     /// <summary>
     /// Triggers on parameter update. Looks for attributes and sets classes accordingly, then sets color classes.
@@ -107,45 +152,9 @@ else
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (UserAttributes.TryGetValue("href", out var attribute))
-        {
-            Link = attribute.ToString()!;
-        }
-        if (UserAttributes.ContainsKey("dismissable") && UserAttributes["dismissable"].ToString() != "false")
-        {
-            Dismissable = true;
-        }
-        if (UserAttributes.ContainsKey("rounded"))
-        {
-            Pill = true;
-        }
         if (UserAttributes.ContainsKey("large"))
         {
             Size = BadgeSizes.Large;
-        }
-        if (UserAttributes.ContainsKey("border"))
-        {
-            Bordered = true;
-        }
-        _colorClass = SetColorClass();
-    }
-
-    /// <summary>
-    /// Creates the color class string based on <see cref="Color"/> and <see cref="Bordered"/>
-    /// </summary>
-    private string SetColorClass()
-    {
-        if (Color == BadgeColors.None) return string.Empty;
-        
-        string color = Color.ToString().ToLower();
-        
-        if (Bordered)
-        {
-            return $"badge-{color} badge-border-{color} badge-dark-bg-dark";
-        }
-        else
-        {
-            return $"badge-{color}";
         }
     }
 
@@ -156,9 +165,9 @@ else
     {
         _hide = true;
         await Task.Delay(750);
-        _hidden = true;
-        StateHasChanged();
+        Hidden = true;
         await VisibleChanged.InvokeAsync();
+        StateHasChanged();
     } 
     
     /// <summary>
@@ -167,7 +176,8 @@ else
     public async void Show()
     {
         _hide = false;
-        _hidden = false;
+        Hidden = false;
         await VisibleChanged.InvokeAsync();
+        StateHasChanged();
     }
 }

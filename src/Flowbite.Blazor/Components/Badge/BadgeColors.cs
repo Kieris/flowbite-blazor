@@ -5,13 +5,13 @@
 /// </summary>
 public enum BadgeColors
 {
-    Blue,
-    Dark,
-    Green,
-    Red,
-    Yellow,
-    Indigo,
-    Purple,
+    Primary,
+    Neutral,
+    Success,
+    Danger,
+    Warning,
+    Supporting,
+    Accent,
     Pink,
     None
 }
