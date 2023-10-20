@@ -1,11 +1,12 @@
 @inherits BaseTypography
+@inject NavigationManager NavManager 
 
-<a @ref="@ElementRef" class="@LinkClass @Color @Class" href="@Href" @attributes="@UserAttributes" @onclick="Clicked">
-    @ChildContent
-</a>
+    <a @ref="@ElementRef" class="@LinkClass @Class @(Active ? ActiveClass ?? "" : Color)" href="@Href" @attributes="@UserAttributes" @onclick="Clicked">
+        @ChildContent
+    </a>
+
 
 @code {
-
     /// <summary>
     /// The href/uri of the link
     /// </summary>
@@ -25,17 +26,74 @@
     public string LinkClass { get; set; } = "inline-flex items-center hover:underline";
 
     /// <summary>
+    /// If defined the Link will use a NavLink blazor component instead of an <a></a> element, and this will be used for the ActiveClass.
+    /// </summary>
+    [Parameter]
+    public string? ActiveClass { get; set; }
+    
+    [Parameter]
+    public bool Active { get; set; }
+    
+    /// <summary>
     /// Callback that returns the href of an link/anchor when it is clicked
     /// </summary>
     [Parameter]
     public EventCallback<string> OnClick { get; set; }
 
     /// <summary>
+    /// Initializes the component and sets active item
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        NavManager.LocationChanged += NavManager_LocationChanged;
+    }
+
+    /// <summary>
+    /// Check for active url after first render
+    /// </summary>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            SetActive();
+        }
+    }
+
+    /// <summary>
+    /// Called when active url changes to set whether at item is active. NavLink ActiveClass is not sufficient for this purpose
+    /// </summary>
+    private void NavManager_LocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        SetActive();
+    }
+    
+    /// <summary>
     /// Invokes the OnClick event
     /// </summary>
     private void Clicked()
     {
         OnClick.InvokeAsync(Href);
+    }
+    
+    /// <summary>
+    /// Sets whether an item is active
+    /// </summary>
+    private void SetActive()
+    {
+        string path = NavManager.ToBaseRelativePath(NavManager.Uri);
+
+        if (path.Equals(Href) || Href.Equals($"/{path}"))
+        {
+            Active = true;
+        }
+        else
+        {
+            Active = false;
+        }
+        StateHasChanged();
     }
 
 }

@@ -1,11 +1,11 @@
 @inherits BaseTypography
 
-@if (ChildContent is not null)
+@if (Caption is not null)
 {
     <figure @ref="@ElementRef" class="@FigClass @Class" @attributes="@UserAttributes">
          <img class="@ImgClass @Size" src="@Src" alt="@Alt" srcset="@SrcSet" />
          <figcaption class="@CaptionClass">
-             @ChildContent
+             @Caption
          </figcaption>
     </figure>
 }

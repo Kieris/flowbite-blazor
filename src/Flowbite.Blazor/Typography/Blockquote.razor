@@ -8,31 +8,31 @@
 
 @code {
     /// <summary>
-    /// Defines the font size
+    /// Defines the font size. Default is TextSizes.LG.
     /// </summary>
     [Parameter]
     public TextSizes Size { get; set; } = TextSizes.LG;
     
     /// <summary>
-    /// Defines the text alignment
+    /// Defines the text alignment. Default is Aligns.Left.
     /// </summary>
     [Parameter]
     public Aligns Align { get; set; } = Aligns.Left;
-    
+
     /// <summary>
-    /// Defines whether the text should be italic
+    /// Defines whether the text should be italic. Default is true.
     /// </summary>
     [Parameter]
-    public bool Italic { get; set; }
+    public bool Italic { get; set; } = true;
     
     /// <summary>
-    /// Defines whether the text should have a background
+    /// Defines whether the text should have a background. Default is false.
     /// </summary>
     [Parameter]
     public bool Bg { get; set; }
     
     /// <summary>
-    /// Defines whether the text should have a border
+    /// Defines whether the text should have a border. Default is false.
     /// </summary>
     [Parameter]
     public bool Border { get; set; }

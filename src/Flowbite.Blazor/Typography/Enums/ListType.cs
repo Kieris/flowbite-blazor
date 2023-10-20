@@ -7,5 +7,5 @@ public enum ListType
 {
    Ordered,
    Unordered,
-   Definition
+   Unstyled
 }
