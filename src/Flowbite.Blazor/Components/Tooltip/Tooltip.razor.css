@@ -3,15 +3,15 @@
 }
 
 .tooltip-auto {
-    @apply text-white bg-gray-900 dark:bg-gray-700;
+    @apply text-white bg-neutral-900 dark:bg-neutral-700;
 }
 
 .tooltip-dark {
-    @apply text-white bg-gray-700;
+    @apply text-white bg-neutral-700;
 }
 
 .tooltip-light {
-    @apply text-gray-900 border-gray-200 bg-gray-200;
+    @apply text-neutral-900 border-neutral-200 bg-neutral-200;
 }
 .tooltip-trigger-element {
     width: fit-content;

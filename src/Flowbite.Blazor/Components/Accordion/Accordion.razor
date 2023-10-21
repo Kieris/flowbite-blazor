@@ -1,5 +1,5 @@
 @inherits BaseComponent
-<div class="accordion @Class @(Active ? ActiveClass : InactiveClass)" style="@Style">
+<div class="text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 @Class @(Active ? ActiveClass : InactiveClass)" style="@Style">
     <CascadingValue Value="this">
         @ChildContent
     </CascadingValue>

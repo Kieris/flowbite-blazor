@@ -122,7 +122,7 @@
     /// <summary>
     /// Handles the click event and if the trigger type is "click", it will show or hide the tooltip
     /// </summary>
-    private async void Clicked()
+    public async void Clicked()
     {
         if (Trigger.Equals("click", StringComparison.InvariantCultureIgnoreCase) && _popperModule is not null)
         {
@@ -138,6 +138,7 @@
                     GetPlacement());
             }
         }
+        StateHasChanged();
     }
     
     /// <summary>

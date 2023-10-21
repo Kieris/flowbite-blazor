@@ -56,18 +56,6 @@
     /// The constructed final size class of the button
     /// </summary>
     protected string BtnSize = string.Empty;
-    
-    /// <summary>
-    /// Initialized the ButtonBase and looks for the traditional disabled attribute
-    /// </summary>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (UserAttributes.ContainsKey("disabled") && UserAttributes["disabled"].ToString() != "false")
-        {
-            Disabled = true;
-        }
-    }
 
     /// <summary>
     /// Watches for parameter changes on the button and sets styles appropriately
@@ -77,11 +65,6 @@
         base.OnParametersSet();
         TypeClass = GetTypeClass();
         BtnSize = GetSize();
-        
-        if (UserAttributes.TryGetValue("type", out var attribute))
-        {
-            Type = attribute.ToString()!;
-        }
         
         if (UserAttributes.ContainsKey("pill"))
         {
