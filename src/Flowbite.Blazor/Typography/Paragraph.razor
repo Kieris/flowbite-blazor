@@ -1,6 +1,6 @@
 @inherits BaseTypography
-<p @ref="@ElementRef" class="@_weightDefs[Weight] @_sizeDefs[Size] @Color @_heightDefs[Height] @_spacesDefs[Space] @_alignDefs[Align] 
-@_whitespaceDefs[Whitespace] @(Justify ? "text-justify" : "") @(Italic ? "italic" : "") @(FirstUpper ? UpperClass : "") @Class" @attributes="@UserAttributes">
+<p @ref="@ElementRef" class="@_weightDefs[Weight] @_sizeDefs[Size] @Color @_heightDefs[Height] @_spacesDefs[Space]
+@_whitespaceDefs[Whitespace] @(Justify ? "text-justify" : _alignDefs[Align] ) @(Italic ? "italic" : "") @(FirstUpper ? UpperClass : "") @Class" @attributes="@UserAttributes">
     @ChildContent
 </p>
 

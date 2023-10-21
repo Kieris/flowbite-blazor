@@ -1,0 +1,301 @@
+@inherits TestContext
+@using Flowbite.Blazor.Typography
+
+@code {
+
+    [Fact]
+    public void DefaultParagraphTest()
+    {
+        var cut = Render(@<Paragraph Weight="FontWeights.Light" Color="text-neutral-500 dark:text-neutral-400" Class="mb-3">
+                                      Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+                                  </Paragraph>);
+
+        cut.Find("p").MarkupMatches(@<p class="font-light text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left 
+                                     whitespace-normal mb-3" >
+                                       Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+                                     </p>);
+    }
+    
+    [Fact]
+    public void FirstUpperTest()
+    {
+        var cut = Render(@<Paragraph class="mb-3" FirstUpper="true" Color="text-gray-500 dark:text-gray-400">
+                             Track work across the enterprise through an open, collaborative platform. Link issues across Jira 
+                             and ingest data from other software development tools, so your IT support and operations teams have 
+                             richer contextual information to rapidly respond to requests, incidents, and changes.
+                         </Paragraph>);
+
+        cut.Find("p").MarkupMatches(@<p class="font-normal text-base text-gray-500 dark:text-gray-400 leading-normal tracking-normal text-left 
+                                     whitespace-normal first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left mb-3" >
+                                        Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+                                    </p>);
+    }
+    
+    [Fact]
+    public void ParagraphWeightsTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(FontWeights)).Cast<FontWeights>())
+                             {
+                                 <Paragraph Weight="@val" Color="text-neutral-500 dark:text-neutral-400">
+                                     This example can be used to underline a certain part of the text inside the paragraph.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <p class="font-thin text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-extralight text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-light text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-medium text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-semibold text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-bold text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-extrabold text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                          <p class="font-black text-base text-neutral-500 dark:text-neutral-400 leading-normal tracking-normal text-left whitespace-normal" >
+                                              This example can be used to underline a certain part of the text inside the paragraph.
+                                          </p>
+                                      </div>);
+    }
+
+    [Fact]
+    public void ParagraphSizesTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(TextSizes)).Cast<TextSizes>())
+                             {
+                                 <Paragraph Size="@val">
+                                     This example can be used.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <p class="font-normal text-xs text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-sm text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-lg text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-2xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-3xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-4xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-5xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-6xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-7xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-8xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-9xl text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                      </div>);
+
+    }
+    
+    [Fact]
+    public void ParagraphSpacesTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(Spaces)).Cast<Spaces>())
+                             {
+                                 <Paragraph Space="@val">
+                                     This example can be used.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-tighter text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-tight text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-wide text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-wider text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-widest text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                      </div>);
+
+    }
+    
+    [Fact]
+    public void ParagraphHeightsTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(Heights)).Cast<Heights>())
+                             {
+                                 <Paragraph Height="@val">
+                                     This example can be used.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+            cut.Find("div").MarkupMatches(@<div>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-relaxed tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-loose tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-snug tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-tight tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                              <p class="font-normal text-base text-neutral-900 dark:text-white leading-none tracking-normal text-left whitespace-normal    " >
+                                                  This example can be used.
+                                              </p>
+                                          </div>);
+
+    }
+    
+    [Fact]
+    public void ParagraphAlignTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(Aligns)).Cast<Aligns>())
+                             {
+                                 <Paragraph Align="@val">
+                                     This example can be used.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-center whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-right whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                      </div>);
+
+    }
+    
+    [Fact]
+    public void ParagraphWhitespaceTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(Whitespace)).Cast<Whitespace>())
+                             {
+                                 <Paragraph Whitespace="@val">
+                                     This example can be used.
+                                 </Paragraph>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-normal    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-nowrap    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-pre    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-pre-line    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-pre-wrap    " >
+                                              This example can be used.
+                                          </p>
+                                          <p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal text-left whitespace-break-spaces    " >
+                                              This example can be used.
+                                          </p>
+                                      </div>);
+
+    }
+    
+    [Fact]
+    public void ParagraphJustifyTest()
+    {
+        var cut = Render(@<Paragraph Justify="true">
+                                     This example can be used.
+                                 </Paragraph>);
+
+        cut.Find("p").MarkupMatches(@<p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal whitespace-normal text-justify" >
+                                        This example can be used.
+                                    </p>);
+    }
+    
+    [Fact]
+    public void ParagraphItalicTest()
+    {
+        var cut = Render(@<Paragraph Italic="true">
+                             This example can be used.
+                         </Paragraph>);
+
+        cut.Find("p").MarkupMatches(@<p class="italic font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal whitespace-normal text-left" >
+                                        This example can be used.
+                                    </p>);
+    }
+    
+    [Fact]
+    public void ParagraphUserAttributesTest()
+    {
+        var cut = Render(@<Paragraph style="max-width: 64rem;" customatt="something">
+                             This example can be used.
+                         </Paragraph>);
+
+        cut.Find("p").MarkupMatches(@<p class="font-normal text-base text-neutral-900 dark:text-white leading-normal tracking-normal
+                                     whitespace-normal text-left" style="max-width: 64rem;" customatt="something" >
+                                       This example can be used.
+                                     </p>);
+    }
+
+}

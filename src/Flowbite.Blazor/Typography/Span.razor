@@ -1,8 +1,7 @@
 @inherits BaseTypography
 
 <span @ref="@ElementRef" class="@(Italic ? "italic" : "") @(LineThrough ? "line-through" : "") @(Underline ? $"underline {DecorationClass}" : "") 
-@(Uppercase ? "uppercase" : "") @(Gradient ? GradientClass : Highlight ? HighlightClass : "text-gray-900 dark:text-white") 
-@(DecorationClass) @Class" @attributes="@UserAttributes">
+@(Uppercase ? "uppercase" : "") @(Gradient ? GradientClass : Highlight ? HighlightClass : "text-gray-900 dark:text-white") @Class" @attributes="@UserAttributes">
     @ChildContent
 </span>
 
