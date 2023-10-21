@@ -6,8 +6,8 @@
 public enum Colors
 {
     Primary,
-    Alternative,
     Neutral,
+    Dark,
     Light,
     Danger,
     Success,

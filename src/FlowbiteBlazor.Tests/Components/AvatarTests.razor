@@ -402,9 +402,10 @@
         var cut = Render(@<Avatar dot DotColor="IndiColors.Success" Src="/images/people/profile-picture-1.webp" alt="indicator avatar"/>);
         
         cut.Find("div").MarkupMatches(@<div class="relative flex justify-center items-center rounded-full w-10 h-10 text-neutral-600 dark:text-neutral-300">
-                                          <img alt="indicator avatar" src="/images/people/profile-picture-1.webp" class="rounded-full"/>
+                                          <img alt="indicator avatar" src="/images/people/profile-picture-1.webp" class="rounded-full">
                                           <span class="inline-flex items-center justify-center rounded-full 
-                                        indi-size-large border-2 border-white dark:border-gray-800 absolute indi-topright indi-success" style=""></span>
+                                           w-3.5 h-3.5 border-2 border-white dark:border-gray-800 
+                                           absolute top-0 right-0 bg-success-500 " style=""></span>
                                       </div>);
     }
     
@@ -416,10 +417,10 @@
         cut.Find("div").MarkupMatches(@<div class="relative">
                                           <svg class="rounded-full w-10 h-10 text-gray-400 bg-gray-100 dark:bg-gray-600 " fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                               <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                                          </svg><span class="inline-flex items-center justify-center rounded-full 
-                                                indi-size-large border-2 border-white dark:border-gray-800 
-                                                absolute indi-topleft indi-danger " style=""></span>
-                                            </div>);
+                                          </svg>
+                                          <span class="inline-flex items-center justify-center rounded-full w-3.5 h-3.5 border-2 border-white dark:border-gray-800 
+                                            absolute top-0 left-0 bg-danger-500 " style=""></span>
+                                      </div>);
     }
     
 

@@ -5,7 +5,10 @@
 <div class="@Class" style="@Style">
   <h2 class="group">
     <button @onclick="@HandleToggle" type="button"
-            class="accordion-item @(CheckFlush() ? "accordion-btn-flush" : "accordion-flush-diff") @GetActive() @(First && !CheckFlush() ? "accordion-border-top" : "")"
+            class="flex items-center justify-between w-full py-5 font-medium text-left border-neutral-200 dark:border-neutral-700
+ @(CheckFlush() ? "border-b" : "border focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 p-5") 
+@(Open ? CheckFlush() ? $"accordion-btn-active-flush {ActiveClass}" : $"accordion-btn-active {ActiveClass}"
+  : $"text-neutral-500 dark:text-neutral-400 {InactiveClass}") @(First && !CheckFlush() ? "border-t rounded-t-xl" : "")"
             aria-expanded="@Open.ToString()">
       @if (Header is not null)
       {
@@ -48,7 +51,9 @@
       }
     </button>
   </h2>
-  <div class="@(CheckFlush() ? "accordion-body-flush" : "accordion-body-default") accordion-body @(Open ? "translate-y-0" : "hidden translate-y-full")">
+  <div class="@(CheckFlush() ? "py-5 border-b" 
+                : "p-5 border") border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 transition-transform ease-in-out @(Open 
+                ? "translate-y-0" : "hidden translate-y-full")">
     @Body
   </div>
 </div>
@@ -114,25 +119,6 @@
         {
             Open = true;
         }
-    }
-
-    /// <summary>
-    /// Sets classes based on whether the component is "Active"
-    /// </summary>
-    private string GetActive()
-    {
-      if (Open)
-      {
-        if (CheckFlush())
-        {
-          return $"accordion-btn-active-flush {ActiveClass}";
-        }
-        else
-        {
-          return $"accordion-btn-active {ActiveClass}";
-        }
-      }
-      return InactiveClass;
     }
   
     /// <summary>

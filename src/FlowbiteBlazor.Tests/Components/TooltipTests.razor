@@ -1,0 +1,58 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Tooltip
+
+@code {
+
+    [Fact]
+    public void ClickTooltipTest()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        BunitJSInterop js = new BunitJSInterop();
+        var popper = js.SetupModule("/_content/Flowbite.Blazor/js/popper.js");
+
+        var module = popper.SetupModule("/_content/Flowbite.Blazor/js/PopperInterop.js");
+        
+        var cut = Render(@<div><Tooltip Trigger="click" Text="I'm a tooltip">
+                             <Button>Hover me</Button>
+                         </Tooltip></div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="tooltip-trigger-element"    >
+                                              <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
+                                          </div>
+                                          <div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
+                                              <span >I'm a tooltip</span>
+                                              <div class="tooltip1-arrow"  ></div>
+                                          </div>
+                                      </div>);
+
+        var trigger = cut.Find("div").Children.First();
+        var tooltip = cut.Find("div").Children.Last();
+        var arrow = cut.Find("div").Children.Last().LastChild;
+
+        cut.WaitForAssertion(() => cut.FindComponent<Tooltip>().Instance.Clicked());
+        
+        
+        trigger.MarkupMatches(@<div class="tooltip-trigger-element">
+                                  <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
+                              </div>);
+        
+        tooltip.MarkupMatches(@<div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
+                                          <span >I'm a tooltip</span>
+                                          <div class="tooltip1-arrow"  ></div>
+                                      </div>);
+        
+        arrow!.MarkupMatches(@<div class="tooltip1-arrow"></div>);
+        
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="tooltip-trigger-element">
+                                              <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
+                                          </div>
+                                          <div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
+                                              <span >I'm a tooltip</span>
+                                              <div class="tooltip1-arrow"  ></div>
+                                          </div>
+                                      </div>);
+    }
+    
+}

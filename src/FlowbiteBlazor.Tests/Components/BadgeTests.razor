@@ -1,0 +1,454 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Badge
+
+@code {
+
+    [Fact]
+    public void DefaultBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge>Primary</Badge>
+                             <Badge Color="BadgeColors.Neutral">Neutral</Badge>
+                             <Badge Color="BadgeColors.Success">Success</Badge>
+                             <Badge Color="BadgeColors.Danger">Danger</Badge>
+                             <Badge Color="BadgeColors.Warning">Warning</Badge>
+                             <Badge Color="BadgeColors.Supporting">Supporting</Badge>
+                             <Badge Color="BadgeColors.Accent">Accent</Badge>
+                             <Badge Color="BadgeColors.Pink">Pink</Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-xs " style="" >Primary</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300 text-xs " style="" >Neutral</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-300 text-xs " style="" >Success</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-danger-100 text-danger-800 dark:bg-danger-900 dark:text-danger-300 text-xs " style="" >Danger</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-warning-100 text-warning-800 dark:bg-warning-900 dark:text-warning-300 text-xs " style="" >Warning</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-supporting-100 text-supporting-800 dark:bg-supporting-900 dark:text-supporting-300 text-xs " style="" >Supporting</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-accent-100 text-accent-800 dark:bg-accent-900 dark:text-accent-300 text-xs " style="" >Accent</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300 text-xs " style="" >Pink</div>
+        </div>);
+    }
+    
+    [Fact]
+    public void BorderedBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Bordered="true">Primary</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Neutral">Neutral</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Success">Success</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Danger">Danger</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Warning">Warning</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Supporting">Supporting</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Accent">Accent</Badge>
+                             <Badge Bordered="true" Color="BadgeColors.Pink">Pink</Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:text-primary-300 border dark:bg-neutral-700 border-primary-400 text-xs " style="" >Primary</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-neutral-100 text-neutral-800 dark:text-neutral-300 border dark:bg-neutral-700 border-neutral-400 text-xs " style="" >Neutral</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-success-100 text-success-800 dark:text-success-300 border dark:bg-neutral-700 border-success-400 text-xs " style="" >Success</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-danger-100 text-danger-800 dark:text-danger-300 border dark:bg-neutral-700 border-danger-400 text-xs " style="" >Danger</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-warning-100 text-warning-800 dark:text-warning-300 border dark:bg-neutral-700 border-warning-400 text-xs " style="" >Warning</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-supporting-100 text-supporting-800 dark:text-supporting-300 border dark:bg-neutral-700 border-supporting-400 text-xs " style="" >Supporting</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-accent-100 text-accent-800 dark:text-accent-300 border dark:bg-neutral-700 border-accent-400 text-xs " style="" >Accent</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-pink-100 text-pink-800 dark:text-pink-300 border dark:bg-neutral-700 border-pink-400 text-xs " style="" >Pink</div>
+                </div>);
+    }
+    
+    [Fact]
+    public void DismissableBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Dismissable="true" Size="BadgeSizes.Large">Primary</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Neutral">Neutral</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Success">Success</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Danger">Danger</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Warning">Warning</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Supporting">Supporting</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Accent">Accent</Badge>
+                             <Badge Dismissable="true" Size="BadgeSizes.Large" Color="BadgeColors.Pink">Pink</Badge>
+                         </div>);
+
+    cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-sm " style="" >Primary<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300 text-sm " style="" >Neutral<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-300 text-sm " style="" >Success<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-danger-100 text-danger-800 dark:bg-danger-900 dark:text-danger-300 text-sm " style="" >Danger<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-warning-100 text-warning-800 dark:bg-warning-900 dark:text-warning-300 text-sm " style="" >Warning<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-supporting-100 text-supporting-800 dark:bg-supporting-900 dark:text-supporting-300 text-sm " style="" >Supporting<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-accent-100 text-accent-800 dark:bg-accent-900 dark:text-accent-300 text-sm " style="" >Accent<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300 text-sm " style="" >Pink<span type="button"  style="cursor: pointer;" >
+              <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+              </svg>
+              <span class="sr-only" >Remove badge</span>
+            </span>
+          </div>
+        </div>);
+    }
+    
+    [Fact]
+    public void BadgeSizesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Size="BadgeSizes.Large">Primary</Badge>
+                             <Badge Size="BadgeSizes.Normal" Color="BadgeColors.Neutral">Neutral</Badge>
+                             <Badge Size="BadgeSizes.Custom" Class="h-16 p-4" Color="BadgeColors.Success">Success</Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-sm " style="" >Primary</div>
+                          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300 text-xs " style="" >Neutral</div>
+                          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 rounded bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-300 text-xs h-16 p-4" style="" >Success</div>
+                      </div>);
+    }
+    
+    [Fact]
+    public void PillBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Pill="true">Primary</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Neutral">Neutral</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Success">Success</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Danger">Danger</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Warning">Warning</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Supporting">Supporting</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Accent">Accent</Badge>
+                             <Badge Pill="true" Color="BadgeColors.Pink">Pink</Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-xs " style="" >Primary</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300 text-xs " style="" >Neutral</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-success-100 text-success-800 dark:bg-success-900 dark:text-success-300 text-xs " style="" >Success</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-danger-100 text-danger-800 dark:bg-danger-900 dark:text-danger-300 text-xs " style="" >Danger</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-warning-100 text-warning-800 dark:bg-warning-900 dark:text-warning-300 text-xs " style="" >Warning</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-supporting-100 text-supporting-800 dark:bg-supporting-900 dark:text-supporting-300 text-xs " style="" >Supporting</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-accent-100 text-accent-800 dark:bg-accent-900 dark:text-accent-300 text-xs " style="" >Accent</div>
+          <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300 text-xs " style="" >Pink</div>
+        </div>);
+    }
+    
+    [Fact]
+    public void LinkBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Href="#" Bordered="true" Color="BadgeColors.Neutral">
+                                 Badge link
+                             </Badge>
+                             <Badge href="#" Bordered="true">
+                                 Badge link
+                             </Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                                         <a href="#" class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100 font-medium px-2.5 py-0.5 
+                                               rounded bg-neutral-100 text-neutral-800 dark:text-neutral-300 border dark:bg-neutral-700 border-neutral-400  
+                                               text-xs " style="" >
+                                           Badge link
+                                         </a>
+                                         <a href="#" class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100 font-medium px-2.5 py-0.5 
+                                               rounded bg-primary-100 text-primary-800 dark:text-primary-300 border dark:bg-neutral-700 border-primary-400  
+                                               text-xs " style="" >
+                                           Badge link
+                                         </a>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void BadgesWithIconTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Bordered="true" Color="BadgeColors.Neutral">
+                                 <svg class="mr-1.5" width=".75rem" height=".75rem" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                     <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
+                                 </svg>
+                                 3 days ago
+                             </Badge>
+                             <Badge Bordered="true">
+                                 <svg class="mr-1.5" width=".75rem" height=".75rem" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                     <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
+                                 </svg>
+                                 2 minutes ago
+                             </Badge>
+                         </div>);
+
+    cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+        <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100 font-medium px-2.5 py-0.5 
+                                               rounded bg-neutral-100 text-neutral-800 dark:text-neutral-300 border dark:bg-neutral-700 border-neutral-400  
+                                               text-xs " style="" >
+            <svg class="mr-1.5" width=".75rem" height=".75rem" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"></path>
+            </svg>
+            3 days ago
+        </div>
+        <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100 font-medium px-2.5 py-0.5 
+                                               rounded bg-primary-100 text-primary-800 dark:text-primary-300 border dark:bg-neutral-700 border-primary-400  
+                                               text-xs " style="" >
+            <svg class="mr-1.5" width=".75rem" height=".75rem" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"></path>
+            </svg>
+            2 minutes ago
+        </div>
+    </div>);
+    }
+    
+    [Fact]
+    public void ButtonWithBadgeTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Button Class="inline-flex items-center">
+                                 Messages
+                                 <Badge Class="ml-2" Pill="true">2</Badge>
+                             </Button>
+                             <Button Class="inline-flex items-center">
+                                 Messages
+                                 <Badge Color="BadgeColors.None" Size="BadgeSizes.Custom"
+                                        Class="justify-center w-4 h-4 ml-2 p-0 font-semibold text-primary-800 bg-primary-200" Pill="true">
+                                     <span>2</span>
+                                 </Badge>
+                             </Button>
+                         </div>);
+
+    cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+        <button type="button" class=" btn-base btn-base-size btn-normal btn-primary inline-flex items-center" style="" >
+            Messages
+            <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100 font-medium px-2.5 py-0.5 
+                                               rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300   
+                                               text-xs ml-2" style="" >2</div>
+        </button>
+        <button type="button" class=" btn-base btn-base-size btn-normal btn-primary inline-flex items-center" style="" >
+            Messages
+            <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded-full    
+                                               text-xs justify-center w-4 h-4 ml-2 p-0 font-semibold text-primary-800 bg-primary-200" style="" >
+                <span>2</span>
+            </div>
+        </button>
+    </div>);
+    }
+    
+    [Fact]
+    public void BadgeWithIconOnlyTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap gap-2">
+                             <Badge Size="BadgeSizes.Custom" Class="p-2">
+                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                                 </svg>
+                                 <span class="sr-only">Icon description</span>
+                             </Badge>
+                             <Badge Pill="true" Size="BadgeSizes.Custom" Class="p-2">
+                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                                 </svg>
+                                 <span class="sr-only">Icon description</span>
+                             </Badge>
+                             <Badge Pill="true" Bordered="true" Size="BadgeSizes.Custom" Class="p-2">
+                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                     <path fill="currentColor" d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"/>
+                                     <path fill="#fff" d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"/>
+                                 </svg>
+                                 <span class="sr-only">Icon description</span>
+                             </Badge>
+                             <Badge Pill="true" Color="BadgeColors.Neutral" Size="BadgeSizes.Custom" Class="p-2">
+                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                     <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                 </svg>
+                                 <span class="sr-only">Icon description</span>
+                             </Badge>
+                             <Badge Pill="true" Color="BadgeColors.Neutral" Size="BadgeSizes.Custom" Class="p-2">
+                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                                 </svg>
+                                 <span class="sr-only">Icon description</span>
+                             </Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap gap-2">
+                                         <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300   
+                                               text-xs p-2" style="" >
+                                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"></path>
+                                           </svg>
+                                           <span class="sr-only">Icon description</span>
+                                         </div>
+                                         <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300   
+                                               text-xs p-2" style="" >
+                                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"></path>
+                                           </svg>
+                                           <span class="sr-only">Icon description</span>
+                                         </div>
+                                         <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded-full bg-primary-100 text-primary-800 dark:text-primary-300 border dark:bg-neutral-700 border-primary-400  
+                                               text-xs p-2" style="" >
+                                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                             <path fill="currentColor" d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"></path>
+                                             <path fill="#fff" d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"></path>
+                                           </svg>
+                                           <span class="sr-only">Icon description</span>
+                                         </div>
+                                         <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded-full bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300   
+                                               text-xs p-2" style="" >
+                                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                             <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"></path>
+                                           </svg>
+                                           <span class="sr-only">Icon description</span>
+                                         </div>
+                                         <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
+                                               opacity-100  
+                                               rounded-full bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-300   
+                                               text-xs p-2" style="" >
+                                           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"></path>
+                                           </svg>
+                                           <span class="sr-only">Icon description</span>
+                                         </div>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void AlternativeSyntaxBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge border>Bordered</Badge>
+                             <Badge rounded>Pill</Badge>
+                             <Badge large>Large</Badge>
+                             <Badge dismissable>Dismissable</Badge>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-xs " style="" >Bordered</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-xs " style="" >Pill</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-sm " style="" >Large</div>
+                  <div class="inline-flex items-center transition-opacity duration-1000 ease-out opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 text-xs " style="" >Dismissable<span type="button"  style="cursor: pointer;" >
+                      <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" >
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" ></path>
+                      </svg>
+                      <span class="sr-only" >Remove badge</span>
+                  </span>
+                  </div>
+                </div>);
+    }
+    
+    [Fact]
+    public async void DismissAndShowBadgesTest()
+    {
+        var cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                             <Badge Dismissable="true">Bordered</Badge>
+                         </div>);
+        
+        var buttonElement = cut.Find("span");
+        
+        buttonElement.Click();
+        //wait for badge to fade out and be hidden
+        await Task.Delay(800);
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                                          <div class="items-center transition-opacity duration-1000 ease-out hidden opacity-0 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-primary-900 text-xs " style="">Bordered<span type="button"  style="cursor: pointer;">
+                                                  <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                                  <span class="sr-only">Remove badge</span>
+                                              </span>
+                                          </div>
+                                          </div>);
+        
+        //Show the badge
+        cut.WaitForAssertion(() => cut.FindComponent<Badge>().Instance.Show());
+
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                                      <div class="items-center transition-opacity duration-1000 ease-out inline-flex opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-primary-900 text-xs " style="">Bordered<span type="button"  style="cursor: pointer;">
+                                          <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                          </svg>
+                                          <span class="sr-only">Remove badge</span>
+                                      </span></div></div>);
+        
+        //Hide the badge again but without button
+        cut.WaitForAssertion(() => cut.FindComponent<Badge>().Instance.Hide());
+        //wait for badge to fade out and be hidden
+        await Task.Delay(800);
+        
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                                          <div class="items-center transition-opacity duration-1000 ease-out hidden opacity-0 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-primary-900 text-xs " style="">Bordered<span type="button"  style="cursor: pointer;">
+                                                  <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                                  <span class="sr-only">Remove badge</span>
+                                              </span>
+                                          </div>
+                                      </div>);
+        
+        cut = Render(@<div class="flex flex-wrap p-4 gap-2">
+                         <Badge Dismissable="true" Hidden="true">Bordered</Badge>
+                     </div>);
+        
+        cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
+                                          <div class="items-center transition-opacity duration-1000 ease-out hidden opacity-100 font-medium px-2.5 py-0.5 rounded bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-primary-900 text-xs " style="">Bordered<span type="button"  style="cursor: pointer;">
+                                                  <svg class="w-2 h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                                                  </svg>
+                                                  <span class="sr-only">Remove badge</span>
+                                              </span>
+                                          </div>
+                                      </div>);
+        
+    }
+}

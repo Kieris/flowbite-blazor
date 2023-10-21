@@ -1,0 +1,532 @@
+@inherits TestContext
+@using Flowbite.Blazor.Components.Indicators
+
+@code {
+
+    [Fact]
+    public void DefaultAndColorsIndicatorTest()
+    {
+        var cut = Render(@<div class="flex justify-center gap-2">
+                             <Indicator Color="IndiColors.Light"/>
+                             <Indicator/>
+                             <Indicator Color="IndiColors.Supporting"/>
+                             <Indicator Color="IndiColors.Accent"/>
+                             <Indicator Color="IndiColors.Success"/>
+                             <Indicator Color="IndiColors.Warning"/>
+                             <Indicator Color="IndiColors.Danger"/>
+                             <Indicator Color="IndiColors.Neutral"/>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-2">
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-neutral-200 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-primary-600 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-supporting-500 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-accent-500 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-success-500 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-warning-400 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-danger-500 " style=""></span>
+                                         <span class="inline-flex items-center justify-center rounded-full 
+                                           w-3 h-3 bg-neutral-400 dark:bg-neutral-600 " style=""></span>
+                                       </div>);
+    }
+  
+    [Fact]
+    public void IndicatorSizesTest()
+    {
+        var cut = Render(@<div class="flex justify-center gap-2">
+                             <Indicator Size="Sizes.Base"/>
+                             <Indicator Size="Sizes.Icon"/>
+                             <Indicator Size="Sizes.None"/>
+                             <Indicator Size="Sizes.Small"/>
+                             <Indicator Size="Sizes.ExtraSmall"/>
+                             <Indicator Size="Sizes.ExtraLarge"/>
+                             <Indicator Size="Sizes.Large"/>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-2">
+                                          <span class="inline-flex items-center justify-center rounded-full w-3 h-3 bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full w-2.5 h-2.5 bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full w-2 h-2 bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-600 " style=""></span>
+                                          <span class="inline-flex items-center justify-center rounded-full w-3.5 h-3.5 bg-primary-600 " style=""></span>
+                                      </div>);
+    }
+    
+  [Fact]
+  public void LabelIndicatorTest()
+  {
+    var cut = Render(@<div class="flex justify-center gap-4">
+                       <span class="flex items-center text-sm font-medium">
+                         <Indicator Size="Sizes.Small" Class="mr-1.5"/>Visitors
+                       </span>
+                       <span class="flex items-center text-sm font-medium">
+                         <Indicator Color="IndiColors.Accent" Size="Sizes.Small" Class="mr-1.5"/>Sessions
+                       </span>
+                       <span class="flex items-center text-sm font-medium">
+                         <Indicator Color="IndiColors.Warning" Size="Sizes.Small" Class="mr-1.5"/>Customers
+                       </span>
+                       <span class="flex items-center text-sm font-medium">
+                         <Indicator Color="IndiColors.Supporting" Size="Sizes.Small" Class="mr-1.5"/>Revenue
+                       </span>
+                     </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-4">
+                                        <span class="flex items-center text-sm font-medium">
+                                            <span class="inline-flex items-center justify-center rounded-full w-2.5 h-2.5 
+                                            bg-primary-600 mr-1.5" style=""></span>Visitors
+                                        </span>
+                                        <span class="flex items-center text-sm font-medium">
+                                            <span class="inline-flex items-center justify-center rounded-full 
+                                            w-2.5 h-2.5 bg-accent-500 mr-1.5" style=""></span>Sessions
+                                        </span>
+                                        <span class="flex items-center text-sm font-medium">
+                                            <span class="inline-flex items-center justify-center rounded-full w-2.5 h-2.5 
+                                            bg-warning-400 mr-1.5" style=""></span>Customers
+                                        </span>
+                                        <span class="flex items-center text-sm font-medium">
+                                            <span class="inline-flex items-center justify-center rounded-full w-2.5 h-2.5 
+                                            bg-supporting-500 mr-1.5" style=""></span>Revenue
+                                        </span>
+                                    </div>);
+  }
+  
+  [Fact]
+  public void IndicatorCountTest()
+  {
+    var cut = Render(@<div class="flex justify-center gap-4">
+                       <Button Size="Sizes.Large" Class="inline-flex items-center relative">
+                         <EnvelopeSolid class="w-4 h-4 mr-2 text-white" />
+                         <span class="sr-only">Notifications</span>
+                         Messages
+                         <Indicator Color="IndiColors.Danger" Border="true" Size="Sizes.ExtraLarge" 
+                                    Placement="IndiLocs.TopRight">
+                           <span class="text-white text-xs font-bold">6</span>
+                         </Indicator>
+                       </Button>
+                     </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-4">
+                                        <button type="button" class=" btn-base btn-lg btn-normal btn-primary inline-flex items-center relative" style="" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 16" aria-hidden="true" class="w-4 h-4 mr-2 text-white">
+                                                <g>
+                                                    <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"></path>
+                                                    <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="sr-only">Notifications</span>
+                                            Messages
+                                            <span class="inline-flex items-center justify-center rounded-full w-6 h-6 border-2 border-white dark:border-gray-800 
+                                                absolute top-0 right-0 translate-x-1/3 -translate-y-1/3 bg-danger-500 " style="">
+                                                <span class="text-white text-xs font-bold">6</span>
+                                            </span>
+                                        </button>
+                                    </div>);
+  }
+  
+  [Fact]
+  public void StatusIndicatorTest()
+  {
+    var cut = Render(@<div class="flex justify-center items-center p-4 gap-4">
+                       <div class="relative">
+                         <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-5.webp" alt="Neil image">
+                         <Indicator Color="IndiColors.Success" Placement="IndiLocs.TopRight" Offset="false"
+                                    Border="true"/>
+                       </div>
+                       <div class="relative">
+                         <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-4.webp" alt="Bonnie image">
+                         <Indicator Color="IndiColors.Danger" Placement="IndiLocs.TopRight" Offset="false"
+                                    Border="true"/>
+                       </div>
+                     </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="flex justify-center items-center p-4 gap-4">
+                                        <div class="relative">
+                                            <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-5.webp" alt="Neil image">
+                                            <span class="inline-flex items-center justify-center rounded-full 
+                                            w-3 h-3 border-2 border-white dark:border-gray-800 absolute top-0 right-0 bg-success-500 " style=""></span>
+                                        </div>
+                                        <div class="relative">
+                                            <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-4.webp" alt="Bonnie image">
+                                            <span class="inline-flex items-center justify-center rounded-full w-3 h-3 border-2 border-white dark:border-gray-800 
+                                            absolute top-0 right-0 bg-danger-500 " style=""></span>
+                                        </div>
+                                    </div>);
+  }
+  
+  [Fact]
+  public void BadgeIndicatorTest()
+  {
+      var cut = Render(@<div class="flex justify-center items-center p-4">
+                           <ul class="max-w-sm divide-y divide-gray-200 dark:divide-gray-700 w-full">
+                               <li class="py-3 sm:py-4">
+                                   <div class="flex items-center space-x-3">
+                                       <div class="flex-shrink-0">
+                                           <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-5.webp" alt="Neil image">
+                                       </div>
+                                       <div class="flex-1 min-w-0">
+                                           <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Neil Sims</p>
+                                           <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
+                                       </div>
+                                       <Badge Color="BadgeColors.Green" Pill="true" Class="px-2.5 py-0.5">
+                                           <Indicator Color="IndiColors.Success" Size="Sizes.ExtraSmall" Class="mr-1"/>Available
+                                       </Badge>
+                                   </div>
+                               </li>
+                               <li class="py-3 sm:py-4">
+                                   <div class="flex items-center space-x-3">
+                                       <div class="flex-shrink-0">
+                                           <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-4.webp" alt="Bonnie image">
+                                       </div>
+                        
+                                       <div class="flex-1 min-w-0">
+                                           <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Bonnie Green</p>
+                                           <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
+                                       </div>
+                                       <Badge Color="BadgeColors.Red" Pill="true" Class="px-2.5 py-0.5">
+                                           <Indicator Color="IndiColors.Danger" Size="Sizes.ExtraSmall" Class="mr-1" />Unavailable
+                                       </Badge>
+                                   </div>
+                               </li>
+                           </ul>
+                       </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="flex justify-center items-center p-4">
+                                        <ul class="max-w-sm divide-y divide-gray-200 dark:divide-gray-700 w-full">
+                                            <li class="py-3 sm:py-4">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex-shrink-0">
+                                                        <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-5.webp" alt="Neil image">
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Neil Sims</p>
+                                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
+                                                    </div>
+                                                    <Badge color="BadgeColors.Green" pill="true" class="px-2.5 py-0.5">
+                                                        <span class="inline-flex items-center justify-center rounded-full w-2 h-2 bg-success-500 mr-1" 
+                                                              style=""></span>Available
+                                                    </Badge>
+                                                </div>
+                                            </li>
+                                            <li class="py-3 sm:py-4">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex-shrink-0">
+                                                        <img class="w-10 h-10 rounded-full" src="images/people/profile-picture-4.webp" alt="Bonnie image">
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Bonnie Green</p>
+                                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
+                                                    </div>
+                                                    <Badge color="BadgeColors.Red" pill="true" class="px-2.5 py-0.5">
+                                                        <span class="inline-flex items-center justify-center rounded-full w-2 h-2 bg-danger-500 mr-1" style="">
+                                                        </span>Unavailable
+                                                    </Badge>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>);
+  }
+    
+    [Fact]
+    public void IndicatorPositionTest()
+    {
+        var cut = Render(@<div class="relative w-56 h-56 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.TopRight">
+                                 <span class="text-white text-xs py-0.5 px-2">top-right</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.TopCenter">
+                                 <span class="text-white text-xs py-0.5 px-2">top-center</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.TopLeft">
+                                 <span class="text-white text-xs py-0.5 px-2">top-left</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.CenterLeft">
+                                 <span class="text-white text-xs py-0.5 px-2">center-left</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.Center">
+                                 <span class="text-white text-xs py-0.5 px-2">center</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.CenterRight">
+                                 <span class="text-white text-xs py-0.5 px-2">center-right</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.BottomLeft">
+                                 <span class="text-white text-xs py-0.5 px-2">bottom-left</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.BottomCenter">
+                                 <span class="text-white text-xs py-0.5 px-2">bottom-center</span>
+                             </Indicator>
+                             <Indicator Size="Sizes.None" Placement="IndiLocs.BottomRight">
+                                 <span class="text-white text-xs py-0.5 px-2">bottom-right</span>
+                             </Indicator>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="relative w-56 h-56 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-0 right-0 translate-x-1/3 -translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">top-right</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">top-center</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">top-left</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">center-left</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">center</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">center-right</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">bottom-left</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">bottom-center</span>
+                                          </span>
+                                          <span class="inline-flex items-center justify-center rounded-full 
+                                            absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3 bg-primary-600 " style="">
+                                              <span class="text-white text-xs py-0.5 px-2">bottom-right</span>
+                                          </span>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void StepperIndicatorTest()
+    {
+        var cut = Render(@<div class="p-8">
+                             <ol class="flex items-center">
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <CheckCircleSolid class="w-6 h-6 text-primary-600 dark:text-primary-300"/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 1</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <CheckCircleSolid class="w-6 h-6 text-primary-600 dark:text-primary-300"/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <CheckCircleSolid class="w-6 h-6 text-primary-600 dark:text-primary-300"/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="z-10 bg-gray-200 ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <CheckCircleSolid class="w-6 h-6 text-gray-600 dark:text-white"/>
+                                         </Indicator>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 3</h3>
+                                     </div>
+                                 </li>
+                             </ol>
+                             <ol class="flex items-center">
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <Indicator/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 1</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <Indicator/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-primary-200 dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <Indicator/>
+                                         </Indicator>
+                                         <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"/>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                     </div>
+                                 </li>
+                                 <li class="relative w-full mb-6">
+                                     <div class="flex items-center">
+                                         <Indicator Size="Sizes.ExtraLarge" Color="IndiColors.None" Class="bg-neutral-100 dark:bg-neutral-700 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0">
+                                             <Indicator Color="IndiColors.None" Class="bg-neutral-600 dark:bg-neutral-100"/>
+                                         </Indicator>
+                                     </div>
+                                     <div class="mt-3">
+                                         <h3 class="font-medium text-gray-900 dark:text-white">Step 3</h3>
+                                     </div>
+                                 </li>
+                             </ol>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="p-8">
+                                          <ol class="flex items-center">
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-6 h-6 text-primary-600 dark:text-primary-300">
+                                                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"></path>
+                                                          </svg>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 1</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-6 h-6 text-primary-600 dark:text-primary-300">
+                                                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"></path>
+                                                          </svg>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-6 h-6 text-primary-600 dark:text-primary-300">
+                                                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"></path>
+                                                          </svg>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 z-10 bg-gray-200 ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-6 h-6 text-gray-600 dark:text-white">
+                                                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"></path>
+                                                          </svg>
+                                                      </span>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 3</h3>
+                                                  </div>
+                                              </li>
+                                          </ol>
+                                          <ol class="flex items-center">
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <span class="inline-flex items-center justify-center rounded-full w-3 h-3 bg-primary-600 " style=""></span>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 1</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <span class="inline-flex items-center justify-center rounded-full w-3 h-3 bg-primary-600 " style=""></span>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-primary-200 
+                                                        dark:bg-primary-900 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <span class="inline-flex items-center justify-center rounded-full w-3 h-3 bg-primary-600 " style=""></span>
+                                                      </span>
+                                                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 2</h3>
+                                                  </div>
+                                              </li>
+                                              <li class="relative w-full mb-6">
+                                                  <div class="flex items-center">
+                                                      <span class="inline-flex items-center justify-center rounded-full w-6 h-6 bg-neutral-100 
+                                                        dark:bg-neutral-700 z-10 ring-0 ring-white sm:ring-8 dark:ring-gray-900 shrink-0" style="">
+                                                          <span class="inline-flex items-center justify-center rounded-full w-3 h-3 bg-neutral-600 
+                                                            dark:bg-neutral-100" style=""></span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="mt-3">
+                                                      <h3 class="font-medium text-gray-900 dark:text-white">Step 3</h3>
+                                                  </div>
+                                              </li>
+                                          </ol>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void LoadingIndicatorTest()
+    {
+        var cut = Render(@<div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                             <Indicator Class="animate-pulse px-3 py-2" Size="Sizes.None" Pill="false">
+                                 <span class="text-xs font-medium leading-none text-primary-200">Loading...</span>
+                             </Indicator>
+                         </div>);
+        
+        cut.Find("div").MarkupMatches(@<div class="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                                          <span class="inline-flex items-center justify-center rounded bg-primary-600 animate-pulse px-3 py-2" style="">
+                                              <span class="text-xs font-medium leading-none text-primary-200">Loading...</span>
+                                          </span>
+                                      </div>);
+    }
+}
