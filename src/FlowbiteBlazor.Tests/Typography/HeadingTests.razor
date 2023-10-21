@@ -1,0 +1,53 @@
+@inherits TestContext
+@using Flowbite.Blazor.Typography
+
+@code {
+
+    [Fact]
+    public void DefaultHeadingTest()
+    {
+        var cut = Render(@<div>
+                             <Heading Tag="h1">H1 heading</Heading>
+                             <Heading Tag="h2">H2 heading</Heading>
+                             <Heading Tag="h3">H3 heading</Heading>
+                             <Heading Tag="h4">H4 heading</Heading>
+                             <Heading Tag="h5">H5 heading</Heading>
+                             <Heading Tag="h6">H6 heading</Heading>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <h1 class="text-5xl font-extrabold w-full text-gray-900 dark:text-white">H1 heading</h1>
+                                          <h2 class="text-4xl font-bold w-full text-gray-900 dark:text-white">H2 heading</h2>
+                                          <h3 class="text-3xl font-bold w-full text-gray-900 dark:text-white">H3 heading</h3>
+                                          <h4 class="text-2xl font-bold w-full text-gray-900 dark:text-white">H4 heading</h4>
+                                          <h5 class="text-xl font-bold w-full text-gray-900 dark:text-white">H5 heading</h5>
+                                          <h6 class="text-lg font-bold w-full text-gray-900 dark:text-white">H6 heading</h6>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void HeadingCustomizationTest()
+    {
+        var cut = Render(@<Heading Tag="h1" class="mb-4" Color="text-primary-500" Size="text-3xl font-extrabold md:text-5xl lg:text-6xl">
+                             <Span Gradient="true">Better Data</Span> Scalable AI.
+                         </Heading>);
+
+        cut.Find("h1").MarkupMatches(@<h1 class="text-3xl font-extrabold md:text-5xl lg:text-6xl w-full text-primary-500 mb-4" >
+                                         <span diff:ignore>Better Data</span>
+                                         Scalable AI.
+                                     </h1>);
+    }
+    
+    
+    [Fact]
+    public void HeadingUserAttributesTest()
+    {
+        var cut = Render(@<Heading Tag="h2" style="max-width: 64rem;" customatt="something">
+                             This example can be used.
+                         </Heading>);
+
+        cut.Find("h2").MarkupMatches(@<h2 class="text-4xl font-bold w-full text-gray-900 dark:text-white " style="max-width: 64rem;" customatt="something" >
+                                         This example can be used.
+                                     </h2>);
+    }
+}

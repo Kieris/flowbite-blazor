@@ -1,0 +1,36 @@
+@inherits TestContext
+@using Flowbite.Blazor.Typography
+
+@code {
+    [Fact]
+    public void DefaultMarkTest()
+    {
+        var cut = Render(@<Mark>This is a test.</Mark>);
+
+        cut.Find("mark").MarkupMatches(@<mark class="px-2 rounded bg-primary-600 text-white dark:bg-primary-500 " >This is a test.</mark>);
+    }
+    
+    [Fact]
+    public void DefaultSecondaryTest()
+    {
+        var cut = Render(@<Secondary>This is a test.</Secondary>);
+
+        cut.Find("small").MarkupMatches(@<small class="font-semibold text-neutral-500 dark:text-neutral-400 " >This is a test.</small>);
+    }
+    
+    [Fact]
+    public void ColorMarkTest()
+    {
+        var cut = Render(@<Mark Color="text-green-200">This is a test.</Mark>);
+
+        cut.Find("mark").MarkupMatches(@<mark class="px-2 rounded text-green-200" >This is a test.</mark>);
+    }
+    
+    [Fact]
+    public void ColorSecondaryTest()
+    {
+        var cut = Render(@<Secondary Color="text-blue-600">This is a test.</Secondary>);
+
+        cut.Find("small").MarkupMatches(@<small class="font-semibold text-blue-600" >This is a test.</small>);
+    }
+}

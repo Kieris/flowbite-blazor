@@ -1,0 +1,116 @@
+@inherits TestContext
+@using Flowbite.Blazor.Typography
+
+@code {
+
+    [Fact]
+    public void DefaultBlockquoteTest()
+    {
+        var cut = Render(@<Blockquote Size="TextSizes.XL" Italic="false">"Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application."</Blockquote>);
+
+        cut.Find("blockquote").MarkupMatches(@<blockquote class="font-semibold text-gray-900 dark:text-white text-left text-xl" >"Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application."</blockquote>);
+    }
+    
+    [Fact]
+    public void BlockquoteSizesTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(TextSizes)).Cast<TextSizes>())
+                             {
+                                 <Blockquote Size="@val">
+                                     This example can be used.
+                                 </Blockquote>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-xs italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-sm italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-base italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-lg italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-2xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-3xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-4xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-5xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-6xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-7xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-8xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-9xl italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void BlockquoteAlignTest()
+    {
+        var cut = Render(@<div>
+                             @foreach (var val in Enum.GetValues(typeof(Aligns)).Cast<Aligns>())
+                             {
+                                 <Blockquote Align="@val">
+                                     This example can be used.
+                                 </Blockquote>
+                             }
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-left text-lg italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-center text-lg italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                          <blockquote class="font-semibold text-gray-900 dark:text-white text-right text-lg italic " >
+                                              This example can be used.
+                                          </blockquote>
+                                      </div>);
+
+    }
+    
+    [Fact]
+    public void BlockquoteBgAndBorderTest()
+    {
+        var cut = Render(@<Blockquote Border="true" Bg="true" class="p-4 my-4">
+                             <Paragraph Size="TextSizes.XL" Height="Heights.Relaxed">"Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application."</Paragraph>
+                         </Blockquote>);
+
+        cut.Find("blockquote").MarkupMatches(@<blockquote class="font-semibold text-gray-900 dark:text-white text-left text-lg bg-neutral-50 dark:bg-neutral-800 border-l-4 border-neutral-300 dark:border-neutral-500 italic p-4 my-4"><p class="font-normal text-xl text-neutral-900 dark:text-white leading-relaxed tracking-normal whitespace-normal text-left">"Flowbite is just awesome. It contains tons of predesigned components and pages starting from login screen to complex dashboard. Perfect choice for your next SaaS application."</p></blockquote>);
+    }
+    
+    [Fact]
+    public void BlockquoteUserAttributesTest()
+    {
+        var cut = Render(@<Blockquote style="max-width: 64rem;" customatt="something">
+                             This example can be used.
+                         </Blockquote>);
+
+        cut.Find("blockquote").MarkupMatches(@<blockquote class="font-semibold text-gray-900 dark:text-white text-left text-lg italic" style="max-width: 64rem;" customatt="something" >
+                                                 This example can be used.
+                                             </blockquote>);
+    }
+}
