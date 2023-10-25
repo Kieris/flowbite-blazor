@@ -1,0 +1,50 @@
+@inherits Flowbite.Blazor.Forms.Base.CheckboxBase
+<div class="@(Bordered ? $"pl-4 border border-neutral-200 {RoundedClass} dark:border-neutral-700" : "") @Class">
+    <div class="flex items-center">
+        <input @ref="@ElementRef" id="@Id" type="checkbox" @bind-value="@CurrentValue" checked="@CurrentValue" @bind-value:after="@Clicked" @attributes=@AdditionalAttributes disabled="@Disabled"
+               class="@(Advanced ? "hidden peer" : $"checkbox checkbox-{CheckColor?.ToLower()}") @CssClass">
+    
+        @if (Label is null)
+        {
+            <label for="@Id" class="@Spacing @(Bordered ? "w-full py-4" : "") text-sm font-medium @(Disabled ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-900 dark:text-neutral-300")">
+                @LabelText
+            </label>
+        }
+        else
+        {
+            @if (Advanced)
+            {
+                <label for="@Id" class="@(AdvancedClass ?? "inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700")">                           
+                   @Label
+                </label>
+            }
+            else
+            {
+                <label for="@Id" class="@Spacing @(Bordered ? "w-full py-4" : "")">
+                    @Label
+                </label>
+            }
+        }
+    </div>
+    @if (Description is not null)
+    {
+        @Description
+    }
+    else if (!string.IsNullOrWhiteSpace(DescriptionText))
+    {
+        <div class="text-xs font-normal text-neutral-500 dark:text-neutral-300 pl-7 @(Bordered ? "-mt-4 pb-4" : "")">@DescriptionText</div>
+    }
+    @if (ShowError)
+    {
+        @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
+        {
+            <div class="pl-7 text-xs text-danger-600 dark:text-danger-500 @(Bordered ? "-mt-4 pb-4" : "")">
+                @message
+            </div>
+        }
+    }
+    @if(Success() && !string.IsNullOrEmpty(SuccessMessage))
+    {
+        <div class="pl-7 text-xs text-success-600 dark:text-success-500">@SuccessMessage</div>
+    }
+</div>
