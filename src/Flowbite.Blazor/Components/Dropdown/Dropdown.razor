@@ -4,33 +4,34 @@
 @inject IJSRuntime Js;
 @implements IAsyncDisposable;
 @inherits BaseComponent 
+<div @onfocusout="@FocusOff">
+    <div @ref="@_triggerElement" class="@(MatchWidth ? "inline-block relative" : "") @Class" @onclick="@Clicked">
+        @DropdownTrigger
 
-<div @ref="@_triggerElement" class="@(MatchWidth ? "inline-block relative" : "") @Class" @onclick="@Clicked" @onfocusout="@FocusOff">
-    @DropdownTrigger
-
-<div @ref="@_dropdown" @onclick:stopPropagation="true" @onclick:preventDefault="true" @onfocusin="@SetDropdownFocus"
-     @onfocusout="@SetDropdownFocusOff" @onmousedown="@SetDropdownFocus"
-     class="dropdown1 @(MatchWidth ? "min-w-full" : "") divide-y divide-gray-100 rounded-lg shadow bg-white dark:bg-gray-700" style="@Style">
-    <ul class="py-2 w-full">
-        @if (Header is not null)
-        {
-            <li class="@(string.IsNullOrWhiteSpace(HeaderClass) ? "py-1 overflow-hidden rounded-t-lg" : @HeaderClass)">
-                @Header
-            </li>
-        }
-        <div class="@ItemsClass">
-            <CascadingValue Value="this">
-                @DropdownItems
-            </CascadingValue>
+        <div @ref="@_dropdown" @onclick:stopPropagation="true" @onclick:preventDefault="true" @onfocusin="@SetDropdownFocus"
+             @onmousedown="@SetDropdownFocus"
+             class="dropdown1 @(MatchWidth ? "min-w-full" : "") divide-y divide-gray-100 rounded-lg shadow bg-white dark:bg-gray-700" style="@Style">
+            <ul class="py-2 w-full">
+                @if (Header is not null)
+                {
+                    <li class="@(string.IsNullOrWhiteSpace(HeaderClass) ? "py-1 overflow-hidden rounded-t-lg" : @HeaderClass)">
+                        @Header
+                    </li>
+                }
+                <div class="@ItemsClass">
+                    <CascadingValue Value="this">
+                        @DropdownItems
+                    </CascadingValue>
+                </div>
+                @if (Footer is not null)
+                {
+                    <li class="@(string.IsNullOrWhiteSpace(FooterClass) ? "py-1 overflow-hidden rounded-b-lg" : @FooterClass)">
+                        @Footer
+                    </li>
+                }
+            </ul>
         </div>
-        @if (Footer is not null)
-        {
-            <li class="@(string.IsNullOrWhiteSpace(FooterClass) ? "py-1 overflow-hidden rounded-b-lg" : @FooterClass)">
-                @Footer
-            </li>
-        }
-    </ul>
-</div>
+    </div>
 </div>
 
 
@@ -160,6 +161,7 @@
     /// </summary>
     private async Task Clicked()
     {
+        Console.WriteLine("Clicked");
         if (_currentInstance is not null)
         {
             await _popperModule.InvokeVoidAsync("hidePopper",  _dropdown, _currentInstance);
@@ -175,13 +177,15 @@
     /// <summary>
     /// Handles closing when focus is lost from trigger
     /// </summary>
-    private async Task FocusOff()
+    private async Task FocusOff(FocusEventArgs args)
     {
+        Console.WriteLine("Focus Off");
         if (!_dropdownHasFocus)
         {
             await _popperModule.InvokeVoidAsync("hidePopper", _dropdown, _currentInstance);
             _currentInstance = null;
         }
+        _dropdownHasFocus = false;
     }
     
     /// <summary>
@@ -189,6 +193,7 @@
     /// </summary>
     private void SetDropdownFocus()
     {
+        Console.WriteLine("Dropdown Focus");
         _dropdownHasFocus = true;
     }
     
@@ -197,8 +202,9 @@
     /// </summary>
     private async void SetDropdownFocusOff()
     {
+        Console.WriteLine("Dropdown Focus Off");
         _dropdownHasFocus = false;
-        await FocusOff();
+        //await FocusOff();
     }
 
     /// <summary>

@@ -1,0 +1,102 @@
+@using System.Linq.Expressions
+@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
+@using System.Reflection
+
+@inherits Flowbite.Blazor.Forms.Base.BaseInput<string>
+
+<div @ref="@ElementRef" class="@Spacing @Class">
+    @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
+    {
+        <label class="block mb-2 text-sm font-medium @(Errors() ? "text-danger-700 dark:text-danger-500" : Success() ? "text-success-700 dark:text-success-500" : "text-neutral-900 dark:text-white")" 
+               for="@Id">@LabelText</label>
+    }
+    @if (Icon is not null && GroupType != InputGroupTypes.None)
+    {
+        switch (GroupType)
+        {
+            case InputGroupTypes.LeftWithBg:
+                <div class="flex">
+                    <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-r-0 border-neutral-200 rounded-l-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
+                        @Icon
+                    </span>
+                    <input class="input rounded-none rounded-r-lg flex-1 min-w-0 @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @(Errors() ? "input-error" : Success() ? "input-success" : "input-normal")
+                                          @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                    </div>
+                break;
+            case InputGroupTypes.RightWithBg:
+                <div class="flex">
+                         <input class="input rounded-none rounded-l-lg flex-1 min-w-0 @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @(Errors() ? "input-error" : Success() ? "input-success" : "input-normal")
+                                                              @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                    <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-l-0 border-neutral-200 rounded-r-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
+                        @Icon
+                    </span>
+                </div>
+                break;
+            case InputGroupTypes.Right:
+                <div class="relative">
+                    <input class="input rounded-lg @(CustomSize ?? _size) pr-10 @(Disabled ? "cursor-not-allowed":"") @(Errors() ? "input-error" : Success() ? "input-success" : "input-normal")
+                           @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                         <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                            @Icon
+                        </div>
+                </div>
+                break;
+                default: 
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                            @Icon
+                        </div>
+                           <input class="input rounded-lg @(CustomSize ?? _size) pl-10 @(Disabled ? "cursor-not-allowed":"") @(Errors() ? "input-error" : Success() ? "input-success" : "input-normal")
+                           @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                        </div>
+                break;
+        }
+    }
+    else
+    {
+        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @(Errors() ? "input-error" : Success() ? "input-success" : "input-normal")
+        @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+    }
+
+    
+    @if (Description is not null)
+    {
+        <div class="mt-2">@Description</div>
+    }
+    else if (!string.IsNullOrWhiteSpace(DescriptionText))
+    {
+        <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">@DescriptionText</div>
+    }
+    
+    @if (ShowError)
+    {
+        @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
+        {
+            <div class="mt-2 text-sm text-danger-600 dark:text-danger-500">
+                @message
+            </div>
+        }
+    }
+    @if(Success() && !string.IsNullOrEmpty(SuccessMessage))
+    {
+        <div class="mt-2 text-sm text-success-600 dark:text-success-500">@SuccessMessage</div>
+    }
+    </div>
+
+@code {
+    /// <summary>
+    /// Defines the type for the input. This should only include types that are string. If number type is needed, use
+    /// NumberInput component. The default is text.
+    /// </summary>
+    [Parameter] public string Type { get; set; } = "text";
+    
+    /// <inheritdoc />
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
+    
+}

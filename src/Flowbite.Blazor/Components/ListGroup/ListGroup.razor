@@ -1,6 +1,6 @@
 ﻿@using System.Dynamic
 
-<ul class="divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white @Class" style="@Style">
+<ul class="@(Horizontal ? "items-center w-full sm:flex " : "")divide-y divide-gray-200 dark:divide-gray-600 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white @Class" style="@Style">
     <CascadingValue Value="this">
         @if (Items is null)
         {
@@ -58,6 +58,12 @@
     /// </summary>
     [Parameter]
     public bool Active { get; set; }
+    
+    /// <summary>
+    /// Defines whether the ListGroupItems will be horizontal
+    /// </summary>
+    [Parameter]
+    public bool Horizontal { get; set; }
     
     /// <summary>
     /// Used by ListGroupItem to pass the clicked item with the OnClick callback

@@ -2,7 +2,8 @@
 @inherits BaseComponent
 @if (!Active)
 {
-  <li class="@_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") @Class" style="@Style" >
+  <li class="@_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") @(Parent is not null && 
+    Parent.Horizontal ? "first:sm:rounded-t-none last:sm:rounded-b-none sm:border-0 sm:border-r sm:last:border-r-0 border-neutral-200 dark:border-neutral-600":"") @Class" style="@Style" >
         @if (_useItem)
         {
             @Item.Name
@@ -16,7 +17,8 @@
 else if (Href is not null)
 {
     <a href="@Href" class="block @_itemDefaultClass @_states[_state] @(_state == "disabled" ? _disabledClass : "") 
-                               @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @Class" style="@Style" @onclick="HandleClick">
+                               @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @(Parent is not null && 
+                        Parent.Horizontal ? "first:sm:rounded-t-none last:sm:rounded-b-none sm:border-0 sm:border-r sm:last:border-r-0 border-neutral-200 dark:border-neutral-600":"") @Class" style="@Style" @onclick="HandleClick">
         @if (_useItem)
         {
             @Item.Name
@@ -30,7 +32,8 @@ else if (Href is not null)
 else
 {
     <li role="button" class="text-left @_itemDefaultClass @(_state == "disabled" ? "cursor-not-allowed" : "") 
-    @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @_states[_state] @Class" style="@Style" disabled="@Disabled" @onclick="HandleClick">
+    @(_state == "normal" ? _hoverClass : "") @(_state == "normal" ? _focusClass : "") @_states[_state] @(Parent is not null && 
+    Parent.Horizontal ? "first:sm:rounded-t-none last:sm:rounded-b-none sm:border-0 sm:border-r sm:last:border-r-0 border-neutral-200 dark:border-neutral-600":"") @Class" style="@Style" disabled="@Disabled" @onclick="HandleClick">
       @if (_useItem)
       {
           @Item.Name

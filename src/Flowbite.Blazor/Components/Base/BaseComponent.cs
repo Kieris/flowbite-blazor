@@ -5,6 +5,11 @@ namespace Flowbite.Blazor.Components.Base;
 public abstract class BaseComponent : ComponentBase
 {
     /// <summary>
+    /// Gets or sets the reference to the rendered element.
+    /// </summary>
+    public ElementReference ElementRef { get; set; }
+    
+    /// <summary>
     /// Classes for the component's top element to only be used when it is active
     /// </summary>
     [Parameter]
@@ -44,7 +49,7 @@ public abstract class BaseComponent : ComponentBase
     /// <summary>
     /// If the UserAttributes contain an ID, make it accessible
     /// </summary>
-    public string FieldId => (UserAttributes?.ContainsKey("id") == true ? UserAttributes["id"]?.ToString() ?? $"blaz-{Guid.NewGuid()}" : $"blaz-{Guid.NewGuid()}");
+    public string ElementId => (UserAttributes?.ContainsKey("id") == true ? UserAttributes["id"]?.ToString() ?? $"blaz-{Guid.NewGuid()}" : $"blaz-{Guid.NewGuid()}");
 
     /// <summary>
     /// Used to set the active flag of the component
