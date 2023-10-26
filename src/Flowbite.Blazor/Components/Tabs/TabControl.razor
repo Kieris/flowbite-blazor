@@ -24,7 +24,14 @@
             {
                 <li class="mr-2">
                     <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="@GetButtonClass(tabItem) inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "py-3 px-4" : BtnSizeClass) rounded-lg">
-                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                        @if (tabItem.IconTitle is not null)
+                        {
+                            @tabItem.IconTitle
+                        }
+                        else
+                        {
+                            @tabItem.Title
+                        }
                     </button>
                 </li>
             }
@@ -62,7 +69,14 @@
                 <li class="w-full">
                     <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page"
                             class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) w-full @GetButtonClass(tabItem) @(tabItem == Pages.First() ? "rounded-l-lg" : "") @(tabItem == Pages.Last() ? "rounded-r-lg" : "")">
-                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                        @if (tabItem.IconTitle is not null)
+                        {
+                            @tabItem.IconTitle
+                        }
+                        else
+                        {
+                            @tabItem.Title
+                        }
                     </button>
                 </li>
             }
@@ -75,7 +89,14 @@
             {
                 <li class="mr-2">
                     <button @onclick=@(() => ActivatePage(tabItem)) aria-current="page" class="inline-block @(string.IsNullOrWhiteSpace(BtnSizeClass) ? "p-4" : BtnSizeClass) @GetButtonClass(tabItem) rounded-t-lg">
-                        @(tabItem.IconTitle is not null ? tabItem.IconTitle : tabItem.Title)
+                        @if (tabItem.IconTitle is not null)
+                        {
+                            @tabItem.IconTitle
+                        }
+                        else
+                        {
+                            @tabItem.Title
+                        }
                     </button>
                 </li>
             }

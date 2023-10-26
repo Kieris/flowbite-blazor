@@ -1,12 +1,14 @@
-@inherits Flowbite.Blazor.Forms.Base.CheckboxBase
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@inherits BaseComponent
 <div class="@(Bordered ? $"pl-4 border border-neutral-200 {RoundedClass} dark:border-neutral-700" : "") @Class">
     <div class="flex items-center">
-        <input @ref="@ElementRef" id="@Id" type="checkbox" @bind-value="@CurrentValue" checked="@CurrentValue" @bind-value:after="@Clicked" @attributes=@AdditionalAttributes disabled="@Disabled"
-               class="@(Advanced ? "hidden peer" : $"checkbox checkbox-{CheckColor?.ToLower()}") @CssClass">
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" checked="@_isChecked" @oninput="Clicked" @attributes=@UserAttributes disabled="@Disabled"
+               class="@(Advanced ? "hidden peer" : $"checkbox checkbox-{CheckColor?.ToLower()}")">
     
         @if (Label is null)
         {
-            <label for="@Id" class="@Spacing @(Bordered ? "w-full py-4" : "") text-sm font-medium @(Disabled ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-900 dark:text-neutral-300")">
+            <label for="@ElementId" class="@Spacing @(Bordered ? "w-full py-4" : "") text-sm font-medium @(Disabled ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-900 dark:text-neutral-300")">
                 @LabelText
             </label>
         }
@@ -14,13 +16,13 @@
         {
             @if (Advanced)
             {
-                <label for="@Id" class="@(AdvancedClass ?? "inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700")">                           
-                   @Label
+                <label for="@ElementId" @onclick="AdvancedClick" class="@(AdvancedClass ?? "inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700")">                           
+                    @Label
                 </label>
             }
             else
             {
-                <label for="@Id" class="@Spacing @(Bordered ? "w-full py-4" : "")">
+                <label for="@ElementId" class="@Spacing @(Bordered ? "w-full py-4" : "")">
                     @Label
                 </label>
             }
@@ -34,17 +36,167 @@
     {
         <div class="text-xs font-normal text-neutral-500 dark:text-neutral-300 pl-7 @(Bordered ? "-mt-4 pb-4" : "")">@DescriptionText</div>
     }
-    @if (ShowError)
-    {
-        @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
-        {
-            <div class="pl-7 text-xs text-danger-600 dark:text-danger-500 @(Bordered ? "-mt-4 pb-4" : "")">
-                @message
-            </div>
-        }
-    }
-    @if(Success() && !string.IsNullOrEmpty(SuccessMessage))
-    {
-        <div class="pl-7 text-xs text-success-600 dark:text-success-500">@SuccessMessage</div>
-    }
 </div>
+
+@code{
+
+    /// <summary>
+    /// RenderFragment to define a completely custom label
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Label { get; set; }
+    
+    /// <summary>
+    /// The value of the checkbox and the checked state
+    /// </summary>
+    [Parameter]
+    public bool Checked { get; set; }
+    
+    /// <summary>
+    /// Defines the color of the checkbox when checked. Options are primary, supporting, accent, warning, danger, and success.
+    /// </summary>
+    [Parameter]
+    public string? CheckColor { get; set; } = "primary";
+    
+    /// <summary>
+    /// The model/class of the field with the attribute
+    /// </summary>
+    [Parameter]
+    public object? AttributeModel { get; set; }
+    
+    /// <summary>
+    /// The name of the field with attribute as string
+    /// </summary>
+    [Parameter]
+    public string? AttributeField { get; set; }
+    
+    /// <summary>
+    /// Defines whether there is a border and the label area is expanded
+    /// </summary>
+    [Parameter]
+    public bool Bordered { get; set; }
+    
+    /// <summary>
+    /// Defines whether to use "advanced" settings and hide the default checkbox
+    /// </summary>
+    [Parameter]
+    public bool Advanced { get; set; }
+    
+    /// <summary>
+    /// Defines the class for when the checkbox should be hidden to create an "advanced checkbox"
+    /// </summary>
+    [Parameter]
+    public string? AdvancedClass { get; set; }
+
+    /// <summary>
+    /// Defines the rounding class for the border when <see cref="Bordered"/> is true
+    /// </summary>
+    [Parameter]
+    public string RoundedClass { get; set; } = "rounded";
+
+    /// <summary>
+    /// Triggered when the value changes and sends the value when invoked
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OnChanged { get; set; }
+    
+    /// <summary>
+    /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.
+    /// </summary>
+    [Parameter] public string? LabelText { get; set; }
+    /// <summary>
+    /// Defines the placeholder shown inside the input. This will use Prompt from the DisplayAttribute if defined.
+    /// </summary>
+    [Parameter] public string? Placeholder { get; set; }
+    /// <summary>
+    /// The text shown as a description under the input. This text will be overridden by any content in
+    /// the <see cref="Description"/> fragment. This will use Description from the DisplayAttribute if defined. 
+    /// </summary>
+    [Parameter] public string? DescriptionText { get; set; }
+    /// <summary>
+    /// Defines whether the input is disabled
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// Defines the spacing for the input div. Default is (ml-2). 
+    /// </summary>
+    [Parameter] public string Spacing { get; set; } = "ml-2";
+    
+    /// <summary>
+    /// Used to display a description under the input as more than a simple string like with <see cref="DescriptionText"/>
+    /// </summary>
+    [Parameter] public RenderFragment? Description { get; set; }
+    
+    /// <summary>
+    /// Sets necessary fields/parameters whenever parameters change
+    /// </summary>
+    protected override Task OnParametersSetAsync()
+    {
+        try
+        {
+            _isChecked = Checked;
+            if (AttributeModel is not null && AttributeField is not null && AttributeModel.GetType()
+                .GetProperty(AttributeField)?
+                .GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
+            {
+                var displayName = displayAttribute.Name;
+                if (!string.IsNullOrEmpty(displayName) && string.IsNullOrEmpty(LabelText))
+                {
+                    LabelText = displayName;
+                }
+
+                var placeholder = displayAttribute.Prompt;
+                if (!string.IsNullOrEmpty(placeholder) && string.IsNullOrEmpty(Placeholder))
+                {
+                    Placeholder = placeholder;
+                }
+                
+                var desc = displayAttribute.Description;
+                if (!string.IsNullOrEmpty(desc) && string.IsNullOrEmpty(DescriptionText))
+                {
+                    DescriptionText = desc;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        return base.OnParametersSetAsync();
+    }
+
+    /// <summary>
+    /// Internal field holding checkbox state
+    /// </summary>
+    private bool _isChecked;
+
+    /// <summary>
+    /// Updates the internal value whenever the component is updated
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        _isChecked = Checked;
+    }
+
+    /// <summary>
+    /// Triggered when value changes to invoke callback
+    /// </summary>
+    private async Task Clicked(ChangeEventArgs e)
+    {
+        bool value = (bool)e.Value!;
+        Checked = value;
+        await OnChanged.InvokeAsync(value);
+    }
+    
+    /// <summary>
+    /// Triggered when value changes to invoke callback
+    /// </summary>
+    private async Task AdvancedClick()
+    {
+        bool value = !_isChecked;
+        Checked = value;
+        await OnChanged.InvokeAsync(value);
+    }
+
+}

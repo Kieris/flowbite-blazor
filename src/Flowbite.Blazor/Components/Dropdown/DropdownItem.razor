@@ -9,8 +9,8 @@
 }
 else
 {
-    <span class="@(string.IsNullOrWhiteSpace(Class) ? "block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full" : Class) 
-        @(Nested ? "pl-4" : "px-4")">
+    <span class="@(string.IsNullOrWhiteSpace(Class) ? "block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full" : Class)
+        @(Nested ? "pl-4" : "px-4")" @onclick="@Clicked">
         @ChildContent
     </span>
 }
@@ -34,4 +34,9 @@ else
     /// </summary>
     [Parameter]
     public bool Nested { get; set; }
+
+    private void Clicked()
+    {
+        StateHasChanged();
+    }
 }
