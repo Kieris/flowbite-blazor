@@ -1,3 +1,159 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input {
+    @apply block w-full outline-0 focus:ring-2;
+}
+
+.input-sm {
+    @apply p-2 sm:text-xs;
+}
+
+.input-md {
+    @apply p-2.5 text-sm;
+}
+
+.input-lg {
+    @apply p-4 sm:text-base;
+}
+
+.input-normal {
+    @apply bg-neutral-50 border border-neutral-200 text-neutral-900 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white focus:ring-primary-500 focus:border-primary-500;
+}
+
+.input-success {
+    @apply bg-success-50 border border-success-500 text-success-900 dark:text-success-400 placeholder-success-700 dark:placeholder-success-500 focus:ring-success-500 focus:border-success-500 dark:bg-neutral-700 dark:border-success-500;
+}
+
+.input-error {
+    @apply bg-danger-50 border border-danger-500 text-danger-900 placeholder-danger-700 focus:ring-danger-500 dark:bg-neutral-700 focus:border-danger-500 dark:text-danger-500 dark:placeholder-danger-500 dark:border-danger-500;
+}
+
+.checkbox {
+    -webkit-appearance: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 7px 8px 8px 7px;
+    @apply ring-offset-2 rounded w-4 h-4 border relative inline-block bg-neutral-100 border-neutral-300 dark:bg-neutral-700 dark:border-neutral-600 dark:ring-offset-neutral-800 focus:ring-2;
+}
+.checkbox:active, .checkbox:checked:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkbox:checked {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px 0 rgba(255,255,255,0.1);
+}
+
+.checkbox-primary {
+    @apply focus:ring-primary-500 dark:focus:ring-primary-600 disabled:text-primary-600 disabled:dark:focus:ring-primary-600;
+}
+
+.checkbox-primary:checked  {
+    @apply bg-primary-600;
+}
+.checkbox-danger {
+    @apply focus:ring-danger-500 dark:focus:ring-danger-600 disabled:text-danger-600 disabled:dark:focus:ring-danger-600;
+}
+.checkbox-danger:checked  {
+    @apply bg-danger-500;
+}
+.checkbox-supporting {
+    @apply focus:ring-supporting-500 dark:focus:ring-supporting-600 disabled:text-supporting-600 disabled:dark:focus:ring-supporting-600;
+}
+.checkbox-supporting:checked  {
+    @apply bg-supporting-600;
+}
+.checkbox-warning {
+    @apply focus:ring-warning-500 dark:focus:ring-warning-600 disabled:text-warning-600 disabled:dark:focus:ring-warning-600;
+}
+.checkbox-warning:checked  {
+    @apply bg-warning-500;
+}
+.checkbox-accent {
+    @apply focus:ring-accent-500 dark:focus:ring-accent-600 disabled:text-accent-600 disabled:dark:focus:ring-accent-600;
+}
+.checkbox-accent:checked  {
+    @apply bg-accent-600;
+}
+.checkbox-success {
+    @apply focus:ring-success-500 dark:focus:ring-success-600 disabled:text-success-600 disabled:dark:focus:ring-success-600;
+}
+.checkbox-success:checked  {
+    @apply bg-success-500;
+}
+
+.checkbox:checked:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    bottom: -4px;
+    left: 2px;
+    @apply text-white;
+}
+
+.radio {
+    -webkit-appearance: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 50px;
+    display: inline-block;
+    position: relative;
+    @apply w-4 h-4 ring-offset-2 bg-neutral-100 border-neutral-300 dark:ring-offset-neutral-800 focus:ring-2 dark:bg-neutral-700 dark:border-neutral-600;
+}
+.radio:checked:after {
+    content: ' ';
+    width: 6px;
+    height: 6px;
+    border-radius: 50px;
+    position: absolute;
+    top: 4px;
+    text-shadow: none;
+    left: 4px;
+    @apply bg-white;
+}
+.radio:checked {
+   @apply text-white;
+}
+
+.radio:active, .regular-radio:checked:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.radio-primary {
+    @apply focus:ring-primary-500 dark:focus:ring-primary-600;
+}
+
+.radio-primary:checked  {
+    @apply bg-primary-600;
+}
+.radio-danger {
+    @apply focus:ring-danger-500 dark:focus:ring-danger-600;
+}
+.radio-danger:checked  {
+    @apply bg-danger-500;
+}
+.radio-supporting {
+    @apply focus:ring-supporting-500 dark:focus:ring-supporting-600;
+}
+.radio-supporting:checked  {
+    @apply bg-supporting-600;
+}
+.radio-warning {
+    @apply focus:ring-warning-500 dark:focus:ring-warning-600;
+}
+.radio-warning:checked  {
+    @apply bg-warning-500;
+}
+.radio-accent {
+    @apply focus:ring-accent-500 dark:focus:ring-accent-600;
+}
+.radio-accent:checked  {
+    @apply bg-accent-600;
+}
+.radio-success {
+    @apply focus:ring-success-500 dark:focus:ring-success-600;
+}
+.radio-success:checked  {
+    @apply bg-success-500;
+}
