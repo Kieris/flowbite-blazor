@@ -1,0 +1,52 @@
+﻿@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@inherits Flowbite.Blazor.Forms.Base.CheckboxBase
+<div class="@Class">
+    <label class="relative inline-flex items-center cursor-pointer">
+         @if (LabelLeft)
+         {
+             <span class="mr-3 text-sm font-medium @(Disabled ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-900 dark:text-neutral-300")">
+                 @if (Label is null)
+                 {
+                     @LabelText
+                 }
+                 else
+                 {
+                     @Label
+                 }
+             </span>
+         }
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="sr-only peer" checked="@_isChecked" @oninput="Clicked"
+               @attributes=@UserAttributes disabled="@Disabled">
+         <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+            @(LabelLeft ? "toggle-right" : "toggle-left") toggle-@Color.ToLower() toggle-@Size.ToString().ToLower()"></div>
+        @if (!LabelLeft)
+        {
+            <span class="ml-3 text-sm font-medium @(Disabled ? "text-neutral-400 dark:text-neutral-500" : "text-neutral-900 dark:text-neutral-300")">
+                @if (Label is null)
+                {
+                    @LabelText
+                }
+                else
+                {
+                    @Label
+                }
+            </span>
+        }
+    </label>
+</div>
+
+@code {
+    /// <summary>
+    /// Defines if the label is on the left or right. Default is false (label on the right).
+    /// </summary>
+    [Parameter]
+    public bool LabelLeft { get; set; }
+
+    /// <summary>
+    /// Defines the size of the toggle. Default is medium.
+    /// </summary>
+    [Parameter]
+    public InputSizes Size { get; set; } = InputSizes.Medium;
+
+}
