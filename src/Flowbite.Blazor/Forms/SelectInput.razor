@@ -1,0 +1,88 @@
+@typeparam TItem
+@using System.Reflection
+@inherits Flowbite.Blazor.Forms.Base.FormSelectBase<TItem>
+
+<div class="@(Class ?? "w-full")">
+@if(!string.IsNullOrWhiteSpace(LabelText))
+{
+    <label for="@Id" class="block mb-2 text-sm font-medium @GetLabelColor()">
+        @LabelText
+    </label>
+}
+<select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
+        class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" 
+                                       : GetNormalClass()) @RoundedClass @CssClass"
+        @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
+    @ChildContent
+</select>
+@if (Description is not null)
+{
+    <div class="mt-2">@Description</div>
+}
+else if (!string.IsNullOrWhiteSpace(DescriptionText))
+{
+    <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">@DescriptionText</div>
+}
+
+@if (EditContext != default!)
+{
+    @if (ShowError)
+    {
+        @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
+        {
+            <div class="mt-2 text-sm text-danger-600 dark:text-danger-500">
+                @message
+            </div>
+        }
+    }
+    @if (Success() && !string.IsNullOrEmpty(SuccessMessage))
+    {
+        <div class="mt-2 text-sm text-success-600 dark:text-success-500">@SuccessMessage</div>
+    }
+}
+</div>
+
+@code {
+    /// <summary>
+    /// Initializes the component and sets some parameter specific styles
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (Underline)
+        {
+            RoundedClass = "rounded-none";
+            switch (Size)
+            {
+                case InputSizes.Large:
+                    _size = "py-4 px-0 sm:text-base";
+                    break;
+                case InputSizes.Small:
+                    _size = "py-2 px-0 sm:text-xs";
+                    break;
+                default:
+                    _size = "py-2.5 px-0";
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Triggered when the selection changes
+    /// </summary>
+    private async Task OnChangedEvent(ChangeEventArgs evt)
+    {
+        if (IsMultipleSelect)
+        {
+            string?[]? value = evt.Value as string[];
+            SetCurrentValueAsStringArray(value);
+            await OnChanged.InvokeAsync(value);
+        }
+        else
+        {
+            string? value = evt.Value as string;
+            CurrentValueAsString = value;
+            await OnChanged.InvokeAsync(value);
+        }
+    }
+}

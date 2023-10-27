@@ -20,6 +20,13 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// The style classes for the top level div of the element.
     /// </summary>
     [Parameter] public string? Class { get; set; }
+    
+    /// <summary>
+    /// The classes to apply for the rounding of the input element
+    /// </summary>
+    [Parameter]
+    public string RoundedClass { get; set; } = "rounded-lg";
+    
     /// <summary>
     /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.
     /// </summary>
@@ -163,4 +170,29 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// </summary>
     internal bool Success() => CssClass.Contains("modified") && !EditContext.GetValidationMessages(FieldIdentifier).Any();
 
+    /// <summary>
+    /// Defines the colors for the input based on validation
+    /// </summary>
+    internal string GetNormalClass()
+    {
+        if (EditContext != default!)
+        {
+            if(ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any()) return "input-error";
+            if(Success()) return "input-success";
+        }
+        return "input-normal";
+    }
+
+    /// <summary>
+    /// Defines the colors for the label based on validation
+    /// </summary>
+    internal string GetLabelColor()
+    {
+        if (EditContext != default!)
+        {
+            if(ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any()) return "text-danger-700 dark:text-danger-500";
+            if(Success()) return "text-success-700 dark:text-success-500";
+        }
+        return "text-neutral-900 dark:text-white";
+    }
 }
