@@ -1,8 +1,8 @@
-@inherits Flowbite.Blazor.Forms.Base.CheckboxBase
+@inherits Flowbite.Blazor.Forms.Base.FormCheckboxBase
 <div class="@(Bordered ? $"pl-4 border border-neutral-200 {RoundedClass} dark:border-neutral-700" : "") @Class">
     <div class="flex items-center">
         <input @ref="@ElementRef" id="@Id" type="checkbox" @bind-value="@CurrentValue" checked="@CurrentValue" @bind-value:after="@Clicked" @attributes=@AdditionalAttributes disabled="@Disabled"
-               class="@(Advanced ? "hidden peer" : $"checkbox checkbox-{CheckColor?.ToLower()}") @CssClass">
+               class="@(Advanced ? "hidden peer" : $"checkbox checkbox-{Color?.ToLower()}") @CssClass">
     
         @if (Label is null)
         {

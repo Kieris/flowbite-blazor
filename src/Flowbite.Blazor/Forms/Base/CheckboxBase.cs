@@ -1,69 +1,98 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using Flowbite.Blazor.Components.Base;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Flowbite.Blazor.Forms.Base;
 
-public class CheckboxBase: BaseInput<bool>
+public class CheckboxBase : BaseComponent
 {
-    /// <summary>
+        /// <summary>
     /// RenderFragment to define a completely custom label
     /// </summary>
     [Parameter]
     public RenderFragment? Label { get; set; }
-    
+
+    /// <summary>
+    /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.
+    /// </summary>
+    [Parameter]
+    public string? LabelText { get; set; }
+
     /// <summary>
     /// Defines the color of the checkbox when checked. Options are primary, supporting, accent, warning, danger, and success.
     /// </summary>
     [Parameter]
-    public string? CheckColor { get; set; } = "primary";
-    
-    /// <summary>
-    /// Defines whether there is a border and the label area is expanded
-    /// </summary>
-    [Parameter]
-    public bool Bordered { get; set; }
-    
-    /// <summary>
-    /// Defines whether to use "advanced" settings and hide the default checkbox
-    /// </summary>
-    [Parameter]
-    public bool Advanced { get; set; }
-    
-    /// <summary>
-    /// Defines the class for when the checkbox should be hidden to create an "advanced checkbox"
-    /// </summary>
-    [Parameter]
-    public string? AdvancedClass { get; set; }
+    public string Color { get; set; } = "primary";
 
     /// <summary>
-    /// Defines the rounding class for the border when <see cref="Bordered"/> is true
+    /// Defines whether the input is disabled
     /// </summary>
     [Parameter]
-    public string RoundedClass { get; set; } = "rounded";
+    public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// The value of the checkbox and the checked state
+    /// </summary>
+    [Parameter]
+    public bool Checked { get; set; }
+    
+    /// <summary>
+    /// The model/class of the field with the attribute
+    /// </summary>
+    [Parameter]
+    public object? AttributeModel { get; set; }
+    
+    /// <summary>
+    /// The name of the field with attribute as string
+    /// </summary>
+    [Parameter]
+    public string? AttributeField { get; set; }
 
     /// <summary>
     /// Triggered when the value changes and sends the value when invoked
     /// </summary>
     [Parameter]
     public EventCallback<bool> OnChanged { get; set; }
-    
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        Spacing = "ml-2";
-    }
+
+    /// <summary>
+    /// Internal field holding checkbox state
+    /// </summary>
+    internal bool _isChecked;
 
     /// <summary>
     /// Triggered when value changes to invoke callback
     /// </summary>
-    internal async Task Clicked()
+    internal async Task Clicked(ChangeEventArgs e)
     {
-        await OnChanged.InvokeAsync(CurrentValue);
+        bool value = (bool)e.Value!;
+        Checked = value;
+        await OnChanged.InvokeAsync(value);
     }
-
-    /// <inheritdoc />
-    protected override bool TryParseValueFromString(string? value, out bool result, [NotNullWhen(false)] out string? validationErrorMessage)
-        => throw new NotSupportedException($"This component does not parse string inputs. Bind to the '{nameof(CurrentValue)}' property, not '{nameof(CurrentValueAsString)}'.");
+    
+    /// <summary>
+    /// Sets necessary fields/parameters whenever parameters change
+    /// </summary>
+    protected override Task OnParametersSetAsync()
+    {
+        try
+        {
+            _isChecked = Checked;
+            if (AttributeModel is not null && AttributeField is not null && AttributeModel.GetType()
+                .GetProperty(AttributeField)?
+                .GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute displayAttribute)
+            {
+                var displayName = displayAttribute.Name;
+                if (!string.IsNullOrEmpty(displayName) && string.IsNullOrEmpty(LabelText))
+                {
+                    LabelText = displayName;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        return base.OnParametersSetAsync();
+    }
 }

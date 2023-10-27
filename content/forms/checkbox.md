@@ -361,7 +361,7 @@ Use this example of a checkbox inside a card element to enable a larger area of 
     
 ### Colors
                             
-Use the CheckColor parameter to change the color of the checkbox component.
+Use the Color parameter to change the color of the checkbox component.
         
 #### With validation
 ```razor
@@ -370,7 +370,7 @@ Use the CheckColor parameter to change the color of the checkbox component.
         @foreach (CheckboxLabelColorModel item in _colors)
         {
             <ListItem>
-                <FormCheckbox Class="px-4" CheckColor="@item.Color" @bind-Value="@item.Checked" LabelText="@item.Label"></FormCheckbox>
+                <FormCheckbox Class="px-4" Color="@item.Color" @bind-Value="@item.Checked" LabelText="@item.Label"></FormCheckbox>
             </ListItem>
         }
     </List>
@@ -383,7 +383,7 @@ Use the CheckColor parameter to change the color of the checkbox component.
     @foreach (CheckboxLabelColorModel item in _colors)
     {
         <ListItem>
-            <Checkbox Class="px-4" CheckColor="@item.Color" Checked="@item.Checked" LabelText="@item.Label" 
+            <Checkbox Class="px-4" Color="@item.Color" Checked="@item.Checked" LabelText="@item.Label" 
                         OnChanged="@((val) => item.Checked = val)" />
         </ListItem>
     }
