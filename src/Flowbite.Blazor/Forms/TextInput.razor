@@ -58,7 +58,6 @@
         <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
         @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
-
     
     @if (Description is not null)
     {
@@ -100,5 +99,4 @@
         validationErrorMessage = null;
         return true;
     }
-    
 }

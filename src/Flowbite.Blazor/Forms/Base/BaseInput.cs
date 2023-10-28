@@ -98,10 +98,11 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// <summary>
     /// Sets necessary fields/parameters whenever parameters change
     /// </summary>
-    protected override Task OnParametersSetAsync()
+    protected override void OnInitialized()
     {
         try
         {
+            base.OnInitialized();
             switch (Size)
             {
                 case InputSizes.Large:
@@ -141,7 +142,6 @@ public class BaseInput<TValue> : InputBase<TValue>
         {
             Console.WriteLine(e);
         }
-        return base.OnParametersSetAsync();
     }
     
     /// <inheritdoc />

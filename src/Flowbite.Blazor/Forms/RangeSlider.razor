@@ -1,0 +1,41 @@
+﻿@typeparam TItem
+@using System.Reflection.Emit
+@using Flowbite.Blazor.SharedEnums
+@using System.Globalization
+@inherits Flowbite.Blazor.Forms.Base.RangeBase<TItem>
+
+<div class="@Class">
+    <label for="@Id" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">
+        @LabelText
+    </label>
+      <input class="w-full @(Size == InputSizes.Small ? "h-1 range-sm" : Size == InputSizes.Large ? "h-3 range-lg" : "h-2") bg-neutral-200 rounded-lg appearance-none cursor-pointer dark:bg-neutral-700 @(Disabled ? "cursor-not-allowed":"") 
+             @CssClass" id="@Id" value="@CurrentValue" @attributes=@AdditionalAttributes type="range" @onchange="@Changed"
+             disabled="@Disabled" min="@Min" max="@Max" step="@(Step is null ? "1" : Step.ToString())"/>
+</div>
+@code {
+    /// <summary>
+    /// The Step value
+    /// </summary>
+    [Parameter]
+    public TItem? Step { get; set; }
+
+    /// <summary>
+    /// Triggers when the value is changed and send the CurrentValue
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnChanged { get; set; }
+    
+    /// <summary>
+    /// Handle the change event, set the value, and raise the OnChanged event
+    /// </summary>
+    private async Task Changed(ChangeEventArgs evt)
+    {
+        if (evt.Value is not null)
+        {
+            CurrentValue =  CurrentValue = BindConverter.TryConvertTo<TItem>(evt.Value, CultureInfo.CurrentCulture, out var result)
+                ? result
+                : default;
+            await OnChanged.InvokeAsync(evt.Value.ToString());
+        }
+    }
+}
