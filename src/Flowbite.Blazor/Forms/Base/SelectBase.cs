@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Blazor.Forms.Base;
 
-public class FormSelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>:BaseInput<TValue>
+public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>:BaseInput<TValue>
 {
     /// <summary>
     /// Gets or sets the child content to be rendering inside the select element.
@@ -35,9 +35,9 @@ public class FormSelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMembe
     internal readonly bool IsMultipleSelect;
 
     /// <summary>
-    /// Constructs an instance of <see cref="FormSelectBase{TValue}"/>.
+    /// Constructs an instance of <see cref="SelectBase{TValue}"/>.
     /// </summary>
-    public FormSelectBase()
+    public SelectBase()
     {
         if(typeof(TValue).IsArray)
         {
