@@ -1,0 +1,59 @@
+﻿@typeparam TValue   
+@using Flowbite.Blazor.Components.Alerts
+
+@if (Input!.ShowError && Errors!.Any())
+{
+    if (Input.AlertStyle)
+    {
+        <Alert Color="AlertColors.Danger" Class="@Class">
+            @foreach (var message in Errors!)
+            {
+                <div>
+                    @message
+                </div>
+            }
+        </Alert>
+    }
+    else
+    {
+        @foreach (var message in Errors!)
+        {
+            <div class="text-sm text-danger-600 dark:text-danger-500 @Class">
+                @message
+            </div>
+        }
+    }
+}
+@if (Input.Success() && !string.IsNullOrEmpty(Input.SuccessMessage))
+{
+    if (Input.AlertStyle)
+    {
+        <Alert Color="AlertColors.Success" Class="@Class">
+            @Input.SuccessMessage
+        </Alert>
+    }
+    else
+    {
+        <div class="text-sm text-success-600 dark:text-success-500 @Class">@Input.SuccessMessage</div>
+    }
+}
+        
+@code {
+    /// <summary>
+    /// The input that is being validated
+    /// </summary>
+    [Parameter]
+    public BaseInput<TValue>? Input { get; set; }
+    
+    /// <summary>
+    /// The validation errors
+    /// </summary>
+    [Parameter]
+    public IEnumerable<string>? Errors { get; set; }
+    
+    /// <summary>
+    /// The Padding and Margin classes
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = "mt-2";
+}

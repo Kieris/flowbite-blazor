@@ -16,6 +16,19 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// </summary>
     [Parameter]
     public bool ShowError { get; set; } = true;
+    
+    /// <summary>
+    /// Overrides the color for background, border, and ring
+    /// </summary>
+    [Parameter]
+    public string? ColorClass { get; set; }
+    
+    /// <summary>
+    /// Defines whether the label should be read only and not displayed.
+    /// </summary>
+    [Parameter]
+    public bool LabelScreenReaderOnly { get; set; }
+    
     /// <summary>
     /// The style classes for the top level div of the element.
     /// </summary>
@@ -26,6 +39,12 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// </summary>
     [Parameter]
     public string RoundedClass { get; set; } = "rounded-lg";
+    
+    /// <summary>
+    /// Defines whether error and success messages should be displayed inside of an Alert component
+    /// </summary>
+    [Parameter]
+    public bool AlertStyle { get; set; }
     
     /// <summary>
     /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.

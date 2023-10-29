@@ -1,45 +1,26 @@
 @typeparam TItem
 @using System.Reflection
-@inherits Flowbite.Blazor.Forms.Base.SelectBase<TItem>
+@using Flowbite.Blazor.Forms.Base
+@inherits SelectBase<TItem>
 
 <div class="@(Class ?? "w-full")">
-@if(!string.IsNullOrWhiteSpace(LabelText))
-{
-    <label for="@Id" class="block mb-2 text-sm font-medium @GetLabelColor()">
-        @LabelText
-    </label>
-}
-<select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
-        class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" 
-                                       : GetNormalClass()) @RoundedClass @CssClass"
-        @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
-    @ChildContent
-</select>
-@if (Description is not null)
-{
-    <div class="mt-2">@Description</div>
-}
-else if (!string.IsNullOrWhiteSpace(DescriptionText))
-{
-    <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">@DescriptionText</div>
-}
-
-@if (EditContext != default!)
-{
-    @if (ShowError)
+    @if(!string.IsNullOrWhiteSpace(LabelText))
     {
-        @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
-        {
-            <div class="mt-2 text-sm text-danger-600 dark:text-danger-500">
-                @message
-            </div>
-        }
+        <label for="@Id" class="block mb-2 text-sm font-medium @GetLabelColor()">
+            @LabelText
+        </label>
     }
-    @if (Success() && !string.IsNullOrEmpty(SuccessMessage))
+    <select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
+            class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" 
+                                           : GetNormalClass()) @RoundedClass @CssClass"
+            @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
+        @ChildContent
+    </select>
+   <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+    @if (EditContext != default!)
     {
-        <div class="mt-2 text-sm text-success-600 dark:text-success-500">@SuccessMessage</div>
+        <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
-}
 </div>
 
 @code {

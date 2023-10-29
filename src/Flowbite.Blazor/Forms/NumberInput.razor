@@ -41,14 +41,14 @@
                         </div>
                 </div>
                 break;
-                default: <!-- Left -->
+            case InputGroupTypes.Left:
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             @Icon
                         </div>
                            <input class="input rounded-lg @(CustomSize ?? _size) pl-10 @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
                            @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
-                        </div>
+                    </div>
                 break;
         }
     }
@@ -57,31 +57,10 @@
         <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
         @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes="@AdditionalAttributes" type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
-
-    
-    @if (Description is not null)
-    {
-        <div class="mt-2">@Description</div>
-    }
-    else if (!string.IsNullOrWhiteSpace(DescriptionText))
-    {
-        <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">@DescriptionText</div>
-    }
+   <InputDescription TValue="@TItem" Input="@this"></InputDescription>
     @if (EditContext != default!)
     {
-        @if (ShowError)
-        {
-            @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
-            {
-                <div class="mt-2 text-sm text-danger-600 dark:text-danger-500">
-                    @message
-                </div>
-            }
-        }
-        @if (Success() && !string.IsNullOrEmpty(SuccessMessage))
-        {
-            <div class="mt-2 text-sm text-success-600 dark:text-success-500">@SuccessMessage</div>
-        }
+        <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
     </div>
     

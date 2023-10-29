@@ -2,13 +2,13 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Diagnostics.CodeAnalysis
 @using System.Reflection
-
-@inherits Flowbite.Blazor.Forms.Base.BaseInput<string>
+@using Flowbite.Blazor.Forms.Base;
+@inherits BaseInput<string>
 
 <div @ref="@ElementRef" class="@Spacing @Class">
     @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
     {
-        <label class="block mb-2 text-sm font-medium @GetLabelColor()" 
+        <label class="block mb-2 text-sm font-medium @(LabelScreenReaderOnly ? "sr-only" : "") @GetLabelColor()" 
                for="@Id">@LabelText</label>
     }
     @if (Icon is not null && GroupType != InputGroupTypes.None)
@@ -59,29 +59,10 @@
         @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
     
-    @if (Description is not null)
-    {
-        <div class="mt-2">@Description</div>
-    }
-    else if (!string.IsNullOrWhiteSpace(DescriptionText))
-    {
-        <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">@DescriptionText</div>
-    }
+   <InputDescription TValue="string" Input="@this"></InputDescription>
     @if (EditContext != default!)
     {
-        @if (ShowError)
-        {
-            @foreach (var message in EditContext.GetValidationMessages(FieldIdentifier))
-            {
-                <div class="mt-2 text-sm text-danger-600 dark:text-danger-500">
-                    @message
-                </div>
-            }
-        }
-        @if (Success() && !string.IsNullOrEmpty(SuccessMessage))
-        {
-            <div class="mt-2 text-sm text-success-600 dark:text-success-500">@SuccessMessage</div>
-        }
+        <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
     </div>
 

@@ -1,0 +1,24 @@
+﻿@typeparam TValue
+
+@if (Input!.Description is not null)
+{
+    <div class="@Class">@Input.Description</div>
+}
+else if (!string.IsNullOrWhiteSpace(Input.DescriptionText))
+{
+    <div class="text-sm text-neutral-500 dark:text-neutral-400 @Class">@Input.DescriptionText</div>
+}
+
+@code {
+    /// <summary>
+    /// The input
+    /// </summary>
+    [Parameter]
+    public BaseInput<TValue>? Input { get; set; }
+    
+    /// <summary>
+    /// The Padding and Margin classes
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = "mt-2";
+}
