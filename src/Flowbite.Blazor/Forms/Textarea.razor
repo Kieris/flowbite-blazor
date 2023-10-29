@@ -1,0 +1,48 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Flowbite.Blazor.Forms.Base
+@inherits BaseInput<string>
+
+<div>
+    @if (!string.IsNullOrEmpty(LabelText))
+    {
+        <label for="@Id" class="block mb-2 text-sm font-medium @(LabelScreenReaderOnly ? "sr-only" : "") @GetLabelColor()">
+            @LabelText
+        </label>
+    }
+    <textarea id="@Id" rows="4" class="block p-2.5 w-full text-sm rounded-lg border @(ColorClass ?? GetNormalClass()) @CssClass" 
+value="@CurrentValue" @oninput="Changed" placeholder="@Placeholder" @attributes=@AdditionalAttributes disabled="@Disabled"></textarea>
+    <InputDescription TValue="string" Input="@this"></InputDescription>
+    @if (EditContext != default!)
+    {
+        <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Returns the current value when the text is changed
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnChanged { get; set; }
+    
+    /// <inheritdoc />
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
+    
+    /// <summary>
+    /// Handle the change event, set the value, and raise the OnChanged event
+    /// </summary>
+    private async Task Changed(ChangeEventArgs evt)
+    {
+        if (evt.Value is not null)
+        {
+            CurrentValue = evt.Value.ToString();
+            await OnChanged.InvokeAsync(CurrentValue);
+        }
+    }
+    
+}
