@@ -3,7 +3,7 @@
 @inherits BaseInput<string>
 
 <div>
-    @if (!string.IsNullOrEmpty(LabelText))
+    @if (!string.IsNullOrEmpty(LabelText) && IncludeLabel)
     {
         <label for="@Id" class="block mb-2 text-sm font-medium @(LabelScreenReaderOnly ? "sr-only" : "") @GetLabelColor()">
             @LabelText

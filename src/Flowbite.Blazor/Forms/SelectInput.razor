@@ -4,22 +4,32 @@
 @inherits SelectBase<TItem>
 
 <div class="@(Class ?? "w-full")">
-    @if(!string.IsNullOrWhiteSpace(LabelText))
+    @if(MessageTop)
+    {
+        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
+    }
+    @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
     {
         <label for="@Id" class="block mb-2 text-sm font-medium @GetLabelColor()">
             @LabelText
         </label>
     }
     <select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
-            class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" 
-                                           : GetNormalClass()) @RoundedClass @CssClass"
+            class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" : GetNormalClass()) @RoundedClass @CssClass"
             @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
         @ChildContent
     </select>
-   <InputDescription TValue="@TItem" Input="@this"></InputDescription>
-    @if (EditContext != default!)
+    @if (!MessageTop)
     {
-        <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
     }
 </div>
 

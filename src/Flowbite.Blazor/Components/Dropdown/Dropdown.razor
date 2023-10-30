@@ -10,7 +10,7 @@
 
         <div @ref="@_dropdown" @onclick:stopPropagation="true" @onclick:preventDefault="true" @onfocusin="@SetDropdownFocus"
              @onmousedown="@SetDropdownFocus"
-             class="dropdown1 @(MatchWidth ? "min-w-full" : "") divide-y divide-gray-100 rounded-lg shadow bg-white dark:bg-gray-700" style="@Style">
+             class="dropdown1 @(MatchWidth ? "min-w-full" : "") divide-y divide-neutral-100 rounded-lg shadow bg-white dark:bg-neutral-700" style="@Style">
             <ul class="py-2 w-full">
                 @if (Header is not null)
                 {

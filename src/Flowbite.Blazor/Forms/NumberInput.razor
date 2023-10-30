@@ -4,63 +4,94 @@
 @using Flowbite.Blazor.Forms.Base
 @inherits NumberInputBase<TItem>
 
-<div class="@Spacing @Class">
+<div @ref="@ElementRef" class="@Spacing @Class">
+    @if (MessageTop)
+    {
+        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
+    }
     @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
     {
-        <label class="block mb-2 text-sm font-medium @GetLabelColor()" 
+        <label class="block mb-2 text-sm font-medium @(LabelScreenReaderOnly ? "sr-only" : "") @GetLabelColor()"
                for="@Id">@LabelText</label>
     }
     @if (Icon is not null && GroupType != InputGroupTypes.None)
     {
-        switch (GroupType)
-        {
-            case InputGroupTypes.LeftWithBg:
-                <div class="flex">
-                    <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-r-0 border-neutral-200 rounded-l-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
-                        @Icon
-                    </span>
-                    <input class="input rounded-none rounded-r-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
-                                          @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
-                    </div>
-                break;
-            case InputGroupTypes.RightWithBg:
-                <div class="flex">
-                         <input class="input rounded-none rounded-l-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
-                                                              @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
-                    <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-l-0 border-neutral-200 rounded-r-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
-                        @Icon
-                    </span>
-                </div>
-                break;
-            case InputGroupTypes.Right:
-                <div class="relative">
-                    <input class="input rounded-lg @(CustomSize ?? _size) pr-10 @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
-                           @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
-                         <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
-                            @Icon
-                        </div>
-                </div>
-                break;
-            case InputGroupTypes.Left:
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            @Icon
-                        </div>
-                           <input class="input rounded-lg @(CustomSize ?? _size) pl-10 @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
-                           @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
-                    </div>
-                break;
-        }
+        <div class="@(GroupType.ToString().Contains("WithBg") ? "flex" : "relative")">
+            @if (GroupType.ToString().Contains("Left"))
+            {
+                <span class="@_iconClass">
+                    @Icon
+                </span>
+            }
+            <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass()
+                                          @CssClass @RoundedClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+            @if (GroupType.ToString().Contains("Right"))
+            {
+                <span class="@_iconClass">
+                    @Icon
+                </span>
+            }
+        </div>
     }
     else
     {
-        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed":"") @GetNormalClass()
-        @CssClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes="@AdditionalAttributes" type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @CssClass @RoundedClass" id="@Id"
+               @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
-   <InputDescription TValue="@TItem" Input="@this"></InputDescription>
-    @if (EditContext != default!)
+    @if (!MessageTop)
     {
-        <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
     }
-    </div>
+</div>
     
+    @code {
+        /// <summary>
+        /// Classes for the specified GroupType for an icon div
+        /// </summary>
+        private string _iconClass = string.Empty;
+        /// <summary>
+        /// Classes for the specified GroupType for an input when an icon is defined
+        /// </summary>
+        private string _inputClass = string.Empty;
+
+        /// <inheritdoc />
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            GetInputClass();
+        }
+    
+        /// <summary>
+        /// Gets the classes required for the specified GroupType when an icon is present
+        /// </summary>
+        private void GetInputClass()
+        {
+            switch (GroupType)
+            {
+                case InputGroupTypes.LeftWithBg:
+                    _iconClass = "inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-r-0 border-neutral-200 rounded-l-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600";
+                    _inputClass = "input rounded-none rounded-r-lg flex-1 min-w-0";
+                    break;
+                case InputGroupTypes.RightWithBg:
+                    _iconClass = "inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-l-0 border-neutral-200 rounded-r-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600";
+                    _inputClass = "input rounded-none rounded-l-lg flex-1 min-w-0";
+                    break;
+                case InputGroupTypes.Right:
+                    _iconClass = "absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none";
+                    _inputClass = "input rounded-lg pr-10";
+                    break;
+                default: //Left
+                    _iconClass = "absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none";
+                    _inputClass = "input rounded-lg pl-10";
+                    break;
+            }
+        }
+    }

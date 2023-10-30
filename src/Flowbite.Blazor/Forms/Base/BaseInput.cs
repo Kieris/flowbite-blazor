@@ -47,6 +47,12 @@ public class BaseInput<TValue> : InputBase<TValue>
     public bool AlertStyle { get; set; }
     
     /// <summary>
+    /// Defines whether error and success messages are displayed on the top or bottom. Default is false or bottom.
+    /// </summary>
+    [Parameter]
+    public bool MessageTop { get; set; }
+    
+    /// <summary>
     /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.
     /// </summary>
     [Parameter] public string? LabelText { get; set; }
