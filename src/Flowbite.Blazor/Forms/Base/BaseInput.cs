@@ -103,6 +103,7 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// Gets or sets the reference to the rendered element.
     /// </summary>
     public ElementReference ElementRef { get; set; }
+    
     /// <summary>
     /// Used to define the placement of the content inside <see cref="Icon"/> with relation to the input
     /// </summary>

@@ -1,0 +1,192 @@
+﻿@using Flowbite.Blazor.Typography
+@using System.Reflection
+@inject IJSRuntime Js
+@implements IAsyncDisposable
+@inherits BaseComponent
+
+    @if (Dropzone)
+    {
+        <div class="flex items-center justify-center w-full @Class">
+            <label @ref="@ElementRef" for="@ElementId" class="flex flex-col items-center justify-center w-full @DropzoneHeight border-2 border-neutral-300 border-dashed @RoundedClass cursor-pointer bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:border-neutral-600 dark:hover:border-neutral-500 dark:hover:bg-neutral-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    @if (ChildContent is null)
+                    {
+                        <svg class="w-8 h-8 mb-4 text-neutral-500 dark:text-neutral-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                        </svg>
+                        <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-neutral-500 dark:text-neutral-400">@DescriptionText</p>
+                    }
+                    else
+                    {
+                        @ChildContent
+                    }
+                </div>
+                <InputFile id="@ElementId" OnChange="@LoadFiles" class="hidden" @attributes="@UserAttributes"></InputFile>
+            </label>
+        </div> 
+    }
+    else
+    {
+        <div @ref="@ElementRef" class="@Class">
+            @if (LabelText is not null)
+            {
+                <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="@ElementId">
+                    @LabelText
+                </label>
+            }
+
+            <InputFile id="@ElementId" OnChange="@LoadFiles" @attributes="@UserAttributes"
+                       class="@($"block w-full text-neutral-900 border border-neutral-300 {RoundedClass} cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 {(CustomSize ?? _size)}")"></InputFile>
+
+            @if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+            else if (DescriptionText is not null)
+            {
+                <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-300">
+                    @DescriptionText
+                </p>
+            }
+        </div>
+    }
+
+@code {
+    /// <summary>
+    /// The event that is fired when file(s) is selected and sends ths InputFileChangeEventArgs
+    /// </summary>
+    [Parameter]
+    public EventCallback<InputFileChangeEventArgs> OnChange { get; set; }
+
+    /// <summary>
+    ///  Defines whether the input is a dropzone
+    /// </summary>
+    [Parameter]
+    public bool Dropzone { get; set; }
+    
+    /// <summary>
+    /// The text shown as a description under the input. This text will be overridden by any content in
+    /// the <see cref="Description"/> fragment. This will use Description from the DisplayAttribute if defined. 
+    /// </summary>
+    [Parameter] public string? DescriptionText { get; set; }
+    
+    /// <summary>
+    /// Defines the height of the dropzone. Defaults to h-64.
+    /// </summary>
+    [Parameter]
+    public string DropzoneHeight { get; set; } = "h-64";
+    
+    /// <summary>
+    /// Defines whether the label should be read only and not displayed.
+    /// </summary>
+    [Parameter]
+    public bool LabelScreenReaderOnly { get; set; }
+    
+    /// <summary>
+    /// Defines whether the input is disabled
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// Defines the text, if any, shown for the label. This will use Name from the DisplayAttribute if defined.
+    /// </summary>
+    [Parameter] public string? LabelText { get; set; }
+
+    /// <summary>
+    /// Defines the size of the input as long as <see cref="CustomSize"/> is null. The default is Medium.
+    /// </summary>
+    [Parameter] public InputSizes Size { get; set; } = InputSizes.Medium;
+    
+    /// <summary>
+    /// Defines classes to make the input a custom size. (e.g. text-sm)
+    /// </summary>
+    [Parameter] public string? CustomSize { get; set; }
+    
+    /// <summary>
+    /// The classes to apply for the rounding of the input element
+    /// </summary>
+    [Parameter]
+    public string RoundedClass { get; set; } = "rounded-lg";
+    
+    /// <summary>
+    /// The content to replace the normal dropzone content or the description text on non-dropzone
+    /// </summary>
+    [Parameter] 
+    public RenderFragment? ChildContent { get; set; } = null!;
+
+    /// <summary>
+    /// The reference to dropzone.js
+    /// </summary>
+    private IJSObjectReference? _jsModule;
+
+    /// <summary>
+    /// Invoked to initialize the dropzone
+    /// </summary>
+    private IJSObjectReference? _fileDropZoneHandler;
+    
+    /// <summary>
+    /// Used to define the classes that change the size of the input based on <see cref="Size"/>
+    /// </summary>
+    private string _size = string.Empty;
+    
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        switch (Size)
+        {
+            case InputSizes.Large:
+                _size = "text-lg";
+                break;
+            case InputSizes.Small:
+                _size = "text-xs";
+                break;
+            default:
+                _size = "text-sm";
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Bound to the callback OnChange of the InputFile
+    /// </summary>
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        await OnChange.InvokeAsync(e);
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender && Dropzone)
+        {
+            var assembly = GetType().Assembly;
+            var version = assembly
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                .InformationalVersion ?? assembly.GetName().Version?.ToString() ?? "";
+            _jsModule = await Js.InvokeAsync<IJSObjectReference>(
+                "import", $"./_content/Flowbite.Blazor/js/dropzone.js");
+
+            _fileDropZoneHandler = await _jsModule.InvokeAsync<IJSObjectReference>(
+                "initializeFileDropZone", ElementRef);
+        }
+    }
+    
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        try
+        {
+            if (_fileDropZoneHandler != null)
+            {
+                await _fileDropZoneHandler.InvokeVoidAsync("dispose");
+                await _fileDropZoneHandler.DisposeAsync();
+            }
+            if (_jsModule != null) await _jsModule.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+    }
+}
