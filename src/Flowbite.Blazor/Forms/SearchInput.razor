@@ -1,0 +1,146 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Flowbite.Blazor.Forms.Base;
+@inherits BaseInput<string>
+
+<div @ref="@ElementRef" class="@Spacing @Class">
+    @if(MessageTop)
+    {
+        <InputDescription TValue="string" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
+    }
+    @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
+    {
+        <label class="block mb-2 text-sm font-medium @(LabelScreenReaderOnly ? "sr-only" : "") @GetLabelColor()"
+               for="@Id">@LabelText</label>
+    }
+    @if (SearchButton is not null || Icon is not null)
+    {
+        <div class="@(GroupType.ToString().Contains("WithBg") ? "flex" : "relative")">
+            @if (SearchButton is not null && BtnGroupType.ToString().Contains("Left"))
+            {
+                @SearchButton
+            }
+            @if (Icon is not null && GroupType.ToString().Contains("Left"))
+            {
+                <span class="@_iconClass">
+                    @Icon
+                </span>
+            }
+            <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass()
+                                          @CssClass @RoundedClass" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" 
+                   @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+            @if (SearchButton is not null && BtnGroupType.ToString().Contains("Right"))
+            {
+                @SearchButton
+            }
+            @if (Icon is not null && GroupType.ToString().Contains("Right"))
+            {
+                <span class="@_iconClass">
+                    @Icon
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @RoundedClass @CssClass" id="@Id"
+               value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" 
+               placeholder="@Placeholder" disabled="@Disabled"/>
+    }
+    @if(!MessageTop)
+    {
+        <InputDescription TValue="string" Input="@this"></InputDescription>
+        @if (EditContext != default!)
+        {
+            <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        }
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Defines the type for the input. This should only include types that are string. If number type is needed, use
+    /// NumberInput component. The default is text.
+    /// </summary>
+    [Parameter] public string Type { get; set; } = "text";
+    
+    [Parameter]
+    public RenderFragment? SearchButton { get; set; }
+
+    /// <summary>
+    /// Used to define the placement of the <see cref="SearchButton"/> with relation to the input
+    /// </summary>
+    [Parameter]
+    public InputGroupTypes BtnGroupType { get; set; } = InputGroupTypes.Right;
+    
+    /// <summary>
+    /// Returns the current value when the text is changed
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnChanged { get; set; }
+    
+    /// <summary>
+    /// Classes for the specified GroupType for an icon div
+    /// </summary>
+    private string _iconClass = string.Empty;
+    /// <summary>
+    /// Classes for the specified GroupType for an input when an icon is defined
+    /// </summary>
+    private string _inputClass = string.Empty;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        GetInputClass();
+    }
+    
+    /// <summary>
+    /// Gets the classes required for the specified GroupType when an icon is present
+    /// </summary>
+    private void GetInputClass()
+    {
+        switch (GroupType)
+        {
+            case InputGroupTypes.LeftWithBg:
+                _iconClass = "inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-r-0 border-neutral-200 rounded-l-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600";
+                _inputClass = "input rounded-none rounded-r-lg flex-1 min-w-0";
+                break;
+            case InputGroupTypes.RightWithBg:
+                _iconClass = "inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-l-0 border-neutral-200 rounded-r-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600";
+                _inputClass = "input rounded-none rounded-l-lg flex-1 min-w-0";
+                break;
+            case InputGroupTypes.Right:
+                _iconClass = "absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none";
+                _inputClass = "input rounded-lg pr-10";
+                break;
+            default: //Left
+                _iconClass = "absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none";
+                _inputClass = "input rounded-lg pl-10";
+                break;
+        }
+    }
+    
+    /// <summary>
+    /// Handle the change event, set the value, and raise the OnChanged event
+    /// </summary>
+    private async Task Changed(ChangeEventArgs evt)
+    {
+        if (evt.Value is not null)
+        {
+            CurrentValue = evt.Value.ToString();
+            await OnChanged.InvokeAsync(CurrentValue);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
+}
