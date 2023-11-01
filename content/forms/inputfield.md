@@ -155,3 +155,13 @@ Use this example to show a helper text below the input field for additional expl
     </Description>
 </TextInput>
 ```
+
+### OnChanged callback
+                
+The Onchanged callback allows you to get the value of the input when it is changed.
+
+```razor            
+<TextInput @bind-Value="_value" OnChanged="((val) => _callVal = val)"/>
+<Paragraph>Value: @_value</Paragraph>
+<Paragraph>Callback return: @_callVal</Paragraph>
+```
