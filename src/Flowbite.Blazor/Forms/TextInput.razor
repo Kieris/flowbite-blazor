@@ -30,7 +30,7 @@
                 </span>
             }
             <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass()
-                                          @CssClass @RoundedClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                                          @CssClass @RoundedClass" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
             @if (GroupType.ToString().Contains("Right"))
             {
                 <span class="@_iconClass">
@@ -42,7 +42,7 @@
     else
     {
         <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @CssClass @RoundedClass" id="@Id"
-               @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+               value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
     @if(!MessageTop)
     {
@@ -61,6 +61,12 @@
     /// NumberInput component. The default is text.
     /// </summary>
     [Parameter] public string Type { get; set; } = "text";
+    
+    /// <summary>
+    /// Returns the current value when the text is changed
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnChanged { get; set; }
 
     /// <summary>
     /// Classes for the specified GroupType for an icon div
@@ -110,5 +116,17 @@
         result = value;
         validationErrorMessage = null;
         return true;
+    }
+    
+    /// <summary>
+    /// Handle the change event, set the value, and raise the OnChanged event
+    /// </summary>
+    private async Task Changed(ChangeEventArgs evt)
+    {
+        if (evt.Value is not null)
+        {
+            CurrentValue = evt.Value.ToString();
+            await OnChanged.InvokeAsync(CurrentValue);
+        }
     }
 }

@@ -89,7 +89,7 @@
     public Dictionary<string, object> AdditionalAttributes { get; set; } = new ();
     
     /// <summary>
-    /// Defines the color of the checkbox when checked. Options are primary, supporting, accent, warning, danger, and success.
+    /// Defines the color of the radio when checked. Options are primary, supporting, accent, warning, danger, and success.
     /// </summary>
     [Parameter]
     public string? CheckColor { get; set; } = "primary";
@@ -101,13 +101,13 @@
     public bool Bordered { get; set; }
     
     /// <summary>
-    /// Defines whether to use "advanced" settings and hide the default checkbox
+    /// Defines whether to use "advanced" settings and hide the default radio
     /// </summary>
     [Parameter]
     public bool Advanced { get; set; }
     
     /// <summary>
-    /// Defines the class for when the checkbox should be hidden to create an "advanced checkbox"
+    /// Defines the class for when the radio should be hidden to create an "advanced radio"
     /// </summary>
     [Parameter]
     public string? AdvancedClass { get; set; }
