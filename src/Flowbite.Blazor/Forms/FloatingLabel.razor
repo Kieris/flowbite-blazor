@@ -2,170 +2,22 @@
 @using System.Reflection.Emit
 @using System.Diagnostics.CodeAnalysis
 @using System.Diagnostics
-@inherits BaseInput<string>
+@inherits BaseFloatingLabel<string>
 
 <div class="@Class">
-    @if(MessageTop)
-    {
-        <InputDescription TValue="string" Input="@this"></InputDescription>
-        @if (EditContext != default!)
-        {
-            <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
-        }
-    }
     <div class="relative @(FloatType == FloatType.Standard ? "z-0" : "")">
         <input @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" value="@CurrentValue" @oninput="Changed" id="@Id" disabled="@Disabled"
-               class="@_baseInputClasses @_inputClass @_inputSize @GetColorClass()" placeholder=""/>
-        <label for="@Id" class="@_baseClass @_labelClass @_labelSize @(Disabled ? "text-neutral-400 dark:text-neutral-500" : GetLabelClass())">@LabelText</label>
+               class="@BaseInputClasses @InputClass @InputSize @GetColorClass()" placeholder=""/>
+        <label for="@Id" class="@BaseClass @LabelClass @LabelSize @(Disabled ? "text-neutral-400 dark:text-neutral-500" : GetLabelClass())">@LabelText</label>
     </div>
-    @if(!MessageTop)
+    <InputDescription TValue="string" Input="@this"></InputDescription>
+    @if (EditContext != default!)
     {
-        <InputDescription TValue="string" Input="@this"></InputDescription>
-        @if (EditContext != default!)
-        {
-            <ValidationComponent TValue="string" Class="text-xs mt-2 font-semibold" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
-        }
+        <ValidationComponent TValue="string" Class="text-xs mt-2 font-semibold" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
 </div>
 
 @code {
-    string _filledLg = "pb-4.5 pt-6";
-    string _stdInput = "bg-transparent border-2 std-border";
-    string _stdLabel = "top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75";
-    string _bgInput = "px-2.5 bg-transparent rounded-lg border-1";
-    string _bgLabel = "z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1";
-    string _filledInput = "rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border";
-    string _filledLabel = "z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75";
-    string _baseClass = "absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100";
-    string _baseInputClasses = "block w-full appearance-none focus:outline-none focus:ring-0 peer";
-    string _labelRed = "text-danger-600 dark:text-danger-500";
-    string _labelSize = "";
-    string _inputSize = "";
-    string _labelClass = "";
-    string _inputClass = "";
-    string? _value;
-    
-    /// <summary>
-    /// The type of floating label (standard, filled, outline)
-    /// </summary>
-    [Parameter]
-    public FloatType FloatType { get; set; } = FloatType.Standard;
-    
-    /// <summary>
-    /// Returns the current value when the text is changed
-    /// </summary>
-    [Parameter]
-    public EventCallback<string> OnChanged { get; set; }
-
-    /// <summary>
-    /// Defines the type for the input. This should only include types that are string. If number type is needed, use
-    /// NumberInput component. The default is text.
-    /// </summary>
-    [Parameter] public string Type { get; set; } = "text";
-    
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (FloatType == FloatType.Standard)
-        {
-            _labelClass = _stdLabel;
-            _inputClass = _stdInput;
-            
-            switch (Size)
-            {
-                case InputSizes.Small:
-                    _labelSize = "-translate-y-6 peer-focus:-translate-y-6 text-sm";
-                    _inputSize = "px-0 py-2 text-sm";
-                    break;
-                case InputSizes.Medium:
-                    _labelSize = "-translate-y-6 peer-focus:-translate-y-6 text-sm";
-                    _inputSize = "py-2.5 px-0 text-sm";
-                    break;
-                case InputSizes.Large:
-                    _labelSize = "-translate-y-6 peer-focus:-translate-y-6 md:text-md";
-                    _inputSize = "py-3.5 px-0 md:text-md";
-                    break;
-            }
-        }
-        else if (FloatType == FloatType.Filled)
-        {
-            _labelClass = _filledLabel;
-            _inputClass = _filledInput;
-            
-            switch (Size)
-            {
-                case InputSizes.Small:
-                    _labelSize = "-translate-y-3 top-3 peer-focus:-translate-y-3 text-sm";
-                    _inputSize = "pb-1.5 pt-4 text-sm";
-                    break;
-                case InputSizes.Medium:
-                    _labelSize = "-translate-y-4 top-4 peer-focus:-translate-y-4 text-sm";
-                    _inputSize = "pb-2.5 pt-5 text-sm";
-                    break;
-                case InputSizes.Large:
-                    _labelSize = "-translate-y-6 top-6 peer-focus:-translate-y-6 md:text-md";
-                    _inputSize = "pb-4 pt-6 md:text-md";
-                    break;
-            }
-        }
-        else
-        {
-            _labelClass = _bgLabel;
-            _inputClass = _bgInput;
-            
-            switch (Size)
-            {
-                case InputSizes.Small:
-                    _labelSize = "-translate-y-3 top-1 peer-focus:top-1 peer-focus:-translate-y-3 text-sm";
-                    _inputSize = "pb-1.5 pt-3 text-sm";
-                    break;
-                case InputSizes.Medium:
-                    _labelSize = "-translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm";
-                    _inputSize = "pb-2.5 pt-4 text-sm";
-                    break;
-                case InputSizes.Large:
-                    _labelSize = "-translate-y-6 top-4 peer-focus:top-4 peer-focus:-translate-y-6 md:text-md";
-                    _inputSize = "pb-4 pt-6 md:text-md";
-                    break;
-            }
-        }
-
-    }
-    
-    /// <inheritdoc />
-    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
-    {
-        result = value;
-        validationErrorMessage = null;
-        return true;
-    }
-    
-    /// <summary>
-    /// Gets the color for the input based on validation state
-    /// </summary>
-    private string GetColorClass()
-    {
-        if (EditContext != default!)
-        {
-            if(ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any()) return "fl-input-error";
-            if(Success()) return "fl-input-success";
-        }
-        return "fl-input-normal";
-    }
-    
-    /// <summary>
-    /// Gets the color for the label based on validation state
-    /// </summary>
-    private string GetLabelClass()
-    {
-        if (EditContext != default!)
-        {
-            if(ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any()) return "label-red";
-            if(Success()) return "label-green";
-        }
-        return "floating-label";
-    }
     
     /// <summary>
     /// Handle the change event, set the value, and raise the OnChanged event
@@ -177,6 +29,14 @@
             CurrentValue = evt.Value.ToString();
             await OnChanged.InvokeAsync(CurrentValue);
         }
+    }
+    
+    /// <inheritdoc />
+    protected override bool TryParseValueFromString(string? value, out string? result, [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
     }
 
 }

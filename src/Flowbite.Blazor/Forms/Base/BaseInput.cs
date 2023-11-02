@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Flowbite.Blazor.Forms.Base;
 
-public class BaseInput<TValue> : InputBase<TValue>
+public class BaseInput<TValue> : InputBase<TValue>, IValidationComponent<TValue>
 {
     /// <summary>
     /// Defines whether to show errors before input has had focus. The default is true.
@@ -189,12 +189,12 @@ public class BaseInput<TValue> : InputBase<TValue>
     /// <summary>
     /// Returns whether errors should be shown which also affects text color (red)
     /// </summary>
-    internal bool Errors() => ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any();
+    public bool Errors() => ShowError && EditContext.GetValidationMessages(FieldIdentifier).Any();
 
     /// <summary>
     /// Returns whether input is valid which also affects text color (green)
     /// </summary>
-    internal bool Success() => CssClass.Contains("modified") && !EditContext.GetValidationMessages(FieldIdentifier).Any();
+    public bool Success() => CssClass.Contains("modified") && !EditContext.GetValidationMessages(FieldIdentifier).Any();
 
     /// <summary>
     /// Defines the colors for the input based on validation

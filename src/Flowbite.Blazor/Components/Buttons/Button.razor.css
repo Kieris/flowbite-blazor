@@ -1,7 +1,4 @@
-﻿.btn-base {
-    @apply text-white font-medium focus:ring-4 focus:outline-none text-center flex items-center;
-}
-
+﻿
 .btn-xs {
     @apply px-3 py-2 text-xs;
 }
@@ -25,6 +22,7 @@
 .btn-icon {
     @apply text-sm p-2.5;
 }
+
 /* Colors */
 .btn-primary {
     @apply bg-primary-700 dark:bg-primary-600 disabled:bg-primary-400 dark:disabled:bg-primary-500 hover:enabled:bg-primary-800 focus:ring-primary-300 dark:hover:enabled:bg-primary-700 dark:focus:ring-primary-800;

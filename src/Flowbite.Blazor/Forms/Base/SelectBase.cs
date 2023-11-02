@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Blazor.Forms.Base;
 
-public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>:BaseInput<TValue>
+public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>: BaseInput<TValue>
 {
     /// <summary>
     /// Gets or sets the child content to be rendering inside the select element.

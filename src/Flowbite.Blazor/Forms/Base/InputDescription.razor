@@ -1,4 +1,5 @@
-﻿@typeparam TValue
+﻿@using Flowbite.Blazor.Forms.Base
+@typeparam TValue
 
 @if (Input!.Description is not null)
 {
@@ -14,7 +15,7 @@ else if (!string.IsNullOrWhiteSpace(Input.DescriptionText))
     /// The input
     /// </summary>
     [Parameter]
-    public BaseInput<TValue>? Input { get; set; }
+    public IValidationComponent<TValue>? Input { get; set; }
     
     /// <summary>
     /// The Padding and Margin classes

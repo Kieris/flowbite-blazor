@@ -2,7 +2,11 @@
 @using System.Reflection
 @using Flowbite.Blazor.Forms.Base
 @inherits SelectBase<TItem>
-
+<style>
+    .btm-border {
+        border-style: none none solid none;
+    }
+</style>
 <div class="@(Class ?? "w-full")">
     @if(MessageTop)
     {
@@ -19,7 +23,7 @@
         </label>
     }
     <select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
-            class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-0 border-b-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" : GetNormalClass()) @RoundedClass @CssClass"
+            class="block @_size w-full @(Underline ? "text-neutral-500 bg-transparent border-2 btm-border border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer" : GetNormalClass()) @RoundedClass @CssClass"
             @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
         @ChildContent
     </select>

@@ -1,20 +1,23 @@
 ﻿@using Flowbite.Blazor.SharedEnums
 @inherits ButtonBase
 
-<button type="@Type" disabled="@Disabled" 
-        class="@(Disabled ? "cursor-not-allowed" : "") @(Outline ? "btn-ol-base group" : $"btn-base {BtnSize}") 
+<!-- Wrapping in span so flex doesn't break vertical padding -->
+<span>
+    <button type="@Type" disabled="@Disabled" 
+            class="@(Disabled ? "cursor-not-allowed" : "") @(Outline ? "btn-ol-base group" : $"btn-base {BtnSize}") 
         @TypeClass @ColorClass @Class" style="@Style" @onclick="OnClick">
-    @if (Outline)
-    {
-        <span class="btn-ol-span @BtnSize @(StyleType == ButtonTypes.Pill ? "btn-pill": "")">
+        @if (Outline)
+        {
+            <span class="btn-ol-span @BtnSize @(StyleType == ButtonTypes.Pill ? "btn-pill": "")">
+                @ChildContent
+            </span>    
+        }
+        else
+        {
             @ChildContent
-        </span>    
-    }
-    else
-    {
-        @ChildContent
-    }
-</button>
+        }
+    </button>
+</span>
 
 @code {
     /// <summary>
