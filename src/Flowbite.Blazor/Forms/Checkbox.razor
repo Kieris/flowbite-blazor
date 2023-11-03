@@ -1,6 +1,6 @@
 @using System.Diagnostics.CodeAnalysis
 @using Flowbite.Blazor.Forms.Base
-@inherits BaseInput<bool>
+@inherits BaseValidationComponent<bool>
 
 <div class="@(Bordered ? $"pl-4 border border-neutral-200 {RoundedClass} dark:border-neutral-700" : "") @Class">
     <div class="flex items-center">
@@ -29,10 +29,10 @@
             }
         }
     </div>
-    <InputDescription TValue="bool" Input="@this" Class="@($"pl-6 text-xs{(Bordered ? " -mt-4 pb-4" : "")}")"/>
+    <DescriptionDisplay TValue="bool" Input="@this" Class="@($"pl-6 text-xs{(Bordered ? " -mt-4 pb-4" : "")}")"/>
     @if (EditContext != default!)
     {
-        <ValidationComponent TValue="bool" Input="@this" Class="@($"pl-6 text-xs{(Bordered ? " -mt-4 pb-4" : "")}")" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        <ValidationDisplay TValue="bool" Input="@this" Class="@($"pl-6 text-xs{(Bordered ? " -mt-4 pb-4" : "")}")" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
 </div>
 
@@ -66,21 +66,30 @@
     /// </summary>
     [Parameter]
     public string? AdvancedClass { get; set; }
+    
+    /// <summary>
+    /// Defines whether the label should be read only and not displayed.
+    /// </summary>
+    [Parameter]
+    public bool LabelScreenReaderOnly { get; set; }
 
     /// <summary>
     /// Triggered when the value changes and sends the value when invoked
     /// </summary>
     [Parameter]
     public EventCallback<bool> OnChanged { get; set; }
+    
+    /// <summary>
+    /// Defines the spacing for the input div. Default is (mb-2). 
+    /// </summary>
+    [Parameter] public string Spacing { get; set; } = "ml-2";
 
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        RoundedClass = "rounded";
-        Spacing = "ml-2";
-    }
-
+    /// <summary>
+    /// The classes to apply for the rounding of the input element
+    /// </summary>
+    [Parameter]
+    public string RoundedClass { get; set; } = "rounded";
+    
     /// <summary>
     /// Triggered when value changes to invoke callback
     /// </summary>

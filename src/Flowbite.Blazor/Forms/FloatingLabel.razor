@@ -10,10 +10,10 @@
                class="@BaseInputClasses @InputClass @InputSize @GetColorClass()" placeholder=""/>
         <label for="@Id" class="@BaseClass @LabelClass @LabelSize @(Disabled ? "text-neutral-400 dark:text-neutral-500" : GetLabelClass())">@LabelText</label>
     </div>
-    <InputDescription TValue="string" Input="@this"></InputDescription>
+    <DescriptionDisplay TValue="string" Input="@this"></DescriptionDisplay>
     @if (EditContext != default!)
     {
-        <ValidationComponent TValue="string" Class="text-xs mt-2 font-semibold" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        <ValidationDisplay TValue="string" Class="text-xs mt-2 font-semibold" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
 </div>
 

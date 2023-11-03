@@ -7,7 +7,7 @@ namespace Flowbite.Blazor.Forms.Base;
 internal static class InputExtensions
 {
     public static bool TryParseSelectableValueFromString<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>(
-        this BaseInput<TValue> input, string? value, string fieldIdentifier,
+        this BaseValidationComponent<TValue> input, string? value, string fieldIdentifier,
         [MaybeNullWhen(false)] out TValue result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {

@@ -7,7 +7,7 @@ namespace Flowbite.Blazor.Forms.Base;
 /// An input component for editing numeric values.
 /// Supported numeric types are <see cref="int"/>, <see cref="long"/>, <see cref="short"/>, <see cref="float"/>, <see cref="double"/>, <see cref="decimal"/>.
 /// </summary>
-public class NumberInputBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue> : BaseInput<TValue>
+public class BaseNumberInput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue> : BaseTextNumberInput<TValue>
 {
     private static readonly string _stepAttributeValue = GetStepAttributeValue();
 

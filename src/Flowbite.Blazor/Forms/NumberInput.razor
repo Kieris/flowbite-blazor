@@ -2,15 +2,15 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Flowbite.Blazor.Forms.Base
-@inherits NumberInputBase<TItem>
+@inherits BaseNumberInput<TItem>
 
 <div @ref="@ElementRef" class="@Spacing @Class">
     @if (MessageTop)
     {
-        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        <DescriptionDisplay TValue="@TItem" Input="@this"></DescriptionDisplay>
         @if (EditContext != default!)
         {
-            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+            <ValidationDisplay TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
         }
     }
     @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
@@ -27,7 +27,7 @@
                     @Icon
                 </span>
             }
-            <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass()
+            <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @(ColorClass ?? GetNormalClass())
                                           @CssClass @RoundedClass" id="@Id" @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
             @if (GroupType.ToString().Contains("Right"))
             {
@@ -39,15 +39,15 @@
     }
     else
     {
-        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @CssClass @RoundedClass" id="@Id"
+        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @(ColorClass ?? GetNormalClass()) @CssClass @RoundedClass" id="@Id"
                @bind="@CurrentValue" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
     @if (!MessageTop)
     {
-        <InputDescription TValue="@TItem" Input="@this"></InputDescription>
+        <DescriptionDisplay TValue="@TItem" Input="@this"></DescriptionDisplay>
         @if (EditContext != default!)
         {
-            <ValidationComponent TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+            <ValidationDisplay TValue="@TItem" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
         }
     }
 </div>

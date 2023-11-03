@@ -7,7 +7,7 @@
 }
 else if (!string.IsNullOrWhiteSpace(Input.DescriptionText))
 {
-    <div class="text-sm text-neutral-500 dark:text-neutral-400 @Class">@Input.DescriptionText</div>
+    <div class="@(Class.Contains("text-") ? "" : "text-sm ")text-neutral-500 dark:text-neutral-400 @Class">@Input.DescriptionText</div>
 }
 
 @code {

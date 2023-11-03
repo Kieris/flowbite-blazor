@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Blazor.Forms.Base;
 
-public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>: BaseInput<TValue>
+public class BaseSelect<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue>: BaseInput<TValue>
 {
     /// <summary>
     /// Gets or sets the child content to be rendering inside the select element.
@@ -16,6 +16,12 @@ public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTyp
     /// </summary>
     [Parameter]
     public bool Underline { get; set; }
+
+    /// <summary>
+    /// Defines the background if the select is underline style <see cref="Underline"/>. Default is bg-transparent.
+    /// </summary>
+    [Parameter] 
+    public string UnderlineBackground { get; set; } = "bg-transparent";
     
     /// <summary>
     /// The number of options shown in the select based on the select size attribute
@@ -35,9 +41,9 @@ public class SelectBase<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTyp
     internal readonly bool IsMultipleSelect;
 
     /// <summary>
-    /// Constructs an instance of <see cref="SelectBase{TValue}"/>.
+    /// Constructs an instance of <see cref="BaseSelect{TValue}"/>.
     /// </summary>
-    public SelectBase()
+    public BaseSelect()
     {
         if(typeof(TValue).IsArray)
         {

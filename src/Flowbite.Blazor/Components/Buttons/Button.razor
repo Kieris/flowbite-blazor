@@ -3,7 +3,7 @@
 <!-- Wrapping in span so flex doesn't break vertical padding -->
 <span>
     <button type="@Type" disabled="@Disabled"
-            class="box-border @BtnSize text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center @TypeClass @(Outline ? _olcolorClasses[Color] : _colorClasses[Color]) @(Disabled ? "cursor-not-allowed" : "") @Class"
+            class="@BtnSize text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center @TypeClass @(Outline ? _olcolorClasses[Color] : _colorClasses[Color]) @(Disabled ? "cursor-not-allowed" : "") @Class"
             style="@Style" @onclick="OnClick">
         @ChildContent
     </button>

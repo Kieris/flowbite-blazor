@@ -1,14 +1,14 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @using Flowbite.Blazor.Forms.Base;
-@inherits BaseInput<string>
+@inherits BaseTextNumberInput<string>
 
 <div @ref="@ElementRef" class="@Spacing @Class">
     @if(MessageTop)
     {
-        <InputDescription TValue="string" Input="@this"></InputDescription>
+        <DescriptionDisplay TValue="string" Input="@this"></DescriptionDisplay>
         @if (EditContext != default!)
         {
-            <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+            <ValidationDisplay TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
         }
     }
     @if (!string.IsNullOrWhiteSpace(LabelText) && IncludeLabel)
@@ -52,10 +52,10 @@
     }
     @if(!MessageTop)
     {
-        <InputDescription TValue="string" Input="@this"></InputDescription>
+        <DescriptionDisplay TValue="string" Input="@this"></DescriptionDisplay>
         @if (EditContext != default!)
         {
-            <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+            <ValidationDisplay TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
         }
     }
 </div>

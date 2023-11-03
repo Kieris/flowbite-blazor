@@ -19,7 +19,7 @@
     {
         @foreach (var message in Errors!)
         {
-            <div class="text-sm text-danger-600 dark:text-danger-500 @Class">
+            <div class="@(Class.Contains("text-") ? "" : "text-sm ")text-danger-600 dark:text-danger-500 @Class">
                 @message
             </div>
         }
@@ -35,7 +35,7 @@
     }
     else
     {
-        <div class="text-sm text-success-600 dark:text-success-500 @Class">@Input.SuccessMessage</div>
+        <div class="@(Class.Contains("text-") ? "" : "text-sm ")text-success-600 dark:text-success-500 @Class">@Input.SuccessMessage</div>
     }
 }
         

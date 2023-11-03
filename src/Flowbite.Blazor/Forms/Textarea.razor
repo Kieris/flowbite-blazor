@@ -11,10 +11,10 @@
     }
     <textarea id="@Id" rows="4" class="block p-2.5 w-full text-sm rounded-lg border @(ColorClass ?? GetNormalClass()) @CssClass" 
 value="@CurrentValue" @oninput="Changed" placeholder="@Placeholder" @attributes=@AdditionalAttributes disabled="@Disabled"></textarea>
-    <InputDescription TValue="string" Input="@this"></InputDescription>
+    <DescriptionDisplay TValue="string" Input="@this"></DescriptionDisplay>
     @if (EditContext != default!)
     {
-        <ValidationComponent TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
+        <ValidationDisplay TValue="string" Input="@this" Errors="EditContext.GetValidationMessages(FieldIdentifier)"/>
     }
 </div>
 
