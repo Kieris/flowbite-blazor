@@ -8,7 +8,7 @@
     <label for="@Id" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">
         @LabelText
     </label>
-    <input class="w-full @(Size == InputSizes.Small ? "h-1 range-sm" : Size == InputSizes.Large ? "h-3 range-lg" : "h-2") bg-neutral-200 rounded-lg appearance-none cursor-pointer dark:bg-neutral-700 @(Disabled ? "cursor-not-allowed" : "") 
+    <input class="w-full @(Size == InputSizes.Small ? "h-1 range-sm" : Size == InputSizes.Large ? "h-3 range-lg" : "h-2") bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 @(Disabled ? "cursor-not-allowed" : "cursor-pointer") 
              @CssClass" id="@Id" value="@CurrentValue" @attributes=@AdditionalAttributes type="range" @onchange="@Changed"
            disabled="@Disabled" min="@Min" max="@Max" step="@(Step is null ? "1" : Step.ToString())"/>
 </div>

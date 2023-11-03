@@ -30,7 +30,7 @@
                 </span>
             }
             <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @(ColorClass ?? GetNormalClass())
-                                          @CssClass @RoundedClass" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
+                                          @CssClass" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
             @if (GroupType.ToString().Contains("Right"))
             {
                 <span class="@_iconClass">
@@ -41,7 +41,7 @@
     }
     else
     {
-        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @(ColorClass ?? GetNormalClass()) @CssClass @RoundedClass" id="@Id"
+        <input class="input @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @(ColorClass ?? GetNormalClass()) @CssClass @RoundedClass" id="@Id"
                value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
     }
     @if(!MessageTop)

@@ -2,11 +2,7 @@
 @using System.Reflection
 @using Flowbite.Blazor.Forms.Base
 @inherits BaseSelect<TItem>
-<style>
-    .btm-border {
-        border-style: none none solid none;
-    }
-</style>
+
 <div class="@(Class ?? "w-full")">
     @if(MessageTop)
     {
@@ -22,8 +18,8 @@
             @LabelText
         </label>
     }
-    <select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder"
-            class="block @_size w-full @(Underline ? $"text-neutral-500 border-2 btm-border border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer {UnderlineBackground}" : ColorClass ?? GetNormalClass()) @RoundedClass @CssClass"
+    <select id="@Id" @ref="@ElementRef" multiple="@IsMultipleSelect" size="@Rows" @onchange="@OnChangedEvent" disabled="@Disabled" placeholder="@Placeholder" style="@(Underline ? "border-style: none none solid none" :"")"
+            class="block @_size w-full @(Underline ? $"text-neutral-500 border-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer {UnderlineBackground}" : ColorClass ?? GetNormalClass()) @RoundedClass @CssClass"
             @attributes="@AdditionalAttributes" value="@BindConverter.FormatValue(CurrentValue)?.ToString()">
         @ChildContent
     </select>
