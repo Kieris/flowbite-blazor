@@ -30,7 +30,7 @@
                 </span>
             }
             <input class="@_inputClass @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass()
-                                          @CssClass @RoundedClass" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" 
+                                          @CssClass @(RoundedClass.Equals("rounded-lg") ? "":RoundedClass)" id="@Id" value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" 
                    @attributes=@AdditionalAttributes type="@Type" placeholder="@Placeholder" disabled="@Disabled"/>
             @if (SearchButton is not null && BtnGroupType.ToString().Contains("Right"))
             {
@@ -46,7 +46,7 @@
     }
     else
     {
-        <input class="input rounded-lg @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @RoundedClass @CssClass" id="@Id"
+        <input class="input @(CustomSize ?? _size) @(Disabled ? "cursor-not-allowed" : "") @GetNormalClass() @RoundedClass @CssClass" id="@Id"
                value="@CurrentValue" @oninput="Changed" @onfocus="@(() => ShowError = true)" @attributes=@AdditionalAttributes type="@Type" 
                placeholder="@Placeholder" disabled="@Disabled"/>
     }

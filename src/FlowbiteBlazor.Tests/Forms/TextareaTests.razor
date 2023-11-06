@@ -1,0 +1,161 @@
+@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultTextareaTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<Textarea id="default" LabelText="Your message" @bind-Value="value1" Placeholder="Write your thoughts here..."></Textarea>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <label for="default" class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white">Your message</label>
+                                          <textarea id="default" rows="4" class="block p-2.5 w-full text-sm rounded-lg border input-normal " value="CA"  placeholder="Write your thoughts here..."></textarea>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void CommentBoxAndValidationTextareaTest()
+    {
+        TextAreaTestModel tmodel = new();
+        EditContext? commentContext = new(tmodel);
+        
+        var cut = Render(@<EditForm EditContext="@commentContext">
+                                      <DataAnnotationsValidator></DataAnnotationsValidator>
+                                      <div class="w-full mb-4 border border-neutral-200 rounded-lg bg-neutral-50 dark:bg-neutral-700 dark:border-neutral-600">
+                                          <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-neutral-800">
+                                              <Textarea id="comment" @bind-Value="@tmodel.Post" LabelText="Your comment" LabelScreenReaderOnly rows="4" placeholder="Write a comment..."
+                                              ColorClass="text-neutral-800 bg-white border-0 dark:bg-neutral-800 focus:ring-0 dark:text-white dark:placeholder-neutral-400" AlertStyle
+                                              SuccessMessage="Your comment is valid."></Textarea>
+                                          </div>
+                                          <div class="flex items-center justify-between px-3 py-2 border-t dark:border-neutral-600">
+                                              <Button type="submit">
+                                                  Post comment
+                                              </Button>
+                                              <div class="flex pl-0 space-x-1 sm:pl-2">
+                                                  <button type="button" class="inline-flex justify-center items-center p-2 text-neutral-500 rounded cursor-pointer hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-600">
+                                                      <PaperClipSolid class="w-4 h-4"></PaperClipSolid>
+                                                      <span class="sr-only">Attach file</span>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </EditForm>);
+
+        cut.Find("form").MarkupMatches(@<form >
+                                          <div class="w-full mb-4 border border-neutral-200 rounded-lg bg-neutral-50 dark:bg-neutral-700 dark:border-neutral-600">
+                                            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-neutral-800">
+                                              <div>
+                                                <label for="comment" class="block mb-2 text-sm font-medium sr-only text-neutral-900 dark:text-white">Your comment</label>
+                                                <textarea id="comment" class="block p-2.5 w-full text-sm rounded-lg border text-neutral-800 bg-white border-0 dark:bg-neutral-800 focus:ring-0 dark:text-white dark:placeholder-neutral-400 valid"  placeholder="Write a comment..." rows="4"></textarea>
+                                              </div>
+                                            </div>
+                                            <div class="flex items-center justify-between px-3 py-2 border-t dark:border-neutral-600">
+                                              <span >
+                                                <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >
+                                                  Post comment
+                                                </button>
+                                              </span>
+                                              <div class="flex pl-0 space-x-1 sm:pl-2">
+                                                <button type="button" class="inline-flex justify-center items-center p-2 text-neutral-500 rounded cursor-pointer hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-600">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 12 20" aria-hidden="true" class="w-4 h-4">
+                                                    <path d="M6 20a6.006 6.006 0 0 1-6-6V6a1 1 0 0 1 2 0v8a4 4 0 1 0 8 0V4.5a2.5 2.5 0 1 0-5 0V14a1 1 0 1 0 2 0V6a1 1 0 0 1 2 0v8a3 3 0 0 1-6 0V4.5a4.5 4.5 0 0 1 9 0V14a6.006 6.006 0 0 1-6 6Z"></path>
+                                                  </svg>
+                                                  <span class="sr-only">Attach file</span>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </form>);
+        
+        cut.Find("form").Submit();
+        
+      cut.Find("form").MarkupMatches(@<form >
+                                        <div class="w-full mb-4 border border-neutral-200 rounded-lg bg-neutral-50 dark:bg-neutral-700 dark:border-neutral-600">
+                                          <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-neutral-800">
+                                            <div>
+                                              <label for="comment" class="block mb-2 text-sm font-medium sr-only text-danger-700 dark:text-danger-500">Your comment</label>
+                                              <textarea id="comment" class="block p-2.5 w-full text-sm rounded-lg border text-neutral-800 bg-white border-0 dark:bg-neutral-800 focus:ring-0 dark:text-white dark:placeholder-neutral-400 invalid"  placeholder="Write a comment..." rows="4" aria-invalid="true"></textarea>
+                                              <div class="transition-opacity duration-1000 ease-out  
+                                              opacity-100 alert-base rounded-lg
+                                       
+                                              alert-danger mt-2" style="" role="alert" >
+                                                <div class="flex items-start" >
+                                                  <div >
+                                                    <div>The Post field is required.</div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="flex items-center justify-between px-3 py-2 border-t dark:border-neutral-600">
+                                            <span >
+                                              <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >
+                                                Post comment
+                                              </button>
+                                            </span>
+                                            <div class="flex pl-0 space-x-1 sm:pl-2">
+                                              <button type="button" class="inline-flex justify-center items-center p-2 text-neutral-500 rounded cursor-pointer hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 12 20" aria-hidden="true" class="w-4 h-4">
+                                                  <path d="M6 20a6.006 6.006 0 0 1-6-6V6a1 1 0 0 1 2 0v8a4 4 0 1 0 8 0V4.5a2.5 2.5 0 1 0-5 0V14a1 1 0 1 0 2 0V6a1 1 0 0 1 2 0v8a3 3 0 0 1-6 0V4.5a4.5 4.5 0 0 1 9 0V14a6.006 6.006 0 0 1-6 6Z"></path>
+                                                </svg>
+                                                <span class="sr-only">Attach file</span>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </form>);
+      
+            tmodel.Post = "Sample text";
+            cut.Find("form").Submit();
+      
+            cut.Find("form").MarkupMatches(@<form >
+                                              <div class="w-full mb-4 border border-neutral-200 rounded-lg bg-neutral-50 dark:bg-neutral-700 dark:border-neutral-600">
+                                                <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-neutral-800">
+                                                  <div>
+                                                    <label for="comment" class="block mb-2 text-sm font-medium sr-only text-neutral-900 dark:text-white">Your comment</label>
+                                                    <textarea id="comment" class="block p-2.5 w-full text-sm rounded-lg border text-neutral-800 bg-white border-0 dark:bg-neutral-800 focus:ring-0 dark:text-white dark:placeholder-neutral-400 valid" value="Sample text"  placeholder="Write a comment..." rows="4"></textarea>
+                                                  </div>
+                                                </div>
+                                                <div class="flex items-center justify-between px-3 py-2 border-t dark:border-neutral-600">
+                                                  <span >
+                                                    <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >
+                                                      Post comment
+                                                    </button>
+                                                  </span>
+                                                  <div class="flex pl-0 space-x-1 sm:pl-2">
+                                                    <button type="button" class="inline-flex justify-center items-center p-2 text-neutral-500 rounded cursor-pointer hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-600">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 12 20" aria-hidden="true" class="w-4 h-4">
+                                                        <path d="M6 20a6.006 6.006 0 0 1-6-6V6a1 1 0 0 1 2 0v8a4 4 0 1 0 8 0V4.5a2.5 2.5 0 1 0-5 0V14a1 1 0 1 0 2 0V6a1 1 0 0 1 2 0v8a3 3 0 0 1-6 0V4.5a4.5 4.5 0 0 1 9 0V14a6.006 6.006 0 0 1-6 6Z"></path>
+                                                      </svg>
+                                                      <span class="sr-only">Attach file</span>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </form>);
+    }
+  
+    [Fact]
+    public void TextAreaOnChangeCallbackTest()
+    {
+      string value1 = "";
+      string callVal = "";
+      Action<string> changeHandler = (val) => { callVal = val; };
+      
+      var cut = Render(@<div>
+                         <Textarea id="check" LabelText="Your message" @bind-Value="@value1" OnChanged="@changeHandler" Placeholder="Write your thoughts here..."></Textarea>
+                                 <Paragraph Class="mt-2">Value: @value1</Paragraph>
+                                 <Paragraph Class="mt-2">Callback return: @callVal</Paragraph>
+                       </div>);
+
+
+      cut.Find("#check").Input("Some text");
+      
+      Assert.Equal("Some text",callVal);
+          
+    }
+}

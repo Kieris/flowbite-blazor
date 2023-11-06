@@ -1,0 +1,98 @@
+@inherits TestContext
+@using Flowbite.Blazor.Forms
+
+@code {
+    [Fact]
+    public void DefaultRangeSliderTest()
+    {
+        int value = 50;
+        var cut = Render(@<RangeSlider id="default" @bind-Value="@value" LabelText="Default range"></RangeSlider>);
+
+        cut.Find("div").MarkupMatches(@<div >
+                                         <label for="default" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Default range</label>
+                                          <input class="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer dark:bg-neutral-700" id="default" value="50" type="range" 
+                                                 min="0" max="100" step="0" >
+                                       </div>);
+    }
+    
+    [Fact]
+    public void DisabledRangeSliderTest()
+    {
+        double value = 50;
+        var cut = Render(@<RangeSlider id="disabled" @bind-Value="@value" LabelText="Disabled range" Disabled></RangeSlider>);
+
+        cut.Find("div").MarkupMatches(@<div >
+                                         <label for="disabled" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Disabled range</label>
+                                         <input class="w-full h-2 bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-not-allowed" id="disabled" value="50" type="range"  disabled="" min="0" max="100" step="0" >
+                                       </div>);
+    }
+    
+    [Fact]
+    public void MinMaxRangeSliderTest()
+    {
+        int value3 = 5;
+        var cut = Render(@<RangeSlider id="minmax" @bind-Value="@value3" LabelText="Min max range" Min="2" Max="10"></RangeSlider>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <label for="minmax" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Min max range</label>
+                                          <input class="w-full h-2 bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-pointer" id="minmax" value="5" type="range"  min="2" max="10" step="0" >
+                                      </div>);
+    }
+    
+    [Fact]
+    public void RangeSliderStepTest()
+    {
+        int value3 = 50;
+        var cut = Render(@<RangeSlider id="step" @bind-Value="@value3" LabelText="Step amount" Step="10"></RangeSlider>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <label for="step" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Step amount</label>
+                                          <input class="w-full h-2 bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-pointer" 
+                                                 id="step" value="50" type="range"  min="0" max="100" step="10" >
+                                      </div>);
+    }
+    
+    [Fact]
+    public void RangeSliderSizesTest()
+    {
+        double value4 = 3;
+        int value3 = 3;
+        int value1 = 30;
+
+        var cut = Render(@<div>
+                                     <RangeSlider id="small" Class="mt-3" @bind-Value="@value4" LabelText="Small range" Min="0" Max="5" Step="0.5" Size="InputSizes.Small"></RangeSlider>
+                                     <RangeSlider id="medium" Class="mt-3" @bind-Value="@value3" LabelText="Default range" Min="0" Max="10"></RangeSlider>
+                                     <RangeSlider id="large" Class="mt-3" @bind-Value="@value1" LabelText="Large range" Size="InputSizes.Large"></RangeSlider>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="mt-3">
+                                              <label for="small" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Small range</label>
+                                              <input class="w-full h-1 range-sm bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-pointer" id="small" value="3" type="range" min="0" max="5" step="0.5" >
+                                          </div>
+                                          <div class="mt-3">
+                                              <label for="medium" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Default range</label>
+                                              <input class="w-full h-2 bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-pointer" id="medium" value="3" type="range" min="0" max="10" step="0" >
+                                          </div>
+                                          <div class="mt-3">
+                                              <label for="large" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" >Large range</label>
+                                              <input class="w-full h-3 range-lg bg-neutral-200 rounded-lg appearance-none dark:bg-neutral-700 cursor-pointer" id="large" value="30" type="range" min="0" max="100" step="0" >
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void RangeSliderOnChangeCallbackTest()
+    {
+        int value = 0;
+        int _callVal = 0;
+        Action<object> changeHandler = (val) => { _callVal = Convert.ToInt32(val); };
+    
+        var cut = Render(@<RangeSlider id="changed" @bind-Value="@value" OnChanged="@changeHandler" LabelText="Default range"></RangeSlider>);
+
+    
+        cut.Find("#changed").Change(20);
+    
+        Assert.Equal(20,_callVal);
+    }
+}

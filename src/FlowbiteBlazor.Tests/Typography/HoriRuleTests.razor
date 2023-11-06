@@ -6,7 +6,7 @@
     [Fact]
     public void DefaultHrTest()
     {
-        var cut = Render(@<HorizontalRule Class="mb-8" />);
+        var cut = Render(@<HorizontalRule Class="h-px mb-8" />);
 
         cut.Find("hr").MarkupMatches(@<hr class="h-px my-8 bg-neutral-200 border-0 dark:bg-neutral-700 mb-8" >);
     }
@@ -20,7 +20,7 @@
 
         cut.Find("div").MarkupMatches(@<div>
                                          <div class="relative inline-flex items-center justify-center w-full" >
-                                           <hr class="h-px my-8 bg-neutral-200 border-0 dark:bg-neutral-700 my-8 w-64 h-1">
+                                           <hr class="my-8 bg-neutral-200 border-0 dark:bg-neutral-700 my-8 w-64 h-1">
                                            <div class=" max-w-md">
                                              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 18 14" aria-hidden="true" class="w-4 h-4 text-gray-700 dark:text-gray-300">
                                                <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"></path>
@@ -51,13 +51,13 @@
   [Fact]
   public void HrUserAttributesTest()
   {
-    var cut = Render(@<HorizontalRule style="max-width: 64rem;" customatt="something">
+    var cut = Render(@<HorizontalRule Class="h-px" style="max-width: 64rem;" customatt="something">
                        This example can be used.
                      </HorizontalRule>);
 
     cut.Find("div").MarkupMatches(@<div class="relative inline-flex items-center justify-center w-full" style="max-width: 64rem;" customatt="something" >
                                      <hr class="h-px my-8 bg-neutral-200 border-0 dark:bg-neutral-700 ">
-                                     <div class=" absolute px-3 font-medium text-neutral-900 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-neutral-900">
+                                     <div class=" absolute px-3 font-medium text-neutral-900 -translate-x-1/2 left-1/2 dark:text-white">
                                        This example can be used.
                                      </div>
                                    </div>);

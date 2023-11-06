@@ -1,0 +1,201 @@
+@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Flowbite.Blazor.Typography
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Logging
+
+@code {
+    private readonly List<IBrowserFile> _loadedFiles = new();
+    private IBrowserFile? _file;
+    private readonly long _maxFileSize = 1024 * 150;
+    private readonly int _maxAllowedFiles = 3;
+    
+    [Fact]
+    public void DefaultFileInputTest()
+    {
+        var cut = Render(@<div>
+                                         <FileInput id="def1" LabelText="Upload File" OnChange="@LoadFile" DescriptionText="SVG, PNG, JPG or GIF (MAX. 800x400px)" accept=".svg,.png,.jpg,.gif"></FileInput>
+                                         <FileInput id="def2" Class="mt-4" LabelText="Upload File" OnChange="@LoadFile">
+                                             <Paragraph Size="TextSizes.SM">Read about upload limits <Anchor Href="#">here</Anchor></Paragraph>
+                                         </FileInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="">
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="def1" >Upload File</label>
+                                              <input id="def1" accept=".svg,.png,.jpg,.gif" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                              <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-300" >SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                          </div>
+                                          <div class="mt-4"  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="def2" >Upload File</label>
+                                              <input id="def2" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                              <p class="font-normal text-sm text-neutral-900 dark:text-white leading-normal tracking-normal whitespace-normal text-left   " >Read about upload limits
+                                                  <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#" >here</a>
+                                              </p>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void FileInputHelperTextTest()
+    {
+        var cut = Render(@<div>
+                             <FileInput id="help1" LabelText="Upload File" OnChange="@LoadFile" DescriptionText="SVG, PNG, JPG or GIF (MAX. 800x400px)" accept=".svg,.png,.jpg,.gif"></FileInput>
+                             <FileInput id="help2" Class="mt-4" LabelText="Upload File" OnChange="@LoadFile">
+                                 <Paragraph Size="TextSizes.SM">Read about upload limits <Anchor Href="#">here</Anchor></Paragraph>
+                             </FileInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class=""  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="help1" >Upload File</label>
+                                              <input id="help1" accept=".svg,.png,.jpg,.gif" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                              <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-300" >SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                          </div>
+                                          <div class="mt-4"  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="help2" >Upload File</label>
+                                              <input id="help2" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                              <p class="font-normal text-sm text-neutral-900 dark:text-white leading-normal tracking-normal whitespace-normal text-left   " >Read about upload limits
+                                                  <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#"  >here</a>
+                                              </p>
+                                          </div>
+                                      </div>
+);
+    }
+    
+    [Fact]
+    public void FileInputSizesTest()
+    {
+        var cut = Render(@<div>
+                             <FileInput id="small" LabelText="Small file input" OnChange="@LoadFile" Size="InputSizes.Small"></FileInput>
+                             <FileInput id="medium" Class="mt-4" LabelText="Default file input" OnChange="@LoadFile" Size="InputSizes.Medium"></FileInput>
+                             <FileInput id="large" Class="mt-4" LabelText="Large file input" OnChange="@LoadFile" Size="InputSizes.Large"></FileInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class=""  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="small" >Small file input</label>
+                                              <input id="small" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-xs" type="file" >
+                                          </div>
+                                          <div class="mt-4"  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="medium" >Default file input</label>
+                                              <input id="medium" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                          </div>
+                                          <div class="mt-4"  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="large" >Large file input</label>
+                                              <input id="large" class="block w-full text-neutral-900 border border-neutral-300 rounded-lg cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-lg" type="file" >
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void FileInputRoundingTest()
+    {
+        var cut = Render(@<div>
+                             <FileInput id="no-round" LabelText="No rounding" OnChange="@LoadFile" RoundedClass="rounded-none"></FileInput>
+                             <FileInput id="xl-round" LabelText="XL Rounding" OnChange="@LoadFile" RoundedClass="rounded-xl" Class="mt-4"></FileInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class=""  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="no-round" >No rounding</label>
+                                              <input id="no-round" class="block w-full text-neutral-900 border border-neutral-300 rounded-none cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                          </div>
+                                          <div class="mt-4"  >
+                                              <label class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white" for="xl-round" >XL Rounding</label>
+                                              <input id="xl-round" class="block w-full text-neutral-900 border border-neutral-300 rounded-xl cursor-pointer bg-neutral-50 dark:text-neutral-400 focus:outline-none dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 text-sm" type="file" >
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void FileInputDropzoneTest()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        BunitJSInterop js = new BunitJSInterop();
+        var drop = js.SetupModule("/_content/Flowbite.Blazor/js/dropzone.js");
+        var cut = Render(@<div>
+                             <FileInput id="one" OnChange="@LoadActFile" Dropzone DescriptionText="SVG, PNG, JPG or GIF (MAX. 800x400px)" accept=".svg,.png,.jpg,.gif"/>
+                              <FileInput id="two" OnChange="@LoadActMultipleFiles" Dropzone multiple>
+                                             <UploadSolid class="w-8 h-8 mb-4 text-neutral-500 dark:text-neutral-400"></UploadSolid>
+                                             <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                             <p class="text-neutral-500 dark:text-neutral-400 italic">Upload up to @_maxAllowedFiles files</p>
+                                         </FileInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="flex items-center justify-center w-full " >
+                                              <label for="one" class="flex flex-col items-center justify-center w-full h-64 border-2 border-neutral-300 border-dashed rounded-lg cursor-pointer bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:border-neutral-600 dark:hover:border-neutral-500 dark:hover:bg-neutral-600"  >
+                                                  <div class="flex flex-col items-center justify-center pt-5 pb-6" >
+                                                      <svg class="w-8 h-8 mb-4 text-neutral-500 dark:text-neutral-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16" >
+                                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" ></path>
+                                                      </svg>
+                                                      <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400" >
+                                                          <span class="font-semibold" >Click to upload</span>
+                                                          or drag and drop</p>
+                                                      <p class="text-xs text-neutral-500 dark:text-neutral-400" >SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                  </div>
+                                                  <input class="hidden" id="one" accept=".svg,.png,.jpg,.gif" type="file" >
+                                              </label>
+                                          </div>
+                                          <div class="flex items-center justify-center w-full " >
+                                              <label for="two" class="flex flex-col items-center justify-center w-full h-64 border-2 border-neutral-300 border-dashed rounded-lg cursor-pointer bg-neutral-50 dark:bg-neutral-700 hover:bg-neutral-100 dark:border-neutral-600 dark:hover:border-neutral-500 dark:hover:bg-neutral-600"  >
+                                                  <div class="flex flex-col items-center justify-center pt-5 pb-6" >
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 20" aria-hidden="true" class="w-8 h-8 mb-4 text-neutral-500 dark:text-neutral-400">
+                                                          <g>
+                                                              <path d="m14.707 4.793-4-4a1 1 0 0 0-1.416 0l-4 4a1 1 0 0 0 1.416 1.414L9 3.914V12.5a1 1 0 1 0 2 0V3.914l2.293 2.293a1 1 0 0 0 1.414-1.414Z"></path>
+                                                              <path d="M18 12h-5v.5a3 3 0 0 1-6 0V12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
+                                                          </g>
+                                                      </svg>
+                                                      <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+                                                          <span class="font-semibold">Click to upload</span>
+                                                          or drag and drop</p>
+                                                      <p class="text-neutral-500 dark:text-neutral-400 italic">Upload up to 3 files</p>
+                                                  </div>
+                                                  <input class="hidden" id="two" multiple="" type="file" >
+                                              </label>
+                                          </div>
+                                      </div>);
+    }
+    
+    private void LoadActFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            if (e.File.Size < _maxFileSize)
+            {
+                _file = e.File;
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    private void LoadActMultipleFiles(InputFileChangeEventArgs e)
+    {
+        _loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(_maxAllowedFiles))
+        {
+            try
+            {
+                if (file.Size < _maxFileSize)
+                {
+                    _loadedFiles.Add(file);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
+    
+    private void LoadMultipleFiles(InputFileChangeEventArgs e)
+    {
+    }
+    
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+    }
+}

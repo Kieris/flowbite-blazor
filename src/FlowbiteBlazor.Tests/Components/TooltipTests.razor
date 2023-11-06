@@ -18,7 +18,9 @@
 
         cut.Find("div").MarkupMatches(@<div>
                                           <div class="tooltip-trigger-element"    >
-                                              <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
+                                              <span>
+                                                  <button type="button" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Hover me</button>
+                                              </span>
                                           </div>
                                           <div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
                                               <span >I'm a tooltip</span>
@@ -33,9 +35,11 @@
         cut.WaitForAssertion(() => cut.FindComponent<Tooltip>().Instance.Clicked());
         
         
-        trigger.MarkupMatches(@<div class="tooltip-trigger-element">
-                                  <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
-                              </div>);
+        trigger.MarkupMatches(@<div class="tooltip-trigger-element"    >
+                                 <span >
+                                   <button type="button" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Hover me</button>
+                                 </span>
+                               </div>);
         
         tooltip.MarkupMatches(@<div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
                                           <span >I'm a tooltip</span>
@@ -45,14 +49,16 @@
         arrow!.MarkupMatches(@<div class="tooltip1-arrow"></div>);
         
         cut.Find("div").MarkupMatches(@<div>
-                                          <div class="tooltip-trigger-element">
-                                              <button type="button" class=" btn-base btn-base-size btn-normal btn-primary " style="" >Hover me</button>
-                                          </div>
-                                          <div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
-                                              <span >I'm a tooltip</span>
-                                              <div class="tooltip1-arrow"  ></div>
-                                          </div>
-                                      </div>);
+                                         <div class="tooltip-trigger-element"    >
+                                           <span >
+                                             <button type="button" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Hover me</button>
+                                           </span>
+                                         </div>
+                                         <div role="tooltip" class="tooltip1 tooltip-base tooltip-auto" style=""  >
+                                           <span >I'm a tooltip</span>
+                                           <div class="tooltip1-arrow"  ></div>
+                                         </div>
+                                       </div>);
     }
     
 }

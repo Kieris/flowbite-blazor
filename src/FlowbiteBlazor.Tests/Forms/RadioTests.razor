@@ -1,0 +1,321 @@
+﻿@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultRadioTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+        List<string> _manufacturers = new List<string> { "Ford", "Toyota", "Tesla", "Honda" };
+      
+        var cut = Render(@<div><InputRadioGroup Name="default-test" @bind-Value="@_model.Value">
+                                           @foreach (var manufacturer in _manufacturers)
+                                           {
+                                               <Radio id="@manufacturer" class="mb-2" Value="@manufacturer" LabelText="@manufacturer" />
+                                           }
+                                       </InputRadioGroup></div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                        <div class=" mb-2">
+                                            <div class="flex items-center">
+                                                <input id="Ford"  class="radio checkbox-primary" type="radio" name="default-test" value="Ford" checked=""  >
+                                                <label for="Ford" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Ford</label>
+                                            </div>
+                                        </div>
+                                        <div class=" mb-2">
+                                            <div class="flex items-center">
+                                                <input id="Toyota"  class="radio checkbox-primary" type="radio" name="default-test" value="Toyota"  >
+                                                <label for="Toyota" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Toyota</label>
+                                            </div>
+                                        </div>
+                                        <div class=" mb-2">
+                                            <div class="flex items-center">
+                                                <input id="Tesla"  class="radio checkbox-primary" type="radio" name="default-test" value="Tesla"  >
+                                                <label for="Tesla" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Tesla</label>
+                                            </div>
+                                        </div>
+                                        <div class=" mb-2">
+                                            <div class="flex items-center">
+                                                <input id="Honda"  class="radio checkbox-primary" type="radio" name="default-test" value="Honda"  >
+                                                <label for="Honda" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Honda</label>
+                                            </div>
+                                        </div>
+                                    </div>);
+        
+    }
+    
+    [Fact]
+    public void DisabledRadioTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+      
+        var cut = Render(@<InputRadioGroup Name="disabled-test" @bind-Value="@_model.Value">
+                                                      <Radio id="dis" Value="@("first")" LabelText="Disabled radio" Disabled/>
+                                       </InputRadioGroup>);
+
+      cut.Find("div").MarkupMatches(@<div class=" ">
+                                       <div class="flex items-center">
+                                         <input id="dis" disabled class="radio checkbox-primary" type="radio" name="disabled-test" value="first"  >
+                                         <label for="dis" class="ml-2  text-sm font-medium text-neutral-400 dark:text-neutral-500">Disabled radio</label>
+                                       </div>
+                                     </div>);
+        
+    }
+    
+    [Fact]
+    public void RadioLinkTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+      
+        var cut = Render(@<InputRadioGroup Name="link-test" @bind-Value="@_model.Value">
+                             <Radio id="link" Value="@("second")">
+                                 <Label>
+                                     <span class="text-sm font-medium text-neutral-900 dark:text-neutral-300">I agree with the <Anchor href="#">terms and conditions</Anchor>.</span>
+                                 </Label>
+                             </Radio>
+                         </InputRadioGroup>);
+
+      cut.Find("div").MarkupMatches(@<div class=" ">
+                                       <div class="flex items-center">
+                                         <input id="link"  class="radio checkbox-primary" type="radio" name="link-test" value="second"  >
+                                         <label for="link" class="ml-2 ">
+                                           <span class="text-sm font-medium text-neutral-900 dark:text-neutral-300">I agree with the
+                                             <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#">terms and conditions</a>.</span>
+                                         </label>
+                                       </div>
+                                     </div>);
+        
+    }
+    
+    [Fact]
+    public void RadioHelperTextTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+      
+        var cut = Render(@<InputRadioGroup Name="helper-test" @bind-Value="@_model.Value">
+                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                             <!-- Default -->
+                                             <Radio Id="first" Value="@("first")" DescriptionText="For orders shipped from $25 in books or $29 in other categories"
+                                                    LabelText="Free shipping via Flowbite">
+                                             </Radio>
+                                             <!--Using fragments -->
+                                             <Radio id="second" Value="@("second")">
+                                                 <Label>
+                                                     <span class="text-sm font-medium text-neutral-900 dark:text-neutral-300">Custom label and helper text</span>
+                                                 </Label>
+                                                 <Description>
+                                                     <div class="text-xs font-normal text-neutral-500 dark:text-neutral-300 pl-6">For orders shipped from $25 in books or $29 in other categories</div>
+                                                 </Description>
+                                             </Radio>
+                                         </div>
+                         </InputRadioGroup>);
+
+        cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                         <div class=" ">
+                                           <div class="flex items-center">
+                                             <input id="first"  class="radio checkbox-primary" type="radio" name="helper-test" value="first"  >
+                                             <label for="first" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Free shipping via Flowbite</label>
+                                           </div>
+                                           <div class="text-xs font-normal text-neutral-500 dark:text-neutral-300 pl-6 ">For orders shipped from $25 in books or $29 in other categories</div>
+                                         </div>
+                                         <div class=" ">
+                                           <div class="flex items-center">
+                                             <input id="second"  class="radio checkbox-primary" type="radio" name="helper-test" value="second"  >
+                                             <label for="second" class="ml-2 ">
+                                               <span class="text-sm font-medium text-neutral-900 dark:text-neutral-300">Custom label and helper text</span>
+                                             </label>
+                                           </div>
+                                           <div class="text-xs font-normal text-neutral-500 dark:text-neutral-300 pl-6">For orders shipped from $25 in books or $29 in other categories</div>
+                                         </div>
+                                       </div>);
+        
+    }
+    
+    [Fact]
+    public void BorderedRadioTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+      
+        var cut = Render(@<InputRadioGroup Name="border-test" @bind-Value="@_model.Value">
+                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                             <Radio id="first-border" Value="@("first")" LabelText="Default checkbox" Bordered></Radio>
+                                             <Radio id="second-border" Value="@("second")" LabelText="Checked state" Bordered RoundedClass="rounded-lg"></Radio>
+                                         </div>
+                                         <Radio id="third-border" Value="@("third")" Bordered DescriptionText="For orders shipped from $25 in books or $29 in other categories"
+                                                LabelText="Free shipping via Flowbite">
+                                         </Radio>
+                         </InputRadioGroup>);
+
+        cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                         <div class="pl-4 border border-neutral-200 rounded dark:border-neutral-700 ">
+                                           <div class="flex items-center">
+                                             <input id="first-border"  class="radio checkbox-primary" type="radio" name="border-test" value="first"  >
+                                             <label for="first-border" class="ml-2 w-full py-4 text-sm font-medium text-neutral-900 dark:text-neutral-300">Default checkbox</label>
+                                           </div>
+                                         </div>
+                                         <div class="pl-4 border border-neutral-200 rounded-lg dark:border-neutral-700 ">
+                                           <div class="flex items-center">
+                                             <input id="second-border"  class="radio checkbox-primary" type="radio" name="border-test" value="second"  >
+                                             <label for="second-border" class="ml-2 w-full py-4 text-sm font-medium text-neutral-900 dark:text-neutral-300">Checked state</label>
+                                           </div>
+                                         </div>
+                                       </div>);
+        
+    }
+    
+    [Fact]
+    public void RadioColorsTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+        List<string> _colors = new List<string> { "Primary", "Supporting", "Accent", "Danger", "Warning", "Success" };
+      
+        var cut = Render(@<InputRadioGroup Name="color-test" @bind-Value="@_model.Value">
+                               <List class="flex flex-wrap items-center">
+                                   @foreach (string item in _colors)
+                                   {
+                                       <ListItem>
+                                           <Radio id="@item" Class="px-4" CheckColor="@item" Value="@item" LabelText="@item"></Radio>
+                                       </ListItem>
+                                   }
+                               </List>
+                         </InputRadioGroup>);
+
+        cut.Find("div").MarkupMatches(@<div class=" px-4">
+                                          <div class="flex items-center">
+                                              <input id="Primary"  class="radio checkbox-primary" type="radio" name="color-test" value="Primary"  >
+                                              <label for="Primary" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Primary</label>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void AdvancedLayoutRadioTest()
+    {
+        RadioTestModel _model = new() {Value = "Ford"};
+      
+        var cut = Render(@<div><InputRadioGroup Name="border-test" @bind-Value="@_model.Value">
+                             <List class="grid w-full gap-6 md:grid-cols-2">
+                                 <ListItem>
+                                     <!-- Default -->
+                                     <Radio id="advanced" Class="px-4" Value="@("first")" Advanced="true">
+                                         <Label>
+                                             <div class="block">
+                                                 <div class="w-full text-lg font-semibold">0-50 MB</div>
+                                                 <div class="w-full">Good for small websites</div>
+                                             </div>
+                                             <ArrowRightSolid class="w-5 h-5 ml-3"></ArrowRightSolid>
+                                         </Label>
+                                     </Radio>
+                                 </ListItem>
+                                 <ListItem>
+                                     <!-- Setting advanced class -->
+                                     <Radio id="set" Class="px-4" Value="@("second")" Advanced="true"
+                                            AdvancedClass="@($"inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700")">
+                                         <Label>   
+                                             <div class="block">
+                                                 <div class="w-full text-lg font-semibold">500-1000 MB</div>
+                                                 <div class="w-full">Good for large websites</div>
+                                             </div>
+                                             <ArrowRightSolid class="w-5 h-5 ml-3"></ArrowRightSolid>
+                                         </Label>
+                                     </Radio>
+                                 </ListItem>
+                             </List>
+                         </InputRadioGroup></div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <dl class="list-none list-inside grid w-full gap-6 md:grid-cols-2" >
+                                              <li class=" " >
+                                                  <div class=" px-4">
+                                                      <div class="flex items-center">
+                                                          <input id="advanced"  class="hidden peer" type="radio" name="border-test" value="first"  >
+                                                          <label for="advanced" class="inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700">
+                                                              <div class="block">
+                                                                  <div class="w-full text-lg font-semibold">0-50 MB</div>
+                                                                  <div class="w-full">Good for small websites</div>
+                                                              </div>
+                                                              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 12" aria-hidden="true" class="w-5 h-5 ml-3">
+                                                                  <path d="M13.923 6.382a1 1 0 0 0-.217-1.09l-4-4a1 1 0 1 0-1.414 1.414L10.586 5H1a1 1 0 0 0 0 2h9.586L8.293 9.293a1 1 0 1 0 1.414 1.414l4-4a.999.999 0 0 0 .216-.325Z"></path>
+                                                              </svg>
+                                                          </label>
+                                                      </div>
+                                                  </div>
+                                              </li>
+                                              <li class=" " >
+                                                  <div class=" px-4">
+                                                      <div class="flex items-center">
+                                                          <input id="set"  class="hidden peer" type="radio" name="border-test" value="second"  >
+                                                          <label for="set" class="inline-flex items-center justify-between w-full p-5 text-neutral-500 bg-white border-2 border-neutral-200 rounded-lg cursor-pointer dark:hover:text-neutral-300 dark:border-neutral-700 peer-checked:border-primary-600 hover:text-neutral-600 dark:peer-checked:text-neutral-300 peer-checked:text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:bg-neutral-800 dark:hover:bg-neutral-700">
+                                                              <div class="block">
+                                                                  <div class="w-full text-lg font-semibold">500-1000 MB</div>
+                                                                  <div class="w-full">Good for large websites</div>
+                                                              </div>
+                                                              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 12" aria-hidden="true" class="w-5 h-5 ml-3">
+                                                                  <path d="M13.923 6.382a1 1 0 0 0-.217-1.09l-4-4a1 1 0 1 0-1.414 1.414L10.586 5H1a1 1 0 0 0 0 2h9.586L8.293 9.293a1 1 0 1 0 1.414 1.414l4-4a.999.999 0 0 0 .216-.325Z"></path>
+                                                              </svg>
+                                                          </label>
+                                                      </div>
+                                                  </div>
+                                              </li>
+                                          </dl>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void RadioOnChangeCallbackTest()
+    {
+        RadioTestModel _model = new() {Value = "second"};
+
+        string _callVal = "";
+        Action<string> changeHandler = (val) => { _callVal = val; };
+    
+        var cut = Render(@<InputRadioGroup Name="border-test" @bind-Value="@_model.Value">
+                                 <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                     <Radio id="first" Value="@("first")" LabelText="First radio" OnClicked="@((val) => _callVal = val.ToString())" />
+                                     <Radio id="second" Value="@("second")" LabelText="Second radio" OnClicked="@((val) => _callVal = val.ToString())" />
+                                     <Radio id="third" Value="@("third")" LabelText="Third radio" OnClicked="@((val) => _callVal = val.ToString())" />
+                                     <div class="text-sm">Callback value: @_callVal</div>
+                                 </div>
+                         </InputRadioGroup>);
+
+
+        cut.Find("#third").Click();
+    
+        Assert.Equal("third",_callVal);
+        
+                cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                  <div class=" ">
+                                                      <div class="flex items-center">
+                                                          <input id="first"  class="radio checkbox-primary" type="radio" name="border-test" value="first"  >
+                                                          <label for="first" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">First radio</label>
+                                                      </div>
+                                                  </div>
+                                                  <div class=" ">
+                                                      <div class="flex items-center">
+                                                          <input id="second"  class="radio checkbox-primary" type="radio" name="border-test" value="second" checked=""  >
+                                                          <label for="second" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Second radio</label>
+                                                      </div>
+                                                  </div>
+                                                  <div class=" ">
+                                                      <div class="flex items-center">
+                                                          <input id="third"  class="radio checkbox-primary" type="radio" name="border-test" value="third"  >
+                                                          <label for="third" class="ml-2  text-sm font-medium text-neutral-900 dark:text-neutral-300">Third radio</label>
+                                                      </div>
+                                                  </div>
+                                                  <div class="text-sm">Callback value:
+                                                  </div>
+                                              </div>);
+        
+        cut.Find("#first").Click();
+    
+        Assert.Equal("first",_callVal);
+        
+        
+    }
+    
+}

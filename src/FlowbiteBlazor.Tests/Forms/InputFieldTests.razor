@@ -1,0 +1,395 @@
+@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultInputFieldTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<div>
+                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                             <TextInput id="first-name" LabelText="First Name Label" @bind-Value="form.FirstName"></TextInput>
+                                             <TextInput Id="last-name" @bind-Value="form.LastName"></TextInput>
+                                             <TextInput id="company" @bind-Value="form.Company"></TextInput>
+                                             <TextInput Id="phone" @bind-Value="form.Phone" Type="tel"></TextInput>
+                                             <TextInput Id="site" @bind-Value="form.SiteUrl" Placeholder="https://google.com" Type="url"></TextInput>
+                                             <NumberInput Id="visitors" @bind-Value="form.Visitors"></NumberInput>
+                                         </div>
+                                         <TextInput Id="email" Spacing="mb-6" @bind-Value="form.Email" Type="email"></TextInput>
+                                         <TextInput Id="password" Spacing="mb-6" @bind-Value="form.NewPassword" Type="password"/>
+                                         <TextInput Id="confirm" Spacing="mb-6" @bind-Value="form.ConfirmPassword" Type="password" SuccessMessage="Match!"/>
+                                         <Button type="submit">Submit</Button>
+                         </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="first-name">First Name Label</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="first-name"   type="text" placeholder="John">
+                                        </div>
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="last-name">Last Name</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="last-name"   type="text" placeholder="Doe">
+                                        </div>
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="company">Company</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="company"   type="text" placeholder="Microsoft">
+                                        </div>
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="phone">Phone</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="phone"   type="tel" placeholder="123-45-6789">
+                                        </div>
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="site">Website Url</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="site"   type="url" placeholder="https://google.com">
+                                        </div>
+                                        <div class="mb-2 " >
+                                          <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="visitors">Visitors</label>
+                                          <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="visitors"  type="number" value="0" >
+                                        </div>
+                                      </div>
+                                      <div class="mb-6 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="email">Email</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="email"   type="email" placeholder="johndoe@company.com">
+                                      </div>
+                                      <div class="mb-6 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="password">New Password</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="password"   type="password">
+                                      </div>
+                                      <div class="mb-6 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="confirm">Confirm Password</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="confirm"   type="password">
+                                      </div>
+                                      <span >
+                                        <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                      </span>
+                                    </div>);
+    }
+  
+    [Fact]
+    public void InputFieldValidationTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<EditForm Model="@form">
+                                          <DataAnnotationsValidator></DataAnnotationsValidator>
+                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                             <TextInput id="first-name" LabelText="First Name Label" @bind-Value="form.FirstName"></TextInput>
+                                             <TextInput Id="last-name" @bind-Value="form.LastName"></TextInput>
+                                             <TextInput id="company" @bind-Value="form.Company"></TextInput>
+                                             <TextInput Id="phone" @bind-Value="form.Phone" Type="tel"></TextInput>
+                                             <TextInput Id="site" @bind-Value="form.SiteUrl" Placeholder="https://google.com" Type="url"></TextInput>
+                                             <NumberInput Id="visitors" @bind-Value="form.Visitors"></NumberInput>
+                                         </div>
+                                         <TextInput Id="email" Spacing="mb-6" @bind-Value="form.Email" Type="email"></TextInput>
+                                         <TextInput Id="password" Spacing="mb-6" @bind-Value="form.NewPassword" Type="password"/>
+                                         <TextInput Id="confirm" Spacing="mb-6" @bind-Value="form.ConfirmPassword" Type="password" SuccessMessage="Match!"/>
+                                         <Button type="submit">Submit</Button>
+                                       </EditForm>);
+      
+      cut.Find("#visitors").Change(-1);
+      cut.Find("form").Submit();
+
+      cut.Find("form").MarkupMatches(@<form >
+                                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="first-name">First Name Label</label>
+                                            <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="first-name"   aria-invalid="true" type="text" placeholder="John">
+                                            <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">First name is required.</div>
+                                          </div>
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="last-name">Last Name</label>
+                                            <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="last-name"   aria-invalid="true" type="text" placeholder="Doe">
+                                            <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Last name is required.</div>
+                                          </div>
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="company">Company</label>
+                                            <input class="input p-2.5 text-sm  input-normal valid rounded-lg" id="company"   type="text" placeholder="Microsoft">
+                                          </div>
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="phone">Phone</label>
+                                            <input class="input p-2.5 text-sm  input-normal valid rounded-lg" id="phone"   type="tel" placeholder="123-45-6789">
+                                          </div>
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="site">Website Url</label>
+                                            <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="site"   aria-invalid="true" type="url" placeholder="https://google.com">
+                                            <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Site url is required.</div>
+                                          </div>
+                                          <div class="mb-2 " >
+                                            <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="visitors">Visitors</label>
+                                            <input class="input p-2.5 text-sm  input-error modified invalid rounded-lg" id="visitors"  aria-invalid="true" type="number" value="-1" >
+                                            <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">The number of visitors must be reasonable.</div>
+                                          </div>
+                                        </div>
+                                        <div class="mb-6 " >
+                                          <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="email">Email</label>
+                                          <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="email"   aria-invalid="true" type="email" placeholder="johndoe@company.com">
+                                          <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Email is required.</div>
+                                        </div>
+                                        <div class="mb-6 " >
+                                          <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="password">New Password</label>
+                                          <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="password"   aria-invalid="true" type="password">
+                                          <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Give new password.</div>
+                                        </div>
+                                        <div class="mb-6 " >
+                                          <label class="block mb-2 text-sm font-medium  text-danger-700 dark:text-danger-500" for="confirm">Confirm Password</label>
+                                          <input class="input p-2.5 text-sm  input-error invalid rounded-lg" id="confirm"   aria-invalid="true" type="password">
+                                          <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Confirm new password.</div>
+                                        </div>
+                                        <span >
+                                          <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                        </span>
+                                      </form>);
+      
+      cut.Find("#visitors").Change(3);
+      cut.Find("#first-name").Input("John");
+      cut.Find("#last-name").Input("Doe");
+      cut.Find("#company").Input("Microsoft");
+      cut.Find("#site").Input("https://microsoft.com");
+      cut.Find("#email").Input("jd@Microsoft.com");
+      cut.Find("#password").Input("LongEnoughPassword");
+      cut.Find("#confirm").Input("LongEnoughPassword");
+      cut.Find("form").Submit();
+      
+      cut.Find("form").MarkupMatches(@<form >
+                                       <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="first-name">First Name Label</label>
+                                           <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="first-name" value="John"   type="text" placeholder="John">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="last-name">Last Name</label>
+                                           <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="last-name" value="Doe"   type="text" placeholder="Doe">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="company">Company</label>
+                                           <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="company" value="Microsoft"   type="text" placeholder="Microsoft">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="phone">Phone</label>
+                                           <input class="input p-2.5 text-sm  input-normal valid rounded-lg" id="phone"   type="tel" placeholder="123-45-6789">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="site">Website Url</label>
+                                           <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="site" value="https://microsoft.com"   type="url" placeholder="https://google.com">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="visitors">Visitors</label>
+                                           <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="visitors"  type="number" value="3" >
+                                         </div>
+                                       </div>
+                                       <div class="mb-6 " >
+                                         <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="email">Email</label>
+                                         <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="email" value="jd@Microsoft.com"   type="email" placeholder="johndoe@company.com">
+                                       </div>
+                                       <div class="mb-6 " >
+                                         <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="password">New Password</label>
+                                         <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="password" value="LongEnoughPassword"   type="password">
+                                       </div>
+                                       <div class="mb-6 " >
+                                         <label class="block mb-2 text-sm font-medium  text-success-700 dark:text-success-500" for="confirm">Confirm Password</label>
+                                         <input class="input p-2.5 text-sm  input-success modified valid rounded-lg" id="confirm" value="LongEnoughPassword"   type="password">
+                                         <div class="text-sm text-success-600 dark:text-success-500 mt-2">Match!</div>
+                                       </div>
+                                       <span >
+                                         <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                       </span>
+                                     </form>);
+
+    }
+  
+    [Fact]
+    public void InputFieldSizesTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<div>
+                         <TextInput id="large" Size="InputSizes.Large" ShowError="false" @bind-Value="@form.FirstName" LabelText="Large input"></TextInput>
+                                     <TextInput id="medium" Size="InputSizes.Medium" ShowError="false" @bind-Value="@form.LastName" LabelText="Medium input (Default)"></TextInput>
+                                     <TextInput Id="small" Size="InputSizes.Small" ShowError="false" @bind-Value="@form.Company" LabelText="Small input"></TextInput>
+                                     <TextInput Id="custom" CustomSize="p-1 text-xs" ShowError="false" @bind-Value="@form.SiteUrl" LabelText="Custom size"></TextInput>
+                       </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="large">Large input</label>
+                                           <input class="input p-4 sm:text-base  input-normal  rounded-lg" id="large" type="text" placeholder="John">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="medium">Medium input (Default)</label>
+                                           <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="medium" type="text" placeholder="Doe">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="small">Small input</label>
+                                           <input class="input p-2 sm:text-xs  input-normal  rounded-lg" id="small" type="text" placeholder="Microsoft">
+                                         </div>
+                                         <div class="mb-2 " >
+                                           <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="custom">Custom size</label>
+                                           <input class="input p-1 text-xs  input-normal  rounded-lg" id="custom" type="text" placeholder="blazor.com">
+                                         </div>
+                                       </div>);
+    }
+  
+    [Fact]
+    public void DisabledInputFieldTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                             <TextInput id="first-name" LabelText="First Name Label" disabled @bind-Value="form.FirstName"></TextInput>
+                                             <TextInput Id="last-name" @bind-Value="form.LastName" disabled></TextInput>
+                                             <NumberInput Id="visitors" @bind-Value="form.Visitors" disabled></NumberInput>
+                                         </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                       <div class="mb-2 " >
+                                         <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="first-name">First Name Label</label>
+                                         <input class="input p-2.5 text-sm cursor-not-allowed input-normal  rounded-lg" id="first-name"   type="text" placeholder="John" disabled="">
+                                       </div>
+                                       <div class="mb-2 " >
+                                         <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="last-name">Last Name</label>
+                                         <input class="input p-2.5 text-sm cursor-not-allowed input-normal  rounded-lg" id="last-name"   type="text" placeholder="Doe" disabled="">
+                                       </div>
+                                       <div class="mb-2 " >
+                                         <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="visitors">Visitors</label>
+                                         <input class="input p-2.5 text-sm cursor-not-allowed input-normal  rounded-lg" id="visitors"  type="number" disabled="" value="0" >
+                                       </div>
+                                     </div>);
+    }
+  
+    [Fact]
+    public void GroupInputFieldTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<div>
+                           <TextInput id="left" @bind-Value="@form.FirstName">
+                             <Icon>
+                               <UserSolid class="w-4 h-4 text-gray-500 dark:text-gray-400"></UserSolid>
+                             </Icon>
+                           </TextInput>
+                           <TextInput id="left-bg" @bind-Value="@form.Email" Type="email" GroupType="InputGroupTypes.Right">
+                             <Icon>
+                               <EnvelopeSolid class="w-4 h-4 text-gray-500 dark:text-gray-400"></EnvelopeSolid>
+                             </Icon>
+                           </TextInput>
+                           <TextInput id="right" @bind-Value="@form.Email" Type="email" GroupType="InputGroupTypes.LeftWithBg">
+                             <Icon>
+                               <EnvelopeSolid class="w-4 h-4 text-gray-500 dark:text-gray-400"></EnvelopeSolid>
+                             </Icon>
+                           </TextInput>
+                           <TextInput id="right-bg" @bind-Value="@form.LastName" GroupType="InputGroupTypes.RightWithBg">
+                             <Icon>
+                               <UserSolid class="w-4 h-4 text-gray-500 dark:text-gray-400"></UserSolid>
+                             </Icon>
+                           </TextInput>
+                         </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="mb-2 " >
+                                        <div class="relative">
+                                          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 18" aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                              <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"></path>
+                                            </svg>
+                                          </span>
+                                          <input class="input rounded-lg pl-10 p-2.5 text-sm  input-normal" id="left"   type="text" placeholder="John">
+                                        </div>
+                                      </div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="left-bg">Email</label>
+                                        <div class="relative">
+                                          <input class="input rounded-lg pr-10 p-2.5 text-sm input-normal" id="left-bg"   type="email" placeholder="johndoe@company.com">
+                                          <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 16" aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                              <g>
+                                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"></path>
+                                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"></path>
+                                              </g>
+                                            </svg>
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="right">Email</label>
+                                        <div class="flex">
+                                          <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-r-0 border-neutral-200 rounded-l-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 16" aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                              <g>
+                                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"></path>
+                                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"></path>
+                                              </g>
+                                            </svg>
+                                          </span>
+                                          <input class="input rounded-none rounded-r-lg flex-1 min-w-0 p-2.5 text-sm input-normal" id="right"   type="email" placeholder="johndoe@company.com">
+                                        </div>
+                                      </div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="right-bg">Last Name</label>
+                                        <div class="flex">
+                                          <input class="input rounded-none rounded-l-lg flex-1 min-w-0 p-2.5 text-sm  input-normal" id="right-bg"   type="text" placeholder="Doe">
+                                          <span class="inline-flex items-center px-3 text-sm text-neutral-900 bg-neutral-200 border border-l-0 border-neutral-200 rounded-r-md dark:bg-neutral-600 dark:text-neutral-400 dark:border-neutral-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 14 18" aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                              <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"></path>
+                                            </svg>
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>);
+    }
+  
+    [Fact]
+    public void InputFieldHelperTextTest()
+    {
+        TestForm form = new();
+        var cut = Render(@<div>
+                           <TextInput id="address" @bind-Value="@form.MailingAddress"></TextInput>
+                           <TextInput Id="company" @bind-Value="@form.Company" LabelText="Helper text from parameter" DescriptionText="This is the company name."></TextInput>
+                           <TextInput Id="email" @bind-Value="@form.Email">
+                             <Description>
+                               <Paragraph Class="text-sm" Color="text-gray-500 dark:text-gray-400">We’ll never share your details. Read our <Anchor href="#">Privacy Policy</Anchor></Paragraph>
+                             </Description>
+                           </TextInput>
+                         </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="address">Helper text from DisplayAttribute</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="address"   type="text" placeholder="123 Mockingbird">
+                                        <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">This is the mailing address.</div>
+                                      </div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="company">Helper text from parameter</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="company"   type="text" placeholder="Microsoft">
+                                        <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">This is the company name.</div>
+                                      </div>
+                                      <div class="mb-2 " >
+                                        <label class="block mb-2 text-sm font-medium  text-neutral-900 dark:text-white" for="email">Email</label>
+                                        <input class="input p-2.5 text-sm  input-normal  rounded-lg" id="email"   type="text" placeholder="johndoe@company.com">
+                                        <div class="mt-2">
+                                          <p class="font-normal text-base leading-normal tracking-normal whitespace-normal text-left text-sm text-gray-500 dark:text-gray-400" >We’ll never share your details. Read our
+                                            <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#"  >Privacy Policy</a>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>);
+    }
+  
+  [Fact]
+  public void TextOnChangeCallbackTest()
+  {
+    string value1 = "";
+    string callVal = "";
+    Action<string> changeHandler = (val) => { callVal = val; };
+
+    
+    var cut = Render(@<div>
+                       <TextInput id="text" @bind-Value="@value1" OnChanged="@changeHandler"/>
+                     </div>);
+
+    
+    cut.Find("#text").Input("Some text");
+    
+    Assert.Equal("Some text",callVal);
+        
+  }
+}

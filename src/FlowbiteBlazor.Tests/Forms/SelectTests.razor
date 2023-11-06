@@ -1,0 +1,411 @@
+@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultSelectTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<SelectInput id="default-select" @bind-Value="@value1" LabelText="Select an option">
+                                           <option value="">Choose a country</option>
+                                           <option value="US">United States</option>
+                                           <option value="CA">Canada</option>
+                                           <option value="FR">France</option>
+                                           <option value="DE">Germany</option>
+                                       </SelectInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="w-full">
+                                         <label for="default-select" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                         <select id="default-select"  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="CA" >
+                                           <option value="">Choose a country</option>
+                                           <option value="US">United States</option>
+                                           <option diff:ignoreAttributes value="CA">Canada</option>
+                                           <option value="FR">France</option>
+                                           <option value="DE">Germany</option>
+                                         </select>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void DisabledSelectTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<SelectInput id="disabled-select" @bind-Value="@value1" LabelText="Select an option" Disabled>
+                             <option value="">Choose a country</option>
+                             <option value="US">United States</option>
+                             <option value="CA">Canada</option>
+                             <option value="FR">France</option>
+                             <option value="DE">Germany</option>
+                         </SelectInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="w-full">
+                                          <label for="disabled-select" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                          <select id="disabled-select"  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " disabled value="CA" >
+                                              <option value="">Choose a country</option>
+                                              <option value="US">United States</option>
+                                              <option diff:ignoreAttributes value="CA">Canada</option>
+                                              <option value="FR">France</option>
+                                              <option value="DE">Germany</option>
+                                          </select>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void ValidateSelectTest()
+    {
+        SelectTestModel tmodel = new();
+        var cut = Render(@<EditForm Model="@tmodel">
+                                      <DataAnnotationsValidator />
+                                      <!--Label comes from DisplayAttribute but can still use LabelText. SuccessMessage is not required.-->
+                                      <SelectInput id="valid-select" @bind-Value="@tmodel.Value" SuccessMessage="Value selected!">
+                                          <option value="">Choose a country</option>
+                                          <option value="US">United States</option>
+                                          <option value="CA">Canada</option>
+                                          <option value="FR">France</option>
+                                          <option value="DE">Germany</option>
+                                      </SelectInput>
+                                  </EditForm>);
+        
+        cut.Find("form").Submit();
+
+        cut.Find("form").MarkupMatches(@<form >
+                                          <div class="w-full">
+                                            <label for="valid-select" class="block mb-2 text-sm font-medium text-danger-700 dark:text-danger-500">Country</label>
+                                            <select id="valid-select"  style="" class="block p-2.5 text-sm w-full input-error rounded-lg invalid" aria-invalid="true" >
+                                              <option value="">Choose a country</option>
+                                              <option value="US">United States</option>
+                                              <option value="CA">Canada</option>
+                                              <option value="FR">France</option>
+                                              <option value="DE">Germany</option>
+                                            </select>
+                                            <div class="text-sm text-danger-600 dark:text-danger-500 mt-2">Please select a country</div>
+                                          </div>
+                                        </form>);
+        
+        cut.Find("#valid-select").Change("US");
+        
+        cut.Find("form").MarkupMatches(@<form >
+                                          <div class="w-full">
+                                            <label for="valid-select" class="block mb-2 text-sm font-medium text-success-700 dark:text-success-500">Country</label>
+                                            <select id="valid-select" style="" class="block p-2.5 text-sm w-full input-success rounded-lg modified valid" value="US" >
+                                              <option value="">Choose a country</option>
+                                              <option diff:ignoreAttributes value="US">United States</option>
+                                              <option value="CA">Canada</option>
+                                              <option value="FR">France</option>
+                                              <option value="DE">Germany</option>
+                                            </select>
+                                            <div class="text-sm text-success-600 dark:text-success-500 mt-2">Value selected!</div>
+                                          </div>
+                                        </form>);
+    }
+    
+    [Fact]
+    public void SelectRowsTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<SelectInput id="rows-select" Rows="3" @bind-Value="@value1" LabelText="Select an option">
+                             <option value="">Choose a country</option>
+                             <option value="US">United States</option>
+                             <option value="CA">Canada</option>
+                             <option value="FR">France</option>
+                             <option value="DE">Germany</option>
+                         </SelectInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="w-full">
+                                         <label for="rows-select" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                         <select id="rows-select" size="3"  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="CA" >
+                                           <option value="">Choose a country</option>
+                                           <option value="US">United States</option>
+                                           <option diff:ignoreAttributes value="CA">Canada</option>
+                                           <option value="FR">France</option>
+                                           <option value="DE">Germany</option>
+                                         </select>
+                                       </div>);
+    }
+  
+    [Fact]
+    public void GroupedSelectTest()
+    {
+        string value4 = "";        
+        string value3 = "";
+        var cut = Render(@<div>
+                                     <label for="select-select" class="block mb-2 mt-3 text-sm font-medium text-neutral-900 dark:text-white">
+                                         With select
+                                     </label>
+                                     <div class="flex">
+                                         <!--RoundedClass can also be used to add other classes with bg to the input -->
+                                         <SelectInput id="select-1" @bind-Value="@value3" Class="w-32" RoundedClass="rounded-l-lg rounded-r-none bg-neutral-200 dark:bg-neutral-700">
+                                             <option value="">Choose a continent</option>
+                                             <option value="US">North America</option>
+                                             <option value="CA">South America</option>
+                                             <option value="FR">Europe</option>
+                                             <option value="DE">Asia</option>
+                                         </SelectInput>
+                                         <SelectInput Id="select-select" @bind-Value="@value4" RoundedClass="rounded-r-lg rounded-l-none border-l-neutral-100 dark:border-l-neutral-700 border-l-2">
+                                             <option value="">Choose a country</option>
+                                             <option value="US">United States</option>
+                                             <option value="CA">Canada</option>
+                                             <option value="FR">France</option>
+                                             <option value="DE">Germany</option>
+                                         </SelectInput>
+                                     </div>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <label for="select-select" class="block mb-2 mt-3 text-sm font-medium text-neutral-900 dark:text-white">
+                                              With select
+                                          </label>
+                                          <div class="flex">
+                                              <div class="w-32">
+                                                  <select id="select-1"  style="" class="block p-2.5 text-sm w-full input-normal rounded-l-lg rounded-r-none bg-neutral-200 dark:bg-neutral-700 " value="" >
+                                                      <option value="">Choose a continent</option>
+                                                      <option value="US">North America</option>
+                                                      <option value="CA">South America</option>
+                                                      <option value="FR">Europe</option>
+                                                      <option value="DE">Asia</option>
+                                                  </select>
+                                              </div>
+                                              <div class="w-full">
+                                                  <select id="select-select"  style="" class="block p-2.5 text-sm w-full input-normal rounded-r-lg rounded-l-none border-l-neutral-100 dark:border-l-neutral-700 border-l-2 " value="" >
+                                                      <option value="">Choose a country</option>
+                                                      <option value="US">United States</option>
+                                                      <option value="CA">Canada</option>
+                                                      <option value="FR">France</option>
+                                                      <option value="DE">Germany</option>
+                                                  </select>
+                                              </div>
+                                          </div>
+                                      </div>);
+    }
+    
+  [Fact]
+  public void MultipleSelectTest()
+  {
+    string[] multVals = { "CA", "FR" };
+    var cut = Render(@<div><SelectInput id="multiple-select" @bind-Value="@multVals" LabelText="Select one or more options">
+                                  <option value="US">United States</option>
+                                  <option value="CA">Canada</option>
+                                  <option value="FR">France</option>
+                                  <option value="DE">Germany</option>
+                              </SelectInput>
+                              <List Class="mt-2 flex flex-wrap space-x-2">
+                                  @foreach (var val in multVals)
+                                  {
+                                      <ListItem>@val</ListItem>
+                                  }
+                              </List></div>);
+      
+      // bunit issues....
+      @* cut.Find("div").MarkupMatches(@<div> *@
+      @*                                  <div class="w-full"> *@
+      @*                                    <label for="multiple-select" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select one or more options</label> *@
+      @*                                    <select id="multiple-select" diff:ignoreChildren multiple="" size="0"  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="[&quot;CA&quot;, &quot;FR&quot;]" > *@
+      @*                                      <option value="US">United States</option> *@
+      @*                                      <option value="CA">Canada</option> *@
+      @*                                      <option value="FR">France</option> *@
+      @*                                      <option value="DE">Germany</option> *@
+      @*                                    </select> *@
+      @*                                  </div> *@
+      @*                                  <dl class="list-none list-inside mt-2 flex flex-wrap space-x-2" > *@
+      @*                                    <li class=" " >CA</li> *@
+      @*                                    <li class=" " >FR</li> *@
+      @*                                  </dl> *@
+      @*                                </div>); *@
+      
+      //acts like it cannot find the select
+      //cut.Find("#multiple-select").Change(SetCurrentValueAsStringArray(new string[]{ "US", "CA", "FR", "DE" }));
+
+      //Assert.True(multVals.ToList().Contains("US"));
+
+  }
+    
+    [Fact]
+    public void SelectWithHelperTextTest()
+    {
+        string value1 = "CA";
+        string value4 = "";
+
+        var cut = Render(@<div>
+                                     <SelectInput id="helper1" @bind-Value="@value1" LabelText="Select an option" DescriptionText="This country will be your most favorite.">
+                                         <option value="">Choose a country</option>
+                                         <option value="US">United States</option>
+                                         <option value="CA">Canada</option>
+                                         <option value="FR">France</option>
+                                         <option value="DE">Germany</option>
+                                     </SelectInput>
+                                     <SelectInput id="helper2" @bind-Value="@value4" Class="mt-3" LabelText="Select an option" DescriptionText="This country will be your most favorite.">
+                                         <ChildContent>
+                                             <option value="">Choose a country</option>
+                                             <option value="US">United States</option>
+                                             <option value="CA">Canada</option>
+                                             <option value="FR">France</option>
+                                             <option value="DE">Germany</option>
+                                         </ChildContent>
+                                         <Description>
+                                             <Span Class="text-xs text-neutral-500 dark:text-neutral-400">
+                                                 This country will be your least <Anchor Href="#">favorite</Anchor>.
+                                             </Span>
+                                         </Description>
+                                     </SelectInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="w-full">
+                                              <label for="helper1" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                              <select id="helper1" diff:ignoreChildren  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="CA" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                              <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">This country will be your most favorite.</div>
+                                          </div>
+                                          <div class="mt-3">
+                                              <label for="helper2" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                              <select id="helper2" diff:ignoreChildren  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                              <div class="mt-2">
+                                                  <span class="text-gray-900 dark:text-white text-xs text-neutral-500 dark:text-neutral-400" >
+                                                      This country will be your least
+                                                      <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#">favorite</a>.
+                                                  </span>
+                                              </div>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void UnderlineSelectTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<SelectInput id="line-select" @bind-Value="@value1" LabelText="Select an option" Underline UnderlineBackground="bg-white dark:bg-neutral-900">
+                                      <option value="">Choose a country</option>
+                                      <option value="US">United States</option>
+                                      <option value="CA">Canada</option>
+                                      <option value="FR">France</option>
+                                      <option value="DE">Germany</option>
+                                  </SelectInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="w-full">
+                                         <label for="line-select" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                         <select id="line-select"  style="border-style: none none solid none" class="block py-2.5 px-0 w-full text-neutral-500 border-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer bg-white dark:bg-neutral-900 rounded-none " value="CA" >
+                                           <option value="">Choose a country</option>
+                                           <option value="US">United States</option>
+                                           <option diff:ignoreAttributes value="CA">Canada</option>
+                                           <option value="FR">France</option>
+                                           <option value="DE">Germany</option>
+                                         </select>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void RoundedClassSelectTest()
+    {
+        string value1 = "CA";
+        var cut = Render(@<SelectInput id="round-class" @bind-Value="@value1" LabelText="Select an option" RoundedClass="rounded-none">
+                                      <option value="">Choose a country</option>
+                                      <option value="US">United States</option>
+                                      <option value="CA">Canada</option>
+                                      <option value="FR">France</option>
+                                      <option value="DE">Germany</option>
+                                  </SelectInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="w-full">
+                                         <label for="round-class" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Select an option</label>
+                                         <select id="round-class"  style="" class="block p-2.5 text-sm w-full input-normal rounded-none " value="CA" >
+                                           <option value="">Choose a country</option>
+                                           <option value="US">United States</option>
+                                           <option diff:ignoreAttributes value="CA">Canada</option>
+                                           <option value="FR">France</option>
+                                           <option value="DE">Germany</option>
+                                         </select>
+                                       </div>);
+    }
+    
+    [Fact]
+    public void SelectSizesTest()
+    {
+        string valueS = "";
+        var cut = Render(@<div>
+                                     <SelectInput id="size1" @bind-Value="@valueS" LabelText="Small underline" Size="InputSizes.Small" Underline Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                                     <SelectInput id="size2" @bind-Value="@valueS" LabelText="Default underline" Size="InputSizes.Medium" Underline Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                                     <SelectInput id="size3" @bind-Value="@valueS" LabelText="Large underline" Size="InputSizes.Large" Underline Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                                     <SelectInput id="size4" @bind-Value="@valueS"  LabelText="Small select" Size="InputSizes.Small" Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                                     <SelectInput id="size5" @bind-Value="@valueS" LabelText="Default select" Size="InputSizes.Medium" Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                                     <SelectInput id="size6" @bind-Value="@valueS" LabelText="Large select" Size="InputSizes.Large" Class="mt-2">
+                                         <option value="">Choose a country</option>
+                                     </SelectInput>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="mt-2">
+                                              <label for="size1" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Small underline</label>
+                                              <select id="size1"  style="border-style: none none solid none" class="block py-2 px-0 sm:text-xs w-full text-neutral-500 border-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer bg-transparent rounded-none " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                          <div class="mt-2">
+                                              <label for="size2" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Default underline</label>
+                                              <select id="size2"  style="border-style: none none solid none" class="block py-2.5 px-0 w-full text-neutral-500 border-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer bg-transparent rounded-none " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                          <div class="mt-2">
+                                              <label for="size3" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Large underline</label>
+                                              <select id="size3"  style="border-style: none none solid none" class="block py-4 px-0 sm:text-base w-full text-neutral-500 border-2 border-neutral-200 appearance-none dark:text-neutral-400 dark:border-neutral-700 focus:outline-none focus:ring-0 focus:border-neutral-200 peer bg-transparent rounded-none " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                          <div class="mt-2">
+                                              <label for="size4" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Small select</label>
+                                              <select id="size4"  style="" class="block p-2 sm:text-xs w-full input-normal rounded-lg " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                          <div class="mt-2">
+                                              <label for="size5" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Default select</label>
+                                              <select id="size5"  style="" class="block p-2.5 text-sm w-full input-normal rounded-lg " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                          <div class="mt-2">
+                                              <label for="size6" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">Large select</label>
+                                              <select id="size6"  style="" class="block p-4 sm:text-base w-full input-normal rounded-lg " value="" >
+                                                  <option value="">Choose a country</option>
+                                              </select>
+                                          </div>
+                                      </div>);
+    }
+    
+    [Fact]
+    public void SelectOnChangeCallbackTest()
+    {
+        string value1 = "";
+        string _callVal = "";
+        Action<object> changeHandler = (val) => { _callVal = val.ToString()!; };
+    
+        var cut = Render(@<SelectInput id="check" @bind-Value="@value1" LabelText="Select an option" OnChanged="@changeHandler">
+                                          <option value="">Choose a country</option>
+                                          <option value="US">United States</option>
+                                          <option value="CA">Canada</option>
+                                          <option value="FR">France</option>
+                                          <option value="DE">Germany</option>
+                                      </SelectInput>);
+
+    
+        cut.Find("#check").Change("CA");
+    
+        Assert.Equal("CA",_callVal);
+    }
+}

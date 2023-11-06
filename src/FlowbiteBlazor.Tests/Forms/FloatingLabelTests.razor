@@ -1,0 +1,302 @@
+﻿@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultFloatingLabelTest()
+    {
+      FloatingModel defModel = new();
+      var cut = Render(@<div>
+                                 <FloatingLabel id="float" Class="mb-4" FloatType="FloatType.Filled" LabelText="Floating filled" @bind-Value="@defModel.Filled"></FloatingLabel>
+                                 <FloatingLabel id="outline" Class="mb-4" FloatType="FloatType.Outline" LabelText="Floating outlined" @bind-Value="@defModel.Outlined"></FloatingLabel>
+                                 <FloatingLabel Id="standard" Class="mb-4" FloatType="FloatType.Standard" LabelText="Floating standard" @bind-Value="@defModel.Standard"></FloatingLabel>
+                       </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value=""  id="float" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-normal" placeholder="" >
+                                          <label for="float" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm floating-label" >Floating filled</label>
+                                        </div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value=""  id="outline" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-normal" placeholder="" >
+                                          <label for="outline" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm floating-label" >Floating outlined</label>
+                                        </div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative z-0" >
+                                          <input  type="text" value=""  id="standard" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-normal" placeholder="" >
+                                          <label for="standard" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm floating-label" >Floating standard</label>
+                                        </div>
+                                      </div>
+                                    </div>);
+        
+    }
+  
+    [Fact]
+    public void DisabledFloatingLabelTest()
+    {
+      FloatingModel defModel = new();
+      var cut = Render(@<div>
+                                 <FloatingLabel id="disabled-filled" Class="mb-4" FloatType="FloatType.Filled" LabelText="Floating filled" @bind-Value="@defModel.Filled" Disabled></FloatingLabel>
+                                 <FloatingLabel id="disabled-outlined" Class="mb-4" FloatType="FloatType.Outline" LabelText="Floating outlined" @bind-Value="@defModel.Outlined" Disabled></FloatingLabel>
+                                 <FloatingLabel id="disabled-standard" Class="mb-4" FloatType="FloatType.Standard" LabelText="Floating standard" @bind-Value="@defModel.Standard" Disabled></FloatingLabel>
+                       </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value="" id="disabled-filled" disabled="" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-normal" placeholder="" >
+                                          <label for="disabled-filled" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm text-neutral-400 dark:text-neutral-500" >Floating filled</label>
+                                        </div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value="" id="disabled-outlined" disabled="" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-normal" placeholder="" >
+                                          <label for="disabled-outlined" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm text-neutral-400 dark:text-neutral-500" >Floating outlined</label>
+                                        </div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative z-0" >
+                                          <input  type="text" value="" id="disabled-standard" disabled="" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-normal" placeholder="" >
+                                          <label for="disabled-standard" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm text-neutral-400 dark:text-neutral-500" >Floating standard</label>
+                                        </div>
+                                      </div>
+                                    </div>);
+        
+    }
+  
+    [Fact]
+    public void ValidateFloatingLabelTest()
+    {
+      FloatingModel model = new();
+      var cut = Render(@<EditForm Model="@model"><DataAnnotationsValidator></DataAnnotationsValidator><FloatingLabel id="valid-float" FloatType="FloatType.Filled" LabelText="Floating filled" @bind-Value="model.Filled" SuccessMessage="Well done! Some success message."></FloatingLabel><FloatingLabel id="valid-outline" FloatType="FloatType.Outline" LabelText="Floating outlined" @bind-Value="model.Outlined" SuccessMessage="Well done! Some success message."></FloatingLabel><FloatingLabel id="valid-standard" FloatType="FloatType.Standard" LabelText="Floating standard" @bind-Value="model.Standard" SuccessMessage="Well done! Some success message."></FloatingLabel>
+                       </EditForm>);
+
+      cut.Find("form").Submit();
+      
+      cut.Find("form").MarkupMatches(@<form><div><div class="relative"><input aria-invalid="true" type="text" value="" id="valid-float" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-error" placeholder="" ><label for="valid-float" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm label-red" >Floating filled</label></div><div class="text-danger-600 dark:text-danger-500 text-xs mt-2 font-semibold">Oh, snapp! Some error message.</div></div><div><div class="relative " >
+                                           <input  aria-invalid="true" type="text" value="" id="valid-outline" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-error" placeholder="" >
+                                           <label for="valid-outline" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm label-red" >Floating outlined</label>
+                                         </div>
+                                         <div class="text-danger-600 dark:text-danger-500 text-xs mt-2 font-semibold">Oh, snapp! Some error message.</div>
+                                       </div>
+                                       <div >
+                                         <div class="relative z-0" >
+                                           <input  aria-invalid="true" type="text" value="" id="valid-standard" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-error" placeholder="" >
+                                           <label for="valid-standard" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm label-red" >Floating standard</label>
+                                         </div>
+                                         <div class="text-danger-600 dark:text-danger-500 text-xs mt-2 font-semibold">Oh, snapp! Some error message.</div>
+                                       </div>
+                                     </form>);
+      
+      cut.Find("#valid-float").Input("Some text");
+      cut.Find("#valid-outline").Input("Some text");
+      cut.Find("#valid-standard").Input("Some text");
+      cut.Find("form").Submit();
+      
+      cut.Find("form").MarkupMatches(@<form >
+                                       <div >
+                                         <div class="relative " >
+                                           <input  type="text" value="Some text"  id="valid-float" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-success" placeholder="" >
+                                           <label for="valid-float" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm label-green" >Floating filled</label>
+                                         </div>
+                                         <div class="text-success-600 dark:text-success-500 text-xs mt-2 font-semibold">Well done! Some success message.</div>
+                                       </div>
+                                       <div >
+                                         <div class="relative " >
+                                           <input  type="text" value="Some text"  id="valid-outline" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-success" placeholder="" >
+                                           <label for="valid-outline" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm label-green" >Floating outlined</label>
+                                         </div>
+                                         <div class="text-success-600 dark:text-success-500 text-xs mt-2 font-semibold">Well done! Some success message.</div>
+                                       </div>
+                                       <div >
+                                         <div class="relative z-0" >
+                                           <input  type="text" value="Some text"  id="valid-standard" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-success" placeholder="" >
+                                           <label for="valid-standard" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm label-green" >Floating standard</label>
+                                         </div>
+                                         <div class="text-success-600 dark:text-success-500 text-xs mt-2 font-semibold">Well done! Some success message.</div>
+                                       </div>
+                                     </form>);
+    }
+  
+    [Fact]
+    public void FloatingLabelSizesTest()
+    {
+      FloatingModel smallmodel = new();
+      FloatingModel medmodel = new();
+      FloatingModel largemodel = new();
+      
+      var cut = Render(@<div class="grid items-end gap-6 mb-6 md:grid-cols-3">
+                <EditForm Model="@smallmodel">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <FloatingLabel Class="mb-4" id="smallf" FloatType="FloatType.Filled" LabelText="Small filled" @bind-Value="@smallmodel.Filled" Size="InputSizes.Small"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" id="smallo" FloatType="FloatType.Outline" LabelText="Small outlined" @bind-Value="@smallmodel.Outlined" Size="InputSizes.Small"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" Id="smalls" FloatType="FloatType.Standard" LabelText="Small standard" @bind-Value="@smallmodel.Standard" Size="InputSizes.Small"></FloatingLabel>
+                    <Button type="submit">Submit</Button>
+                </EditForm>
+                <EditForm Model="@medmodel">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <FloatingLabel Class="mb-4" id="medf" FloatType="FloatType.Filled" LabelText="Default filled" @bind-Value="@medmodel.Filled" Size="InputSizes.Medium"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" id="medo" FloatType="FloatType.Outline" LabelText="Default outlined" @bind-Value="@medmodel.Outlined" Size="InputSizes.Medium"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" id="meds" FloatType="FloatType.Standard" LabelText="Default standard" @bind-Value="@medmodel.Standard" Size="InputSizes.Medium"></FloatingLabel>
+                    <Button type="submit">Submit</Button>
+                </EditForm>
+                <EditForm Model="@largemodel">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <FloatingLabel Class="mb-4" id="largef" FloatType="FloatType.Filled" LabelText="Large filled" @bind-Value="@largemodel.Filled" Size="InputSizes.Large"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" id ="largeo" FloatType="FloatType.Outline" LabelText="Large outlined" @bind-Value="@largemodel.Outlined" Size="InputSizes.Large"></FloatingLabel>
+                    <FloatingLabel Class="mb-4" id="larges" FloatType="FloatType.Standard" LabelText="Large standard" @bind-Value="@largemodel.Standard" Size="InputSizes.Large"></FloatingLabel>
+                    <Button type="submit">Submit</Button>
+                </EditForm>
+            </div>);
+
+      cut.Find("div").MarkupMatches(@<div class="grid items-end gap-6 mb-6 md:grid-cols-3">
+                                      <form >
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="smallf" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-1.5 pt-4 text-sm fl-input-normal" placeholder="" >
+                                            <label for="smallf" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-3 top-3 peer-focus:-translate-y-3 text-sm floating-label" >Small filled</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="smallo" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-1.5 pt-3 text-sm fl-input-normal" placeholder="" >
+                                            <label for="smallo" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-3 top-1 peer-focus:top-1 peer-focus:-translate-y-3 text-sm floating-label" >Small outlined</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative z-0" >
+                                            <input  type="text" value=""  id="smalls" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border px-0 py-2 text-sm fl-input-normal" placeholder="" >
+                                            <label for="smalls" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm floating-label" >Small standard</label>
+                                          </div>
+                                        </div>
+                                        <span >
+                                          <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                        </span>
+                                      </form>
+                                      <form >
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="medf" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-normal" placeholder="" >
+                                            <label for="medf" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm floating-label" >Default filled</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="medo" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-normal" placeholder="" >
+                                            <label for="medo" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm floating-label" >Default outlined</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative z-0" >
+                                            <input  type="text" value=""  id="meds" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-normal" placeholder="" >
+                                            <label for="meds" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm floating-label" >Default standard</label>
+                                          </div>
+                                        </div>
+                                        <span >
+                                          <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                        </span>
+                                      </form>
+                                      <form >
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="largef" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-4 pt-6 md:text-md fl-input-normal" placeholder="" >
+                                            <label for="largef" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 top-6 peer-focus:-translate-y-6 md:text-md floating-label" >Large filled</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative " >
+                                            <input  type="text" value=""  id="largeo" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-4 pt-6 md:text-md fl-input-normal" placeholder="" >
+                                            <label for="largeo" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-6 top-4 peer-focus:top-4 peer-focus:-translate-y-6 md:text-md floating-label" >Large outlined</label>
+                                          </div>
+                                        </div>
+                                        <div class="mb-4" >
+                                          <div class="relative z-0" >
+                                            <input  type="text" value=""  id="larges" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-3.5 px-0 md:text-md fl-input-normal" placeholder="" >
+                                            <label for="larges" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 md:text-md floating-label" >Large standard</label>
+                                          </div>
+                                        </div>
+                                        <span >
+                                          <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  " style="" >Submit</button>
+                                        </span>
+                                      </form>
+                                    </div>);
+        
+    }
+  
+    [Fact]
+    public void FloatingLabelHelperTextTest()
+    {
+      FloatingModel helperModel = new();
+      var cut = Render(@<div>
+                         <FloatingLabel id="help1" Class="mb-4" FloatType="FloatType.Filled" LabelText="Floating filled" @bind-Value="@helperModel.Filled"
+                                        DescriptionText="This is some helper text."></FloatingLabel>
+                         <FloatingLabel id="help2" Class="mb-4" FloatType="FloatType.Outline" LabelText="Floating outlined" @bind-Value="@helperModel.Outlined">
+                           <Description>
+                             <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">Remember, contributions to this topic should follow our <Anchor href="#">Community Guidelines</Anchor>.</p>
+                           </Description>
+                         </FloatingLabel>
+                         <FloatingLabel id="help3" Class="mb-4" FloatType="FloatType.Standard" LabelText="Floating standard" @bind-Value="@helperModel.Standard">
+                           <Description>
+                             <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">Remember, contributions to this topic should follow our <Anchor href="#">Community Guidelines</Anchor>.</p>
+                           </Description>
+                         </FloatingLabel>
+                       </div>);
+
+      cut.Find("div").MarkupMatches(@<div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value=""  id="help1" class="block w-full appearance-none focus:outline-none focus:ring-0 peer rounded-t-lg px-2.5 bg-neutral-50 dark:bg-neutral-700 border-2 std-border pb-2.5 pt-5 text-sm fl-input-normal" placeholder="" >
+                                          <label for="help1" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 left-2.5 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-4 top-4 peer-focus:-translate-y-4 text-sm floating-label" >Floating filled</label>
+                                        </div>
+                                        <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">This is some helper text.</div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative " >
+                                          <input  type="text" value=""  id="help2" class="block w-full appearance-none focus:outline-none focus:ring-0 peer px-2.5 bg-transparent rounded-lg border-1 pb-2.5 pt-4 text-sm fl-input-normal" placeholder="" >
+                                          <label for="help2" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 z-10 bg-white dark:bg-neutral-900 px-2 peer-focus:px-2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:scale-75 left-1 -translate-y-4 top-2 peer-focus:top-2 peer-focus:-translate-y-4 text-sm floating-label" >Floating outlined</label>
+                                        </div>
+                                        <div class="mt-2">
+                                          <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">Remember, contributions to this topic should follow our
+                                            <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#"  >Community Guidelines</a>.</p>
+                                        </div>
+                                      </div>
+                                      <div class="mb-4" >
+                                        <div class="relative z-0" >
+                                          <input  type="text" value=""  id="help3" class="block w-full appearance-none focus:outline-none focus:ring-0 peer bg-transparent border-2 std-border py-2.5 px-0 text-sm fl-input-normal" placeholder="" >
+                                          <label for="help3" class="absolute duration-300 transform scale-75 origin-[0] peer-placeholder-shown:scale-100 top-3 -z-10 peer-focus:left-0 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 -translate-y-6 peer-focus:-translate-y-6 text-sm floating-label" >Floating standard</label>
+                                        </div>
+                                        <div class="mt-2">
+                                          <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">Remember, contributions to this topic should follow our
+                                            <a class="inline-flex items-center hover:underline  text-primary-600 dark:text-primary-500" href="#"  >Community Guidelines</a>.</p>
+                                        </div>
+                                      </div>
+                                    </div>);
+        
+    }
+  
+  [Fact]
+  public void FloatingLabelOnChangeCallbackTest()
+  {
+    string value1 = "";
+    string callVal = "";
+    Action<string> changeHandler = (val) => { callVal = val; };
+
+    
+    var cut = Render(@<div>
+                       <FloatingLabel id="text" Class="mb-4" FloatType="FloatType.Filled" LabelText="Floating filled" @bind-Value="@value1" OnChanged="@changeHandler"/>
+                     </div>);
+
+    
+    cut.Find("#text").Input("Some text");
+    
+    Assert.Equal("Some text",callVal);
+        
+  }
+}

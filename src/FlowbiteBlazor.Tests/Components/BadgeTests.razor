@@ -257,23 +257,27 @@
                          </div>);
 
     cut.Find("div").MarkupMatches(@<div class="flex flex-wrap p-4 gap-2">
-        <button type="button" class=" btn-base btn-base-size btn-normal btn-primary inline-flex items-center" style="" >
-            Messages
-            <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
-                                               opacity-100 font-medium px-2.5 py-0.5 
-                                               rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300   
-                                               text-xs ml-2" style="" >2</div>
-        </button>
-        <button type="button" class=" btn-base btn-base-size btn-normal btn-primary inline-flex items-center" style="" >
-            Messages
-            <div class="inline-flex items-center transition-opacity duration-1000 ease-out  
-                                               opacity-100  
-                                               rounded-full    
-                                               text-xs justify-center w-4 h-4 ml-2 p-0 font-semibold text-primary-800 bg-primary-200" style="" >
-                <span>2</span>
-            </div>
-        </button>
-    </div>);
+                                     <span >
+                                       <button type="button" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  inline-flex items-center" style="" >
+                                         Messages
+                                         <div class="items-center transition-opacity duration-1000 ease-out inline-flex 
+                                           opacity-100 font-medium px-2.5 py-0.5 
+                                           rounded-full bg-primary-100 text-primary-800 dark:text-primary-300 dark:bg-primary-900  
+                                           text-xs ml-2" style="">2</div>
+                                       </button>
+                                     </span>
+                                     <span >
+                                       <button type="button" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  inline-flex items-center" style="" >
+                                         Messages
+                                         <div class="items-center transition-opacity duration-1000 ease-out inline-flex 
+                                           opacity-100  
+                                           rounded-full    
+                                           text-xs justify-center w-4 h-4 ml-2 p-0 font-semibold text-primary-800 bg-primary-200" style="">
+                                           <span>2</span>
+                                         </div>
+                                       </button>
+                                     </span>
+                                   </div>);
     }
     
     [Fact]

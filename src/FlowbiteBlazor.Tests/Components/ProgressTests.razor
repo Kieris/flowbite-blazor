@@ -8,7 +8,7 @@
     {
         var cut = Render(@<ProgressBar Progress="45" />);
 
-        cut.Find("div").MarkupMatches(@<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+        cut.Find("div").MarkupMatches(@<div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                           <div class="bg-primary-600 h-2.5  rounded-full " style="width: 45%"></div>
                                       </div>);
     }
@@ -25,19 +25,19 @@
                          </div>);
 
         cut.Find("div").MarkupMatches(@<div class="p-4">
-                                          <div class="w-full bg-gray-200 rounded-full h-1 dark:bg-gray-700 mb-3">
+                                          <div class="w-full bg-neutral-200 rounded-full h-1 dark:bg-neutral-700 mb-3">
                                               <div class="bg-primary-600 h-1  rounded-full " style="width: 25%"></div>
                                           </div>
-                                          <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700 mb-3">
+                                          <div class="w-full bg-neutral-200 rounded-full h-1.5 dark:bg-neutral-700 mb-3">
                                               <div class="bg-primary-600 h-1.5  rounded-full " style="width: 45%"></div>
                                           </div>
-                                          <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mb-3">
+                                          <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 mb-3">
                                               <div class="bg-primary-600 h-2.5  rounded-full " style="width: 55%"></div>
                                           </div>
-                                          <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 mb-3">
+                                          <div class="w-full bg-neutral-200 rounded-full h-4 dark:bg-neutral-700 mb-3">
                                               <div class="bg-primary-600 h-4  rounded-full " style="width: 75%"></div>
                                           </div>
-                                          <div class="w-full bg-gray-200 rounded-full h-6 dark:bg-gray-700 mb-3">
+                                          <div class="w-full bg-neutral-200 rounded-full h-6 dark:bg-neutral-700 mb-3">
                                               <div class="bg-primary-600 h-6  rounded-full " style="width: 100%"></div>
                                           </div>
                                       </div>);
@@ -48,8 +48,8 @@
     {
         var cut = Render(@<ProgressBar Progress="45" Size="Sizes.Large" LabelInside="45%"/>);
 
-        cut.Find("div").MarkupMatches(@<div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 ">
-                                          <div class="bg-primary-600 h-4 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full " style="width: 45%">45%</div>
+        cut.Find("div").MarkupMatches(@<div class="w-full bg-neutral-200 rounded-full h-4 dark:bg-neutral-700 ">
+                                          <div class="bg-primary-600 h-4 text-xs font-medium text-primary-100 text-center p-0.5 leading-none rounded-full " style="width: 45%">45%</div>
                                       </div>);
     }
     
@@ -83,51 +83,51 @@
                              </div>
                              <div>
                                  <div class="mb-1 text-base font-medium text-neutral-600 dark:text-white">Neutral</div>
-                                 <ProgressBar Progress="65" Color="Colors.Dark"/>
+                                 <ProgressBar Progress="65" Color="Colors.Neutral"/>
                              </div>
                          </div>);
 
         cut.Find("div").MarkupMatches(@<div class="flex flex-col justify-center gap-4">
                                           <div>
                                               <div class="mb-1 text-base font-medium text-primary-600 dark:text-white">Primary</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-primary-600 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-danger-600 dark:text-white">Danger</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-danger-600 dark:bg-danger-500 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-success-600 dark:text-white">Success</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-success-600 dark:bg-success-500 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-warning-400 dark:text-white">Warning</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-warning-400 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-supporting-600 dark:text-white">Supporting</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-supporting-600 dark:bg-supporting-500 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-accent-600 dark:text-white">Accent</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                                   <div class="bg-accent-600 dark:bg-accent-500 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                           <div>
                                               <div class="mb-1 text-base font-medium text-neutral-600 dark:text-white">Neutral</div>
-                                              <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
-                                                  <div class="bg-neutral-600 dark:bg-neutral-300 h-2.5  rounded-full " style="width: 65%"></div>
+                                              <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
+                                                  <div class="bg-primary-600 h-2.5  rounded-full " style="width: 65%"></div>
                                               </div>
                                           </div>
                                       </div>);
@@ -143,11 +143,11 @@
                          </div>);
 
         cut.Find("div").MarkupMatches(@<div class="flex flex-col justify-center items-center gap-4">
-                                          <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ">
+                                          <div class="w-full bg-neutral-200 rounded-full h-2.5 dark:bg-neutral-700 ">
                                               <div class="bg-primary-600 h-2.5  rounded-full animate-pulse" style="width: 75%"></div>
                                           </div>
-                                          <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 ">
-                                              <div class="bg-primary-600 h-4 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full " style="width: 60%">60%</div>
+                                          <div class="w-full bg-neutral-200 rounded-full h-4 dark:bg-neutral-700 ">
+                                              <div class="bg-primary-600 h-4 text-xs font-medium text-primary-100 text-center p-0.5 leading-none rounded-full " style="width: 60%">60%</div>
                                           </div>
                                       </div>);
     }

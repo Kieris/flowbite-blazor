@@ -1,0 +1,256 @@
+﻿@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Flowbite.Blazor.Components.Dropdown
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultSearchInputTest()
+    {
+        string searchText = "";
+        var cut = Render(@<SearchInput Id="default" @bind-Value="@searchText" GroupType="InputGroupTypes.Left" Placeholder="Search Markups, Logos..." CustomSize="p-4">
+                             <Icon>
+                                 <SearchOutline class="w-4 h-4 text-neutral-500 dark:text-neutral-400"></SearchOutline>
+                             </Icon>
+                             <SearchButton>
+                                 <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Search</button>
+                             </SearchButton>
+                         </SearchInput>);
+
+        cut.Find("div").MarkupMatches(@<div class="mb-2 " >
+                                          <div class="relative">
+                                              <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" aria-hidden="true" class="w-4 h-4 text-neutral-500 dark:text-neutral-400">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                                                  </svg>
+                                              </span>
+                                              <input class="input pl-10 p-4 input-normal rounded-lg" id="default" value=""   type="text" placeholder="Search Markups, Logos...">
+                                              <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Search</button>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void DropdownSearchInputTest()
+    {
+        string searchText = "";
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        BunitJSInterop js = new BunitJSInterop();
+        var drop = js.SetupModule("/_content/Flowbite.Blazor/js/dropdown.js");
+        
+        var cut = Render(@<div>
+                              <label for="dropdown-search" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">
+                                             With dropdown
+                                         </label>
+                                         <div class="flex w-full">
+                                             <Dropdown>
+                                                 <DropdownTrigger>
+                                                     <button id="dropdown-button" data-dropdown-toggle="dropdown" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 border border-neutral-300 rounded-l-lg hover:bg-neutral-200 focus:ring-4 focus:outline-none focus:ring-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700 dark:text-white dark:border-neutral-600" type="button">
+                                                         All categories
+                                                         <ChevronDownSolid class="w-2.5 h-2.5 ml-2.5"></ChevronDownSolid>
+                                                     </button>
+                                                 </DropdownTrigger>
+                                                 <DropdownItems>
+                                                     <DropdownItem>
+                                                         Mockups
+                                                     </DropdownItem>
+                                                     <DropdownItem>
+                                                         Templates
+                                                     </DropdownItem>
+                                                     <DropdownItem>
+                                                         Designs
+                                                     </DropdownItem>
+                                                     <DropdownItem>
+                                                         Logos
+                                                     </DropdownItem>
+                                                 </DropdownItems>
+                                             </Dropdown>
+                                             <SearchInput Class="flex-1" Id="dropdown-search" @bind-Value="@searchText" GroupType="InputGroupTypes.RightWithBg"
+                                                          RoundedClass="w-full rounded-l-none rounded-r-none border-l-2"
+                                                          Placeholder="Search Markups, Logos...">
+                                                 <SearchButton>
+                                                     <Button type="submit" class="rounded-l-none h-full" Size="Sizes.None">
+                                                         <SearchOutline class="w-4 h-4"></SearchOutline>
+                                                     </Button>
+                                                 </SearchButton>
+                                             </SearchInput>
+                                         </div>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <label for="dropdown-search" class="block mb-2 text-sm font-medium text-neutral-900 dark:text-white">
+                                              With dropdown
+                                          </label>
+                                          <div class="flex w-full">
+                                              <div  >
+                                                  <div class="inline-block relative "   >
+                                                      <button id="dropdown-button" data-dropdown-toggle="dropdown" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-neutral-900 bg-neutral-100 border border-neutral-300 rounded-l-lg hover:bg-neutral-200 focus:ring-4 focus:outline-none focus:ring-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:focus:ring-neutral-700 dark:text-white dark:border-neutral-600" type="button">
+                                                          All categories
+                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 10 6" aria-hidden="true" class="w-2.5 h-2.5 ml-2.5">
+                                                              <path d="M5.012 6a1 1 0 0 1-.707-.292l-4-3.992A.998.998 0 0 1 1.395.08a1 1 0 0 1 .324.224L5.012 3.59 8.305.305A1.001 1.001 0 0 1 10 1.014a.997.997 0 0 1-.28.702l-4 3.992A1.001 1.001 0 0 1 5.011 6Z"></path>
+                                                          </svg>
+                                                      </button>
+                                                      <div     class="dropdown1 min-w-full divide-y divide-neutral-100 rounded-lg shadow bg-white dark:bg-neutral-700" style=""  >
+                                                          <ul class="py-2 w-full" >
+                                                              <div >
+                                                                  <li>
+                                                                      <span class="block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full
+        px-4" >
+                                                                          Mockups
+                                                                      </span>
+                                                                  </li>
+                                                                  <li>
+                                                                      <span class="block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full
+        px-4" >
+                                                                          Templates
+                                                                      </span>
+                                                                  </li>
+                                                                  <li>
+                                                                      <span class="block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full
+        px-4" >
+                                                                          Designs
+                                                                      </span>
+                                                                  </li>
+                                                                  <li>
+                                                                      <span class="block py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full
+        px-4" >
+                                                                          Logos
+                                                                      </span>
+                                                                  </li>
+                                                              </div>
+                                                          </ul>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="mb-2 flex-1" >
+                                                  <div class="flex">
+                                                      <input class="input rounded-none rounded-l-lg flex-1 min-w-0 p-2.5 text-sm input-normal
+                                           w-full rounded-l-none rounded-r-none border-l-2" id="dropdown-search" value=""   type="text" placeholder="Search Markups, Logos...">
+                                                      <span >
+                                                          <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  rounded-l-none h-full" style="" >
+                                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" aria-hidden="true" class="w-4 h-4">
+                                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                                                              </svg>
+                                                          </button>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void SimpleSearchInputTest()
+    {
+        string searchText = "";
+        var cut = Render(@<div class="flex items-center w-full">
+                             <SearchInput id="simple" Class="flex-1" Spacing="mb-0" @bind-Value="@searchText" GroupType="InputGroupTypes.Left" Placeholder="Search branch name...">
+                                 <Icon>
+                                     <CodeBranchOutline class="w-4 h-4 text-neutral-500 dark:text-neutral-400"></CodeBranchOutline>
+                                 </Icon>
+                             </SearchInput>
+                             <Button type="submit" Size="Sizes.Icon" Class="ml-2">
+                                 <SearchOutline class="w-4 h-4"></SearchOutline>
+                             </Button>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex items-center w-full">
+                                          <div class="mb-0 flex-1" >
+                                              <div class="relative">
+                                                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20" aria-hidden="true" class="w-4 h-4 text-neutral-500 dark:text-neutral-400">
+                                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm9-10v.4A3.6 3.6 0 0 1 8.4 9H6.61A3.6 3.6 0 0 0 3 12.605M14.458 3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path>
+                                                      </svg>
+                                                  </span>
+                                                  <input class="input pl-10 p-2.5 text-sm  input-normal rounded-lg" id="simple" value=""   type="text" placeholder="Search branch name...">
+                                              </div>
+                                          </div>
+                                          <span >
+                                              <button type="submit" class="btn-icon text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  ml-2" style="" >
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" aria-hidden="true" class="w-4 h-4">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                                                  </svg>
+                                              </button>
+                                          </span>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void VoiceSearchInputTest()
+    {
+        string searchText = "";
+        var cut = Render(@<div class="flex w-full">
+                             <SearchInput id="voice" Class="flex-1" Spacing="mb-0" @bind-Value="@searchText" GroupType="InputGroupTypes.Left" Placeholder="Search Mockups, Logos, Design Templates...">
+                                 <Icon>
+                                     <PaletteOutline class="w-4 h-4 text-neutral-500 dark:text-neutral-400"></PaletteOutline>
+                                 </Icon>
+                                 <SearchButton>
+                                     <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                         <MicrophoneOutline class="w-4 h-4 text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"></MicrophoneOutline>
+                                     </button>
+                                 </SearchButton>
+                             </SearchInput>
+                             <Button type="submit" Class="ml-2">
+                                 <SearchOutline class="w-4 h-4 mr-2"></SearchOutline>
+                                 Search
+                             </Button>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="flex w-full">
+                                          <div class="mb-0 flex-1" >
+                                              <div class="relative">
+                                                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21" aria-hidden="true" class="w-4 h-4 text-neutral-500 dark:text-neutral-400">
+                                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.15 5.6h.01m3.337 1.913h.01m-6.979 0h.01M5.541 11h.01M15 15h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 2.043 11.89 9.1 9.1 0 0 0 7.2 19.1a8.62 8.62 0 0 0 3.769.9A2.013 2.013 0 0 0 13 18v-.857A2.034 2.034 0 0 1 15 15Z"></path>
+                                                      </svg>
+                                                  </span>
+                                                  <input class="input rounded-lg pl-10 p-2.5 text-sm  input-normal
+                                           " id="voice" value=""   type="text" placeholder="Search Mockups, Logos, Design Templates...">
+                                                  <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20" aria-hidden="true" class="w-4 h-4 text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+                                                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7v3a5.006 5.006 0 0 1-5 5H6a5.006 5.006 0 0 1-5-5V7m7 9v3m-3 0h6M7 1h2a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3Z"></path>
+                                                      </svg>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                          <span >
+                                              <button type="submit" class="btn-base-size text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  ml-2" style="" >
+                                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" aria-hidden="true" class="w-4 h-4 mr-2">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                                                  </svg>
+                                                  Search
+                                              </button>
+                                          </span>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void SearchInputOnChangeCallbackTest()
+    {
+        string value1 = "";
+        string callVal = "";
+        Action<string> changeHandler = (val) => { callVal = val; };
+
+    
+        var cut = Render(@<SearchInput id="search" @bind-Value="@value1" OnChanged="@changeHandler" GroupType="InputGroupTypes.Left" Placeholder="Search Markups, Logos..." CustomSize="p-4">
+                                          <Icon>
+                                              <SearchOutline class="w-4 h-4 text-neutral-500 dark:text-neutral-400"></SearchOutline>
+                                          </Icon>
+                                          <SearchButton>
+                                              <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Search</button>
+                                          </SearchButton>
+                                      </SearchInput>);
+
+    
+        cut.Find("#search").Input("Some text");
+    
+        Assert.Equal("Some text",callVal);
+        
+    }
+}

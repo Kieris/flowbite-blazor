@@ -1,5 +1,6 @@
 @inherits TestContext
 @using Flowbite.Blazor.Components.Indicators
+@using Flowbite.Blazor.Components.Badge
 
 @code {
 
@@ -115,20 +116,25 @@
                      </div>);
 
       cut.Find("div").MarkupMatches(@<div class="flex justify-center gap-4">
-                                        <button type="button" class=" btn-base btn-lg btn-normal btn-primary inline-flex items-center relative" style="" >
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 16" aria-hidden="true" class="w-4 h-4 mr-2 text-white">
-                                                <g>
-                                                    <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"></path>
-                                                    <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"></path>
-                                                </g>
-                                            </svg>
-                                            <span class="sr-only">Notifications</span>
-                                            Messages
-                                            <span class="inline-flex items-center justify-center rounded-full w-6 h-6 border-2 border-white dark:border-gray-800 
-                                                absolute top-0 right-0 translate-x-1/3 -translate-y-1/3 bg-danger-500 " style="">
-                                                <span class="text-white text-xs font-bold">6</span>
-                                            </span>
-                                        </button>
+                                        <span >
+                                            <button type="button" class="btn-lg text-white font-medium focus:ring-4 focus:outline-none text-center inline-flex justify-center items-center rounded-lg btn-primary  inline-flex items-center relative" style="" >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke-width="0" viewBox="0 0 20 16" aria-hidden="true" class="w-4 h-4 mr-2 text-white">
+                                                    <g>
+                                                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"></path>
+                                                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"></path>
+                                                    </g>
+                                                </svg>
+                                                <span class="sr-only">Notifications</span>
+                                                Messages
+                                                <span class="inline-flex items-center justify-center rounded-full 
+                                                    w-6 h-6 border-2 border-white dark:border-gray-800 
+                                                    absolute top-0 right-0 
+                                                    translate-x-1/3 -translate-y-1/3 
+                                                    bg-danger-500 " style="">
+                                                    <span class="text-white text-xs font-bold">6</span>
+                                                </span>
+                                            </button>
+                                        </span>
                                     </div>);
   }
   
@@ -176,7 +182,7 @@
                                            <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Neil Sims</p>
                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
                                        </div>
-                                       <Badge Color="BadgeColors.Green" Pill="true" Class="px-2.5 py-0.5">
+                                       <Badge Color="BadgeColors.Success" Pill="true" Class="px-2.5 py-0.5">
                                            <Indicator Color="IndiColors.Success" Size="Sizes.ExtraSmall" Class="mr-1"/>Available
                                        </Badge>
                                    </div>
@@ -191,7 +197,7 @@
                                            <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Bonnie Green</p>
                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
                                        </div>
-                                       <Badge Color="BadgeColors.Red" Pill="true" Class="px-2.5 py-0.5">
+                                       <Badge Color="BadgeColors.Danger" Pill="true" Class="px-2.5 py-0.5">
                                            <Indicator Color="IndiColors.Danger" Size="Sizes.ExtraSmall" Class="mr-1" />Unavailable
                                        </Badge>
                                    </div>
@@ -210,7 +216,7 @@
                                                         <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Neil Sims</p>
                                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
                                                     </div>
-                                                    <Badge color="BadgeColors.Green" pill="true" class="px-2.5 py-0.5">
+                                                    <Badge Color="BadgeColors.Success" Pill="true" Class="px-2.5 py-0.5">
                                                         <span class="inline-flex items-center justify-center rounded-full w-2 h-2 bg-success-500 mr-1" 
                                                               style=""></span>Available
                                                     </Badge>
@@ -225,7 +231,7 @@
                                                         <p class="text-sm font-semibold text-gray-900 truncate dark:text-white">Bonnie Green</p>
                                                         <p class="text-sm text-gray-500 truncate dark:text-gray-400">email@flowbite.com</p>
                                                     </div>
-                                                    <Badge color="BadgeColors.Red" pill="true" class="px-2.5 py-0.5">
+                                                    <Badge Color="BadgeColors.Danger" Pill="true" Class="px-2.5 py-0.5">
                                                         <span class="inline-flex items-center justify-center rounded-full w-2 h-2 bg-danger-500 mr-1" style="">
                                                         </span>Unavailable
                                                     </Badge>

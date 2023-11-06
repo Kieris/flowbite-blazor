@@ -1,0 +1,328 @@
+﻿@inherits TestContext
+@using Flowbite.Blazor.Forms
+@using Flowbite.Blazor.Components.ListGroup
+
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Blazor.Typography
+@using SharedRazor.Models
+
+@code {
+    [Fact]
+    public void DefaultToggleTest()
+    {
+        TestCheckboxModel _form = new();
+      var cut = Render(@<div><Toggle id="toggle-1" @bind-Value="_form.Checked1" LabelText="Default toggle"></Toggle>
+                         <Toggle id="toggle-2" @bind-Value="_form.Checked2"></Toggle></div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="toggle-1" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-medium" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Default toggle</span>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="toggle-2" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-medium" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Checked state</span>
+                                              </label>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void ValidateToggleTest()
+    {
+        TestCheckboxModel _form = new();
+            var cut = Render(@<EditForm Model="@_form">
+                                 <DataAnnotationsValidator></DataAnnotationsValidator>
+                                 <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                     <Toggle id="checked2" @bind-Value="_form.Checked2" SuccessMessage="Correct value!"></Toggle>
+                                     <div>Checked: @_form.Checked2</div>
+                                 </div>
+                             </EditForm>);
+
+            cut.Find("#checked2").Change(false);
+            cut.Find("form").Submit();
+            
+            cut.Find("form").MarkupMatches(@<form><div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                   <div >
+                                                       <label class="relative inline-flex items-center cursor-pointer" >
+                                                           <input id="checked2" type="checkbox" class="sr-only peer modified invalid" aria-invalid="true"   >
+                                                           <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+            toggle-left toggle-primary toggle-medium" ></div>
+                                                           <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Checked state</span>
+                                                       </label>
+                                                       <div class="text-xs text-danger-600 dark:text-danger-500" >This checkbox must be true.</div>
+                                                   </div>
+                                                   <div>Checked: False</div>
+                                               </div>
+                                           </form>);
+            
+            cut.Find("#checked2").Change(true);
+            cut.Find("form").Submit();
+            
+            cut.Find("form").MarkupMatches(@<form >
+                                               <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                   <div >
+                                                       <label class="relative inline-flex items-center cursor-pointer" >
+                                                           <input id="checked2" type="checkbox" class="sr-only peer modified valid" checked="" value=""   >
+                                                           <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-medium" ></div>
+                                                           <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Checked state</span>
+                                                       </label>
+                                                       <div class="text-xs text-success-600 dark:text-success-500" >Correct value!</div>
+                                                   </div>
+                                                   <div>Checked: True</div>
+                                               </div>
+                                           </form>);
+        
+    }
+    
+    [Fact]
+    public void DisabledToggleTest()
+    {
+        TestCheckboxModel _form = new();
+      var cut = Render(@<div><Toggle id="disabled-toggle" Class="mb-2" @bind-Value="_form.Checked1" LabelText="Disabled toggle" Disabled></Toggle></div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                          <div class="mb-2" >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="disabled-toggle" type="checkbox" class="sr-only peer " disabled=""   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-medium" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-400 dark:text-neutral-500" >Disabled toggle</span>
+                                              </label>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void LabelSideToggleTest()
+    {
+        TestCheckboxModel _form3 = new();
+        var cut = Render(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                             <Toggle Id="label-side" @bind-Value="_form3.Checked1" LabelLeft>
+                                 <Label>
+                                     <div class="w-32">Default left label</div>
+                                 </Label>
+                             </Toggle>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <span class="mr-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >
+                                                      <div class="w-32">Default left label</div>
+                                                  </span>
+                                                  <input id="label-side" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-right toggle-primary toggle-medium" ></div>
+                                              </label>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void ColorsToggleTest()
+    {
+        List<CheckboxLabelColorModel> _colors = new();
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Primary", Color = "primary", Checked = true});
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Danger", Color = "danger", Checked = true});
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Warning", Color = "warning", Checked = true});
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Accent", Color = "accent", Checked = true});
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Supporting", Color = "supporting", Checked = true});
+        _colors.Add(new CheckboxLabelColorModel() {Label = "Success", Color = "success", Checked = true});
+        
+        var cut = Render(@<div>
+                                         <List class="flex flex-wrap items-center">
+                                             @foreach (CheckboxLabelColorModel item in _colors)
+                                             {
+                                                 <ListItem>
+                                                     <Toggle id="@item.Label" Class="px-4" Color="@item.Color" @bind-Value="@item.Checked" LabelText="@item.Label"></Toggle>
+                                                 </ListItem>
+                                             }
+                                         </List>
+                                    </div>);
+
+        cut.Find("div").MarkupMatches(@<div>
+                                         <dl class="list-none list-inside flex flex-wrap items-center" >
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Primary" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-primary toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Primary</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Danger" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-danger toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Danger</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Warning" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-warning toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Warning</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Accent" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-accent toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Accent</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Supporting" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-supporting toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Supporting</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                           <li class=" " >
+                                             <div class="px-4" >
+                                               <label class="relative inline-flex items-center cursor-pointer" >
+                                                 <input id="Success" type="checkbox" class="sr-only peer " checked="" value=""   >
+                                                 <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+                                       toggle-left toggle-success toggle-medium" ></div>
+                                                 <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Success</span>
+                                               </label>
+                                             </div>
+                                           </li>
+                                         </dl>
+                                       </div>);
+        
+    }
+    
+    [Fact]
+    public void ToggleSizesTest()
+    {
+        TestCheckboxModel _form = new();
+        TestCheckboxModel _form2 = new();
+        TestCheckboxModel _form3 = new();
+
+        var cut = Render(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                             <Toggle id="1" @bind-Value="_form.Checked1" LabelText="Small right label" Size="InputSizes.Small"/>
+                             <Toggle id="2" @bind-Value="_form.Checked1" LabelLeft Size="InputSizes.Small">
+                                 <Label>
+                                     <div class="w-32">Small left label</div>
+                                 </Label>
+                             </Toggle>
+                             <Toggle id="3" @bind-Value="_form2.Checked1" LabelText="Small right label" Size="InputSizes.Medium"/>
+                             <Toggle id="4" @bind-Value="_form2.Checked1" LabelLeft Size="InputSizes.Medium">
+                                 <Label>
+                                     <div class="w-32">Medium left label</div>
+                                 </Label>
+                             </Toggle>
+                             <Toggle id="5" @bind-Value="_form3.Checked1" LabelText="Small right label" Size="InputSizes.Large"/>
+                             <Toggle id="6" @bind-Value="_form3.Checked1" LabelLeft Size="InputSizes.Large">
+                                 <Label>
+                                     <div class="w-32">Large left label</div>
+                                 </Label>
+                             </Toggle>
+                         </div>);
+
+        cut.Find("div").MarkupMatches(@<div class="grid gap-6 mb-6 md:grid-cols-2">
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="1" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-small" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Small right label</span>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <span class="mr-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >
+                                                      <div class="w-32">Small left label</div>
+                                                  </span>
+                                                  <input id="2" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-right toggle-primary toggle-small" ></div>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="3" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-medium" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Small right label</span>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <span class="mr-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >
+                                                      <div class="w-32">Medium left label</div>
+                                                  </span>
+                                                  <input id="4" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-right toggle-primary toggle-medium" ></div>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <input id="5" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-left toggle-primary toggle-large" ></div>
+                                                  <span class="ml-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >Small right label</span>
+                                              </label>
+                                          </div>
+                                          <div >
+                                              <label class="relative inline-flex items-center cursor-pointer" >
+                                                  <span class="mr-3 text-sm font-medium text-neutral-900 dark:text-neutral-300" >
+                                                      <div class="w-32">Large left label</div>
+                                                  </span>
+                                                  <input id="6" type="checkbox" class="sr-only peer "   >
+                                                  <div class="bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 after:bg-white after:border-neutral-300 after:border after:rounded-full after:transition-all dark:border-neutral-600 rounded-full peer dark:bg-neutral-700 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] 
+toggle-right toggle-primary toggle-large" ></div>
+                                              </label>
+                                          </div>
+                                      </div>);
+        
+    }
+    
+    [Fact]
+    public void ToggleOnChangeCallbackTest()
+    {
+        TestCheckboxModel _form = new();
+        bool _callVal = false;
+        Action<bool> changeHandler = (val) => { _callVal = val; };
+    
+        var cut = Render(@<div class="flex justify-center items-center gap-6">
+                             <Toggle id="check" @bind-Value="_form.Checked1" LabelText="Callback checkbox" OnChanged="@((val) => _callVal = val)" ></Toggle>
+                             <div class="text-sm">Callback value: @_callVal</div>
+                         </div>);
+
+        Assert.Equal(false,_callVal);
+    
+        cut.Find("#check").Change(true);
+    
+        Assert.Equal(true,_callVal);
+        
+    }
+}
